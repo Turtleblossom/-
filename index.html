@@ -4,9 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🦊 Генератор отчетов CatWar</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🦊 Сайт в разработке</h1>
-    <p>Скоро здесь будет генератор отчетов для охоты!</p>
+    <div class="container">
+        <!-- Лисичка-маскот -->
+        <div class="fox-container">
+            <div class="fox">
+                <div class="fox-ear left"></div>
+                <div class="fox-ear right"></div>
+                <div class="fox-face">
+                    <div class="fox-eye left"></div>
+                    <div class="fox-eye right"></div>
+                    <div class="fox-nose"></div>
+                </div>
+                <div class="fox-body"></div>
+                <div class="fox-tail"></div>
+            </div>
+            <div class="fox-speech">
+                Привет! Я лисичка 🦊<br>
+                Помогу заполнить отчет!
+            </div>
+        </div>
+
+        <h1>Генератор отчетов для охоты</h1>
+        
+        <form id="reportForm">
+            <!-- Время охоты -->
+            <div class="form-group">
+                <label for="huntTime">⏰ Время охоты:</label>
+                <select id="huntTime" required>
+                    <option value="morning">Утренняя</option>
+                    <option value="evening">Вечерняя</option>
+                    <option value="vantsan">Для Ванцань</option>
+                </select>
+            </div>
+
+            <!-- Ведущий -->
+            <div class="form-group">
+                <label for="leaderId">👑 Ведущий (ID котика):</label>
+                <input type="text" id="leaderId" required placeholder="Например: 1695758">
+            </div>
+
+            <!-- Собирающий -->
+            <div class="form-group">
+                <label for="collectorId">📦 Собирающий (ID котика):</label>
+                <input type="text" id="collectorId" placeholder="Оставьте пустым, если тот же">
+                <small>Если собирающий тот же, что и ведущий - оставьте пустым</small>
+            </div>
+
+            <!-- Участники -->
+            <div class="form-group">
+                <label for="participants">🎯 Участники (ID и количество дичи):</label>
+                <textarea id="participants" rows="4" required 
+                    placeholder="Например:&#10;121221 5&#10;1695758 6"></textarea>
+                <small>Формат: ID_котика количество_дичи (каждый с новой строки)</small>
+            </div>
+
+            <!-- Таскающие -->
+            <div class="form-group">
+                <label for="carriers">🏋️ Таскающие (ID котиков):</label>
+                <textarea id="carriers" rows="3" 
+                    placeholder="Например:&#10;12312321&#10;45645654"></textarea>
+                <small>Если таскающих нет - оставьте пустым</small>
+            </div>
+
+            <button type="submit">🦊 Сгенерировать отчет</button>
+        </form>
+
+        <!-- Результат -->
+        <div id="reportOutput" class="hidden">
+            <h2>Ваш отчет готов:</h2>
+            <div id="generatedReport"></div>
+            <div class="actions">
+                <button onclick="copyReport()">📋 Копировать</button>
+                <button onclick="downloadReport()">💾 Скачать</button>
+                <button onclick="clearForm()">🔄 Новый отчет</button>
+            </div>
+        </div>
+
+        <!-- История -->
+        <div id="history">
+            <h2>📜 История отчетов:</h2>
+            <div id="historyList"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,11 +1,287 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+/* Стили для лисички */
+.fox-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0;
-    color: white;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+.fox {
+    position: relative;
+    width: 100px;
+    height: 80px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.fox:hover {
+    transform: scale(1.1);
+}
+
+.fox-face {
+    position: absolute;
+    width: 60px;
+    height: 50px;
+    background: #FF8C00;
+    border-radius: 50% 50% 45% 45%;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+}
+
+.fox-ear {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 25px solid #FF8C00;
+    z-index: 1;
+}
+
+.fox-ear.left {
+    top: 5px;
+    left: 15px;
+    transform: rotate(-20deg);
+}
+
+.fox-ear.right {
+    top: 5px;
+    right: 15px;
+    transform: rotate(20deg);
+}
+
+.fox-eye {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #333;
+    border-radius: 50%;
+    top: 35px;
+}
+
+.fox-eye.left {
+    left: 35px;
+}
+
+.fox-eye.right {
+    right: 35px;
+}
+
+.fox-nose {
+    position: absolute;
+    width: 8px;
+    height: 6px;
+    background: #333;
+    border-radius: 50%;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.fox-body {
+    position: absolute;
+    width: 70px;
+    height: 40px;
+    background: #FF8C00;
+    border-radius: 40% 40% 30% 30%;
+    bottom: 0;
+    left: 15px;
+    z-index: 1;
+}
+
+.fox-tail {
+    position: absolute;
+    width: 40px;
+    height: 15px;
+    background: #FF8C00;
+    border-radius: 0 50% 50% 0;
+    right: -20px;
+    bottom: 5px;
+    transform: rotate(30deg);
+    animation: tailWag 2s infinite;
+}
+
+@keyframes tailWag {
+    0%, 100% { transform: rotate(30deg); }
+    50% { transform: rotate(45deg); }
+}
+
+.fox-speech {
+    background: #FFF3E0;
+    border: 2px solid #FF8C00;
+    border-radius: 15px;
+    padding: 15px;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.fox-speech::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-right-color: #FF8C00;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 30px;
     text-align: center;
+}
+
+h2 {
+    color: #555;
+    margin: 20px 0 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 500;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #FF8C00;
+    box-shadow: 0 0 5px rgba(255, 140, 0, 0.5);
+}
+
+small {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+    font-size: 12px;
+}
+
+button {
+    background: #FF8C00;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+button:hover {
+    background: #E67E00;
+}
+
+.hidden {
+    display: none;
+}
+
+#generatedReport {
+    background: #FFF8F0;
+    border-left: 4px solid #FF8C00;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    font-family: monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.actions button {
+    flex: 1;
+    min-width: 100px;
+}
+
+.actions button:nth-child(2) {
+    background: #48bb78;
+}
+
+.actions button:nth-child(3) {
+    background: #e53e3e;
+}
+
+#historyList {
+    margin-top: 10px;
+}
+
+.history-item {
+    background: #f8f9fa;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 3px solid #FF8C00;
+}
+
+.history-item small {
+    color: #666;
+}
+
+.history-actions {
+    margin-top: 8px;
+}
+
+.history-actions button {
+    padding: 4px 8px;
+    font-size: 12px;
+    width: auto;
+    margin-right: 5px;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .fox-container {
+        flex-direction: column;
+    }
+    
+    .actions {
+        flex-direction: column;
+    }
 }
