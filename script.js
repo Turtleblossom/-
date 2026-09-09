@@ -9,24 +9,46 @@ document.addEventListener('DOMContentLoaded', function() {
             switchBranch(this.dataset.branch);
         });
     });
+    
+    // Обработчики форм
+    document.getElementById('groupHuntForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        generateGroupHunt();
+    });
+    
+    document.getElementById('soloHuntForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        generateSoloHunt();
+    });
+    
+    document.getElementById('borderPatrolForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        generateBorderPatrol();
+    });
+    
+    document.getElementById('watchForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        generateWatch();
+    });
+    
+    document.getElementById('selfPatrolForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        generateSelfPatrol();
+    });
 });
 
 // Переключение веток
 function switchBranch(branch) {
-    // Убираем активный класс у всех кнопок
     document.querySelectorAll('.branch-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     
-    // Добавляем активный класс нажатой кнопке
     document.querySelector(`[data-branch="${branch}"]`).classList.add('active');
     
-    // Скрываем все контенты
     document.querySelectorAll('.branch-content').forEach(content => {
         content.classList.remove('active');
     });
     
-    // Показываем нужный контент
     const contentMap = {
         wei: 'wei-content',
         feng: 'feng-content',
@@ -38,49 +60,341 @@ function switchBranch(branch) {
     if (contentId) {
         document.getElementById(contentId).classList.add('active');
     }
+    
+    // Скрыть результат при переключении
+    document.getElementById('reportOutput').classList.add('hidden');
 }
 
-// Обработка формы
-document.getElementById('reportForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+// Переключение типов отчетов
+function switchReportType(branch, reportType) {
+    // Убираем активный класс у всех кнопок в этой ветке
+    const branchContent = document.getElementById(branch + '-content');
+    branchContent.querySelectorAll('.report-type-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
     
-    // Получаем данные
-    const huntTime = document.getElementById('huntTime').value;
+    // Добавляем активный класс нажатой кнопке
+    branchContent.querySelector(`[data-report="${reportType}"]`).classList.add('active');
+    
+    // Скрываем все формы
+    branchContent.querySelectorAll('.report-form').forEach(form => {
+        form.classList.remove('active');
+    });
+    
+    // Показываем нужную форму
+    const formMap = {
+        'group-hunt': 'groupHuntForm',
+        'solo-hunt': 'soloHuntForm',
+        'border-patrol': 'borderPatrolForm',
+        'watch': 'watchForm',
+        'self-patrol': 'selfPatrolForm'
+    };
+    
+    const formId = formMap[reportType];
+    if (formId) {
+        document.getElementById(formId).classList.add('active');
+    }
+    
+    // Скрыть результат
+    document.getElementById('reportOutput').classList.add('hidden');
+}
+
+// Переключение типа дозора
+function switchWatchType(type) {
+    const routeGroup = document.getElementById('watchRouteGroup');
+    const locationGroup = document.getElementById('watchLocationGroup');
+    
+    if (type === 'active') {
+        routeGroup.style.display = 'block';
+        locationGroup.style.display = 'none';
+        document.getElementById('watchRoute').required = true;
+        document.getElementById('watchLocation').required = false;
+    } else {
+        routeGroup.style.display = 'none';
+        locationGroup.style.display = 'block';
+        document.getElementById('watchRoute').required = false;
+        document.getElementById('watchLocation').required = true;
+    }
+}
+
+// Форматирование времени
+function formatTime(timeStr) {
+    if (!timeStr) return '-';
+    
+    // Убираем пробелы
+    timeStr = timeStr.trim();
+    
+    // Заменяем точки и пробелы на двоеточие
+    timeStr = timeStr.replace(/[.\s]+/g, ':');
+    
+    // Проверяем формат
+    const parts = timeStr.split(':');
+    if (parts.length >= 2) {
+        const hours = parts[0].padStart(2, '0');
+        const minutes = parts[1].padStart(2, '0');
+        return `${hours}:${minutes}`;
+    }
+    
+    return timeStr;
+}
+
+// Получение текущей даты
+function getCurrentDate() {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = String(now.getFullYear()).slice(-2);
+    return `${day}.${month}.${year}`;
+}
+
+// Парсинг ID
+function parseIds(text) {
+    if (!text) return [];
+    
+    const ids = [];
+    const lines = text.split('\n');
+    
+    for (let line of lines) {
+        line = line.trim();
+        if (line) {
+            ids.push(line);
+        }
+    }
+    
+    return ids;
+}
+
+// Генерация групповой охоты
+function generateGroupHunt() {
+    const huntType = document.getElementById('huntType').value;
     const leaderId = document.getElementById('leaderId').value.trim();
     let collectorId = document.getElementById('collectorId').value.trim();
     
-    // Если собирающий не указан, используем ведущего
     if (!collectorId && leaderId) {
         collectorId = leaderId;
     }
     
-    // Парсим участников
     const participantsText = document.getElementById('participants').value.trim();
     const participants = parseParticipants(participantsText);
     
-    // Парсим таскающих
     const carriersText = document.getElementById('carriers').value.trim();
-    const carriers = parseCarriers(carriersText);
+    const carriers = parseIds(carriersText);
     
-    // Генерируем отчет
-    const report = generateReport(huntTime, leaderId, collectorId, participants, carriers);
+    const dateStr = getCurrentDate();
     
-    // Показываем результат
+    const huntTypeMap = {
+        morning: 'утренняя',
+        evening: 'вечерняя',
+        vantsan: 'для Ванцань'
+    };
+    const huntTypeStr = huntTypeMap[huntType] || huntType;
+    
+    let report = `[b]Охота [${dateStr}][/b]\n`;
+    report += `[b]Вид:[/b] ${huntTypeStr}.\n`;
+    
+    if (leaderId) {
+        report += `[b]Ведущий:[/b] [cat${leaderId}] [${leaderId}].\n`;
+    } else {
+        report += `[b]Ведущий:[/b] -.\n`;
+    }
+    
+    if (collectorId) {
+        report += `[b]Собирающий:[/b] [cat${collectorId}] [${collectorId}].\n`;
+    } else {
+        report += `[b]Собирающий:[/b] -.\n`;
+    }
+    
+    if (participants.length > 0) {
+        const participantsStr = participants.map(p => 
+            `[cat${p.id}] [${p.id}] (${p.count})`
+        ).join(', ');
+        report += `[b]Участники:[/b] ${participantsStr}.\n`;
+    } else {
+        report += `[b]Участники:[/b] -.\n`;
+    }
+    
+    if (carriers.length > 0) {
+        const carriersStr = carriers.map(c => 
+            `[cat${c}] [${c}]`
+        ).join(', ');
+        report += `[b]Таскающие:[/b] ${carriersStr}.\n`;
+    } else {
+        report += `[b]Таскающие:[/b] -.\n`;
+    }
+    
     displayReport(report);
-    
-    // Сохраняем в историю
     saveToHistory({
-        branch: 'wei',
-        huntTime,
-        leaderId,
-        collectorId,
-        participantsText,
-        carriersText,
+        type: 'group-hunt',
         report,
         date: new Date().toISOString()
     });
-});
+}
 
+// Генерация одиночной охоты
+function generateSoloHunt() {
+    const time = formatTime(document.getElementById('soloTime').value);
+    const location = document.getElementById('soloLocation').value;
+    const hunterText = document.getElementById('soloHunter').value.trim();
+    
+    const dateStr = getCurrentDate();
+    
+    const locationMap = {
+        'zablachny': 'Заоблачный предел',
+        'apelsin': 'Апельсиновая Роща'
+    };
+    const locationStr = locationMap[location] || location;
+    
+    let report = `[b]Одиночная охота [${dateStr}][/b]\n`;
+    report += `[b]Время:[/b] ${time}.\n`;
+    report += `[b]Локация:[/b] ${locationStr}.\n`;
+    
+    if (hunterText) {
+        const parts = hunterText.split(/\s+/);
+        if (parts.length >= 2) {
+            report += `[b]Охотник:[/b] [cat${parts[0]}] [${parts[0]}] (${parts[1]}).\n`;
+        } else if (parts.length === 1) {
+            report += `[b]Охотник:[/b] [cat${parts[0]}] [${parts[0]}].\n`;
+        }
+    } else {
+        report += `[b]Охотник:[/b] -.\n`;
+    }
+    
+    displayReport(report);
+    saveToHistory({
+        type: 'solo-hunt',
+        report,
+        date: new Date().toISOString()
+    });
+}
+
+// Генерация пограничного патруля
+function generateBorderPatrol() {
+    const time = document.getElementById('borderTime').value;
+    const collectorId = document.getElementById('borderCollector').value.trim();
+    const participantsText = document.getElementById('borderParticipants').value.trim();
+    const participants = parseIds(participantsText);
+    const violatorsText = document.getElementById('borderViolators').value.trim();
+    const violators = parseIds(violatorsText);
+    const route = document.getElementById('borderRoute').value.trim();
+    
+    const dateStr = getCurrentDate();
+    
+    let report = `[b]Пограничный патруль[/b]\n`;
+    report += `[b]Дата:[/b] ${dateStr}, ${time} МСК.\n`;
+    
+    if (collectorId) {
+        report += `[b]Собирающий:[/b] [cat${collectorId}] [${collectorId}].\n`;
+    } else {
+        report += `[b]Собирающий:[/b] -.\n`;
+    }
+    
+    if (participants.length > 0) {
+        const participantsStr = participants.map(p => 
+            `[cat${p}] [${p}]`
+        ).join(', ');
+        report += `[b]Участники:[/b] ${participantsStr}.\n`;
+    } else {
+        report += `[b]Участники:[/b] -.\n`;
+    }
+    
+    if (violators.length > 0) {
+        const violatorsStr = violators.map(v => 
+            `[cat${v}] [${v}] - скриншот`
+        ).join(', ');
+        report += `[b]Нарушители:[/b] ${violatorsStr}.\n`;
+    } else {
+        report += `[b]Нарушители:[/b] -.\n`;
+    }
+    
+    if (route) {
+        report += `\nЯ, [b][link${collectorId || 'ID'}] [${collectorId || 'ID'}][/b], занял локацию/маршрут ${route}.`;
+    }
+    
+    displayReport(report);
+    saveToHistory({
+        type: 'border-patrol',
+        report,
+        date: new Date().toISOString()
+    });
+}
+
+// Генерация дозора
+function generateWatch() {
+    const time = formatTime(document.getElementById('watchTime').value);
+    const dateStr = getCurrentDate();
+    
+    let watchType;
+    let location;
+    
+    if (document.getElementById('watchRoute').required) {
+        watchType = 'Активный';
+        location = `Маршрут ${document.getElementById('watchRoute').value}`;
+    } else {
+        watchType = 'Пассивный';
+        location = document.getElementById('watchLocation').value;
+    }
+    
+    const guardId = document.getElementById('watchGuard').value.trim();
+    
+    let report = `[b]${watchType} дозор[/b]\n`;
+    report += `[b]Дата:[/b] ${dateStr}, ${time} МСК.\n`;
+    report += `[b]Маршрут/Локация:[/b] ${location}.\n`;
+    
+    if (guardId) {
+        report += `[b]Дозорный:[/b] [cat${guardId}] [${guardId}].\n`;
+    } else {
+        report += `[b]Дозорный:[/b] -.\n`;
+    }
+    
+    displayReport(report);
+    saveToHistory({
+        type: 'watch',
+        report,
+        date: new Date().toISOString()
+    });
+}
+
+// Генерация самостоятельного патруля
+function generateSelfPatrol() {
+    const time = formatTime(document.getElementById('selfTime').value);
+    const participantId = document.getElementById('selfParticipant').value.trim();
+    const violatorsText = document.getElementById('selfViolators').value.trim();
+    const violators = parseIds(violatorsText);
+    const screenshots = document.getElementById('selfScreenshots').value.trim();
+    
+    const dateStr = getCurrentDate();
+    
+    let report = `[b]Самостоятельный патруль[/b]\n`;
+    report += `[b]Дата:[/b] ${dateStr}, ${time} МСК.\n`;
+    
+    if (participantId) {
+        report += `[b]Участник:[/b] [cat${participantId}] [${participantId}].\n`;
+    } else {
+        report += `[b]Участник:[/b] -.\n`;
+    }
+    
+    if (violators.length > 0) {
+        const violatorsStr = violators.map(v => 
+            `[cat${v}] [${v}], [url=ссылка]скриншот нарушения[/url]`
+        ).join(', ');
+        report += `[b]Нарушители:[/b] ${violatorsStr}.\n`;
+    } else {
+        report += `[b]Нарушители:[/b] -.\n`;
+    }
+    
+    if (screenshots) {
+        report += `[b]Скриншоты:[/b] начало (стартовая локация), конец (конечная локация), скриншот истории.\n`;
+    }
+    
+    displayReport(report);
+    saveToHistory({
+        type: 'self-patrol',
+        report,
+        date: new Date().toISOString()
+    });
+}
+
+// Общие функции
 function parseParticipants(text) {
     if (!text) return [];
     
@@ -93,88 +407,13 @@ function parseParticipants(text) {
         
         const parts = line.split(/\s+/);
         if (parts.length >= 2) {
-            const id = parts[0];
-            const count = parts[1];
-            participants.push({ id, count });
+            participants.push({ id: parts[0], count: parts[1] });
         } else if (parts.length === 1) {
             participants.push({ id: parts[0], count: '1' });
         }
     }
     
     return participants;
-}
-
-function parseCarriers(text) {
-    if (!text) return [];
-    
-    const carriers = [];
-    const lines = text.split('\n');
-    
-    for (let line of lines) {
-        line = line.trim();
-        if (line) {
-            carriers.push(line);
-        }
-    }
-    
-    return carriers;
-}
-
-function generateReport(huntTime, leaderId, collectorId, participants, carriers) {
-    // Получаем текущую дату
-    const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const year = String(now.getFullYear()).slice(-2);
-    const dateStr = `${day}.${month}.${year}`;
-    
-    // Определяем вид охоты
-    const huntTypeMap = {
-        morning: 'утренняя',
-        evening: 'вечерняя',
-        vantsan: 'для Ванцань'
-    };
-    const huntType = huntTypeMap[huntTime] || huntTime;
-    
-    // Формируем отчет
-    let report = `[b]Охота [${dateStr}][/b]\n`;
-    report += `[b]Вид:[/b] ${huntType}.\n`;
-    
-    // Ведущий - если пусто, то "-"
-    if (leaderId) {
-        report += `[b]Ведущий:[/b] [cat${leaderId}] [${leaderId}].\n`;
-    } else {
-        report += `[b]Ведущий:[/b] -.\n`;
-    }
-    
-    // Собирающий - если пусто, то "-"
-    if (collectorId) {
-        report += `[b]Собирающий:[/b] [cat${collectorId}] [${collectorId}].\n`;
-    } else {
-        report += `[b]Собирающий:[/b] -.\n`;
-    }
-    
-    // Участники - если пусто, то "-"
-    if (participants.length > 0) {
-        const participantsStr = participants.map(p => 
-            `[cat${p.id}] [${p.id}] (${p.count})`
-        ).join(', ');
-        report += `[b]Участники:[/b] ${participantsStr}.\n`;
-    } else {
-        report += `[b]Участники:[/b] -.\n`;
-    }
-    
-    // Таскающие - если пусто, то "-"
-    if (carriers.length > 0) {
-        const carriersStr = carriers.map(c => 
-            `[cat${c}] [${c}]`
-        ).join(', ');
-        report += `[b]Таскающие:[/b] ${carriersStr}.\n`;
-    } else {
-        report += `[b]Таскающие:[/b] -.\n`;
-    }
-    
-    return report;
 }
 
 function displayReport(report) {
@@ -207,7 +446,7 @@ function downloadReport() {
     const a = document.createElement('a');
     a.href = url;
     const date = new Date();
-    const filename = `охота_${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getFullYear()).slice(-2)}.txt`;
+    const filename = `отчет_${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getFullYear()).slice(-2)}.txt`;
     a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
@@ -236,14 +475,25 @@ function loadHistory() {
     
     historyList.innerHTML = history.map((item, index) => `
         <div class="history-item">
-            <strong>Охота ${new Date(item.date).toLocaleDateString('ru-RU')}</strong>
-            <small>${item.huntTime === 'morning' ? 'Утренняя' : item.huntTime === 'evening' ? 'Вечерняя' : 'Для Ванцань'}</small>
+            <strong>${getReportTypeName(item.type)}</strong>
+            <small>${new Date(item.date).toLocaleDateString('ru-RU')}</small>
             <div class="history-actions">
                 <button onclick="viewHistoryItem(${index})">Просмотр</button>
                 <button onclick="deleteHistoryItem(${index})" style="background: #5a4e3e;">Удалить</button>
             </div>
         </div>
     `).join('');
+}
+
+function getReportTypeName(type) {
+    const names = {
+        'group-hunt': 'Групповая охота',
+        'solo-hunt': 'Одиночная охота',
+        'border-patrol': 'Пограничный патруль',
+        'watch': 'Дозор',
+        'self-patrol': 'Самостоятельный патруль'
+    };
+    return names[type] || 'Отчет';
 }
 
 function viewHistoryItem(index) {
@@ -264,7 +514,18 @@ function deleteHistoryItem(index) {
     }
 }
 
+function clearHistory() {
+    if (confirm('Очистить всю историю отчетов?')) {
+        localStorage.removeItem('catwarHistory');
+        loadHistory();
+        alert('История очищена!');
+    }
+}
+
 function clearForm() {
-    document.getElementById('reportForm').reset();
+    // Сбросить все формы
+    document.querySelectorAll('form').forEach(form => {
+        form.reset();
+    });
     document.getElementById('reportOutput').classList.add('hidden');
 }

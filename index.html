@@ -37,10 +37,24 @@
                 <div id="wei-content" class="branch-content active">
                     <h1>猎 狩猎 猎</h1>
                     
-                    <form id="reportForm">
+                    <!-- Выбор типа отчета -->
+                    <div class="form-group">
+                        <label>📋 Тип отчета:</label>
+                        <div class="report-type-buttons">
+                            <button type="button" class="report-type-btn active" data-report="group-hunt" onclick="switchReportType('wei', 'group-hunt')">
+                                Групповая охота
+                            </button>
+                            <button type="button" class="report-type-btn" data-report="solo-hunt" onclick="switchReportType('wei', 'solo-hunt')">
+                                Одиночная охота
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Форма групповой охоты -->
+                    <form id="groupHuntForm" class="report-form active">
                         <div class="form-group">
-                            <label for="huntTime">⏰ Время охоты:</label>
-                            <select id="huntTime" required>
+                            <label for="huntType">🎯 Вид охоты:</label>
+                            <select id="huntType" required>
                                 <option value="morning">Утренняя</option>
                                 <option value="evening">Вечерняя</option>
                                 <option value="vantsan">Для Ванцань</option>
@@ -74,12 +88,175 @@
 
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
+
+                    <!-- Форма одиночной охоты -->
+                    <form id="soloHuntForm" class="report-form">
+                        <div class="form-group">
+                            <label for="soloTime">⏰ Время:</label>
+                            <input type="text" id="soloTime" placeholder="Например: 12:22">
+                            <small>Допускается: 12 22, 12:22, 12.22</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="soloLocation">📍 Локация:</label>
+                            <select id="soloLocation" required>
+                                <option value="zablachny">Заоблачный предел</option>
+                                <option value="apelsin">Апельсиновая Роща</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="soloHunter">🏹 Охотник (ID котика и количество дичи):</label>
+                            <input type="text" id="soloHunter" placeholder="Например: 1695758 3">
+                            <small>Формат: ID_котика количество_дичи</small>
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
                 </div>
 
                 <!-- Контент для Ветки Фэн -->
                 <div id="feng-content" class="branch-content">
-                    <h1>风 风 风</h1>
-                    <p>风 Здесь скоро будут отчеты! 风</p>
+                    <h1>风 巡逻 风</h1>
+                    
+                    <!-- Выбор типа отчета -->
+                    <div class="form-group">
+                        <label>📋 Тип отчета:</label>
+                        <div class="report-type-buttons">
+                            <button type="button" class="report-type-btn active" data-report="border-patrol" onclick="switchReportType('feng', 'border-patrol')">
+                                Пограничный патруль
+                            </button>
+                            <button type="button" class="report-type-btn" data-report="watch" onclick="switchReportType('feng', 'watch')">
+                                Дозор
+                            </button>
+                            <button type="button" class="report-type-btn" data-report="self-patrol" onclick="switchReportType('feng', 'self-patrol')">
+                                Самостоятельный патруль
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Форма пограничного патруля -->
+                    <form id="borderPatrolForm" class="report-form active">
+                        <div class="form-group">
+                            <label for="borderTime">⏰ Время:</label>
+                            <select id="borderTime" required>
+                                <option value="8:00">8:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="20:00">20:00</option>
+                                <option value="23:00">23:00</option>
+                            </select>
+                            <small>Время МСК</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="borderCollector">📦 Собирающий (ID котика):</label>
+                            <input type="text" id="borderCollector" placeholder="Например: 1695758">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="borderParticipants">🎯 Участники (ID котиков):</label>
+                            <textarea id="borderParticipants" rows="4" 
+                                placeholder="Например:&#10;121221&#10;1695758"></textarea>
+                            <small>Каждый ID с новой строки</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="borderViolators">⚠️ Нарушители (ID котиков):</label>
+                            <textarea id="borderViolators" rows="3" 
+                                placeholder="Например:&#10;12312321"></textarea>
+                            <small>Если нарушителей нет - оставьте пустым</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="borderRoute">📍 Маршрут/Локация:</label>
+                            <input type="text" id="borderRoute" placeholder="Например: 1 или название локации">
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Форма дозора -->
+                    <form id="watchForm" class="report-form">
+                        <div class="form-group">
+                            <label>👁️ Тип дозора:</label>
+                            <div class="report-type-buttons">
+                                <button type="button" class="report-type-btn active" onclick="switchWatchType('active')">
+                                    Активный
+                                </button>
+                                <button type="button" class="report-type-btn" onclick="switchWatchType('passive')">
+                                    Пассивный
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="watchTime">⏰ Время:</label>
+                            <input type="text" id="watchTime" placeholder="Например: 12:22">
+                            <small>Допускается: 12 22, 12:22, 12.22</small>
+                        </div>
+
+                        <div class="form-group" id="watchRouteGroup">
+                            <label for="watchRoute">📍 Маршрут:</label>
+                            <select id="watchRoute" required>
+                                <option value="1">Маршрут 1</option>
+                                <option value="2">Маршрут 2</option>
+                                <option value="3">Маршрут 3</option>
+                                <option value="4">Маршрут 4</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="watchLocationGroup" style="display:none;">
+                            <label for="watchLocation">📍 Локация:</label>
+                            <select id="watchLocation">
+                                <option value="Развилка">⊵ Развилка</option>
+                                <option value="Замшелый мост">Замшелый мост</option>
+                                <option value="Апельсиновая роща">Апельсиновая роща</option>
+                                <option value="Нагорье">Нагорье</option>
+                                <option value="Песчаный Берег">Песчаный Берег</option>
+                                <option value="Покрытый паутиной грот">Покрытый паутиной грот</option>
+                                <option value="Зелёная чаща">Зелёная чаща</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="watchGuard">👁️ Дозорный (ID котика):</label>
+                            <input type="text" id="watchGuard" placeholder="Например: 1695758">
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Форма самостоятельного патруля -->
+                    <form id="selfPatrolForm" class="report-form">
+                        <div class="form-group">
+                            <label for="selfTime">⏰ Время:</label>
+                            <input type="text" id="selfTime" placeholder="Например: 12:22">
+                            <small>Допускается: 12 22, 12:22, 12.22</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="selfParticipant">🎯 Участник (ID котика):</label>
+                            <input type="text" id="selfParticipant" placeholder="Например: 1695758">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="selfViolators">⚠️ Нарушители (ID котиков):</label>
+                            <textarea id="selfViolators" rows="3" 
+                                placeholder="Например:&#10;12312321"></textarea>
+                            <small>Если нарушителей нет - оставьте пустым</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="selfScreenshots">📸 Скриншоты:</label>
+                            <textarea id="selfScreenshots" rows="4" 
+                                placeholder="Начало: ссылка&#10;Конец: ссылка&#10;История: ссылка"></textarea>
+                            <small>Ссылки на скриншоты</small>
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
                 </div>
 
                 <!-- Контент для Ветки Пэй -->
@@ -109,6 +286,16 @@
                 <div id="history">
                     <h2>📜 История отчетов:</h2>
                     <div id="historyList"></div>
+                    <button onclick="clearHistory()" style="background: #5a4e3e; margin-top: 10px;">
+                        🗑️ Очистить историю
+                    </button>
+                </div>
+
+                <!-- Контакты -->
+                <div class="contacts">
+                    <p>В случае ошибок писать Заря Янъинь [1695758]</p>
+                    <p>ВК: <a href="https://vk.com/id888889783" target="_blank">vk.com/id888889783</a></p>
+                    <p>ТГ: <a href="https://t.me/milana_rabadon" target="_blank">t.me/milana_rabadon</a></p>
                 </div>
             </div>
         </main>

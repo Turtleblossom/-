@@ -405,3 +405,99 @@ button:hover {
         margin-left: 0;
     }
 }
+/* Добавьте эти стили к вашему текущему style.css */
+
+/* Кнопки переключения типов отчетов */
+.report-type-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.report-type-btn {
+    background: #16213e;
+    color: #d4c5a9;
+    border: 1px solid #c53d43;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    width: auto;
+    font-family: inherit;
+    letter-spacing: 1px;
+}
+
+.report-type-btn:hover {
+    background: #1a2744;
+    color: #e8d5b5;
+}
+
+.report-type-btn.active {
+    background: #c53d43;
+    color: #e8d5b5;
+}
+
+/* Формы отчетов */
+.report-form {
+    display: none;
+}
+
+.report-form.active {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Контакты */
+.contacts {
+    margin-top: 30px;
+    padding: 20px;
+    background: #16213e;
+    border-radius: 5px;
+    border: 1px solid #c53d43;
+    text-align: center;
+}
+
+.contacts p {
+    color: #8a7b6b;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.contacts a {
+    color: #c53d43;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.contacts a:hover {
+    color: #e8d5b5;
+    text-shadow: 0 0 10px rgba(197, 61, 67, 0.5);
+}
+
+/* Кнопка очистки истории */
+#history button {
+    background: #5a4e3e;
+    margin-top: 10px;
+    transition: all 0.3s;
+}
+
+#history button:hover {
+    background: #c53d43;
+    box-shadow: 0 5px 15px rgba(197, 61, 67, 0.3);
+}
+
+/* Ссылки в отчете */
+#generatedReport a {
+    color: #c53d43;
+    text-decoration: none;
+}
+
+#generatedReport a:hover {
+    color: #e8d5b5;
+    text-decoration: underline;
+}
