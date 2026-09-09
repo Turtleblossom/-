@@ -1,0 +1,1 @@
+console.log('Сайт CatWar Reports загружен!');
