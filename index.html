@@ -7,87 +7,130 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Лисичка-маскот -->
-        <div class="fox-container">
-            <div class="fox">
-                <div class="fox-ear left"></div>
-                <div class="fox-ear right"></div>
-                <div class="fox-face">
-                    <div class="fox-eye left"></div>
-                    <div class="fox-eye right"></div>
-                    <div class="fox-nose"></div>
+    <div class="layout">
+        <!-- Боковое меню -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>🦊 Ветки</h2>
+            </div>
+            <button class="branch-btn active" data-branch="wei">
+                🏹 Ветка Вэй
+            </button>
+            <button class="branch-btn" data-branch="feng">
+                🌪️ Ветка Фэн
+            </button>
+            <button class="branch-btn" data-branch="pei">
+                🌊 Ветка Пэй
+            </button>
+            <button class="branch-btn" data-branch="cao">
+                🌿 Ветка Цао
+            </button>
+            <div class="sidebar-footer">
+                <p>Лисичка-помощница</p>
+            </div>
+        </nav>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Лисичка-маскот -->
+                <div class="fox-container">
+                    <div class="fox">
+                        <div class="fox-ear left"></div>
+                        <div class="fox-ear right"></div>
+                        <div class="fox-face">
+                            <div class="fox-eye left"></div>
+                            <div class="fox-eye right"></div>
+                            <div class="fox-nose"></div>
+                        </div>
+                        <div class="fox-body"></div>
+                        <div class="fox-tail"></div>
+                    </div>
+                    <div class="fox-speech">
+                        Привет! Я лисичка 🦊<br>
+                        Выбери ветку слева!
+                    </div>
                 </div>
-                <div class="fox-body"></div>
-                <div class="fox-tail"></div>
-            </div>
-            <div class="fox-speech">
-                Привет! Я лисичка 🦊<br>
-                Помогу заполнить отчет!
-            </div>
-        </div>
 
-        <h1>Генератор отчетов для охоты</h1>
-        
-        <form id="reportForm">
-            <!-- Время охоты -->
-            <div class="form-group">
-                <label for="huntTime">⏰ Время охоты:</label>
-                <select id="huntTime" required>
-                    <option value="morning">Утренняя</option>
-                    <option value="evening">Вечерняя</option>
-                    <option value="vantsan">Для Ванцань</option>
-                </select>
+                <!-- Контент для Ветки Вэй -->
+                <div id="wei-content" class="branch-content active">
+                    <h1>🏹 Ветка Вэй - Охота</h1>
+                    
+                    <form id="reportForm">
+                        <div class="form-group">
+                            <label for="huntTime">⏰ Время охоты:</label>
+                            <select id="huntTime" required>
+                                <option value="morning">Утренняя</option>
+                                <option value="evening">Вечерняя</option>
+                                <option value="vantsan">Для Ванцань</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="leaderId">👑 Ведущий (ID котика):</label>
+                            <input type="text" id="leaderId" required placeholder="Например: 1695758">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="collectorId">📦 Собирающий (ID котика):</label>
+                            <input type="text" id="collectorId" placeholder="Оставьте пустым, если тот же">
+                            <small>Если собирающий тот же, что и ведущий - оставьте пустым</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="participants">🎯 Участники (ID и количество дичи):</label>
+                            <textarea id="participants" rows="4" required 
+                                placeholder="Например:&#10;121221 5&#10;1695758 6"></textarea>
+                            <small>Формат: ID_котика количество_дичи (каждый с новой строки)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carriers">🏋️ Таскающие (ID котиков):</label>
+                            <textarea id="carriers" rows="3" 
+                                placeholder="Например:&#10;12312321&#10;45645654"></textarea>
+                            <small>Если таскающих нет - оставьте пустым</small>
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+                </div>
+
+                <!-- Контент для Ветки Фэн -->
+                <div id="feng-content" class="branch-content">
+                    <h1>🌪️ Ветка Фэн</h1>
+                    <p>Здесь скоро будут отчеты!</p>
+                </div>
+
+                <!-- Контент для Ветки Пэй -->
+                <div id="pei-content" class="branch-content">
+                    <h1>🌊 Ветка Пэй</h1>
+                    <p>Здесь скоро будут отчеты!</p>
+                </div>
+
+                <!-- Контент для Ветки Цао -->
+                <div id="cao-content" class="branch-content">
+                    <h1>🌿 Ветка Цао</h1>
+                    <p>Здесь скоро будут отчеты!</p>
+                </div>
+
+                <!-- Результат -->
+                <div id="reportOutput" class="hidden">
+                    <h2>Ваш отчет готов:</h2>
+                    <div id="generatedReport"></div>
+                    <div class="actions">
+                        <button onclick="copyReport()">📋 Копировать</button>
+                        <button onclick="downloadReport()">💾 Скачать</button>
+                        <button onclick="clearForm()">🔄 Новый отчет</button>
+                    </div>
+                </div>
+
+                <!-- История -->
+                <div id="history">
+                    <h2>📜 История отчетов:</h2>
+                    <div id="historyList"></div>
+                </div>
             </div>
-
-            <!-- Ведущий -->
-            <div class="form-group">
-                <label for="leaderId">👑 Ведущий (ID котика):</label>
-                <input type="text" id="leaderId" required placeholder="Например: 1695758">
-            </div>
-
-            <!-- Собирающий -->
-            <div class="form-group">
-                <label for="collectorId">📦 Собирающий (ID котика):</label>
-                <input type="text" id="collectorId" placeholder="Оставьте пустым, если тот же">
-                <small>Если собирающий тот же, что и ведущий - оставьте пустым</small>
-            </div>
-
-            <!-- Участники -->
-            <div class="form-group">
-                <label for="participants">🎯 Участники (ID и количество дичи):</label>
-                <textarea id="participants" rows="4" required 
-                    placeholder="Например:&#10;121221 5&#10;1695758 6"></textarea>
-                <small>Формат: ID_котика количество_дичи (каждый с новой строки)</small>
-            </div>
-
-            <!-- Таскающие -->
-            <div class="form-group">
-                <label for="carriers">🏋️ Таскающие (ID котиков):</label>
-                <textarea id="carriers" rows="3" 
-                    placeholder="Например:&#10;12312321&#10;45645654"></textarea>
-                <small>Если таскающих нет - оставьте пустым</small>
-            </div>
-
-            <button type="submit">🦊 Сгенерировать отчет</button>
-        </form>
-
-        <!-- Результат -->
-        <div id="reportOutput" class="hidden">
-            <h2>Ваш отчет готов:</h2>
-            <div id="generatedReport"></div>
-            <div class="actions">
-                <button onclick="copyReport()">📋 Копировать</button>
-                <button onclick="downloadReport()">💾 Скачать</button>
-                <button onclick="clearForm()">🔄 Новый отчет</button>
-            </div>
-        </div>
-
-        <!-- История -->
-        <div id="history">
-            <h2>📜 История отчетов:</h2>
-            <div id="historyList"></div>
-        </div>
+        </main>
     </div>
 
     <script src="script.js"></script>

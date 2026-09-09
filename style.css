@@ -8,6 +8,75 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Боковое меню */
+.sidebar {
+    width: 250px;
+    background: #2d3748;
+    color: white;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid #4a5568;
+}
+
+.sidebar-header h2 {
+    color: #FF8C00;
+    font-size: 20px;
+}
+
+.branch-btn {
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+    width: 100%;
+    border-left: 3px solid transparent;
+}
+
+.branch-btn:hover {
+    background: #4a5568;
+    border-left-color: #FF8C00;
+}
+
+.branch-btn.active {
+    background: #4a5568;
+    border-left-color: #FF8C00;
+    font-weight: bold;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #4a5568;
+    font-size: 14px;
+    color: #a0aec0;
+}
+
+/* Основной контент */
+.main-content {
+    margin-left: 250px;
+    flex: 1;
     padding: 20px;
 }
 
@@ -18,7 +87,6 @@ body {
     border-radius: 15px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    position: relative;
 }
 
 /* Стили для лисички */
@@ -162,6 +230,21 @@ h2 {
     margin: 20px 0 10px;
 }
 
+.branch-content {
+    display: none;
+}
+
+.branch-content.active {
+    display: block;
+}
+
+.branch-content p {
+    color: #666;
+    text-align: center;
+    font-size: 18px;
+    padding: 40px 0;
+}
+
 .form-group {
     margin-bottom: 20px;
 }
@@ -272,16 +355,43 @@ button:hover {
     margin-right: 5px;
 }
 
-@media (max-width: 600px) {
-    .container {
-        padding: 15px;
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 10px;
     }
     
-    .fox-container {
+    .sidebar-header {
+        width: 100%;
+        padding: 10px;
+    }
+    
+    .branch-btn {
+        flex: 1;
+        min-width: 120px;
+        padding: 10px;
+        text-align: center;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+    
+    .branch-btn.active {
+        border-bottom-color: #FF8C00;
+    }
+    
+    .sidebar-footer {
+        display: none;
+    }
+    
+    .layout {
         flex-direction: column;
     }
     
-    .actions {
-        flex-direction: column;
+    .main-content {
+        margin-left: 0;
     }
 }

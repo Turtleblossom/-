@@ -1,8 +1,55 @@
 // Инициализация
 document.addEventListener('DOMContentLoaded', function() {
     loadHistory();
-    showFoxMessage('Готова помочь с отчетом! 🦊');
+    showFoxMessage('Выбери ветку слева! 🦊');
+    
+    // Обработчики для кнопок веток
+    const branchButtons = document.querySelectorAll('.branch-btn');
+    branchButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            switchBranch(this.dataset.branch);
+        });
+    });
 });
+
+// Переключение веток
+function switchBranch(branch) {
+    // Убираем активный класс у всех кнопок
+    document.querySelectorAll('.branch-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Добавляем активный класс нажатой кнопке
+    document.querySelector(`[data-branch="${branch}"]`).classList.add('active');
+    
+    // Скрываем все контенты
+    document.querySelectorAll('.branch-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Показываем нужный контент
+    const contentMap = {
+        wei: 'wei-content',
+        feng: 'feng-content',
+        pei: 'pei-content',
+        cao: 'cao-content'
+    };
+    
+    const contentId = contentMap[branch];
+    if (contentId) {
+        document.getElementById(contentId).classList.add('active');
+    }
+    
+    // Сообщение от лисички
+    const messages = {
+        wei: 'Охота! Поймаем дичь! 🏹',
+        feng: 'Ветка Фэн скоро будет! 🌪️',
+        pei: 'Ветка Пэй скоро будет! 🌊',
+        cao: 'Ветка Цао скоро будет! 🌿'
+    };
+    
+    showFoxMessage(messages[branch] || 'Выбери ветку! 🦊');
+}
 
 // Обработка формы
 document.getElementById('reportForm').addEventListener('submit', function(e) {
@@ -34,6 +81,7 @@ document.getElementById('reportForm').addEventListener('submit', function(e) {
     
     // Сохраняем в историю
     saveToHistory({
+        branch: 'wei',
         huntTime,
         leaderId,
         collectorId,
@@ -61,7 +109,6 @@ function parseParticipants(text) {
             const count = parts[1];
             participants.push({ id, count });
         } else if (parts.length === 1) {
-            // Если только ID без количества
             participants.push({ id: parts[0], count: '1' });
         }
     }
@@ -139,7 +186,6 @@ function copyReport() {
     navigator.clipboard.writeText(reportText).then(() => {
         showFoxMessage('Скопировано! 📋');
     }).catch(() => {
-        // Fallback
         const textarea = document.createElement('textarea');
         textarea.value = reportText;
         document.body.appendChild(textarea);
@@ -167,7 +213,6 @@ function saveToHistory(data) {
     let history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
     history.unshift(data);
     
-    // Ограничиваем историю 50 записями
     if (history.length > 50) {
         history = history.slice(0, 50);
     }
