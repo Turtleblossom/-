@@ -9,11 +9,35 @@ body {
     background: #1a1a2e;
     min-height: 100vh;
     color: #d4c5a9;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Декоративные китайские символы на фоне */
+body::before {
+    content: '灵 精 神 猎 风 水 草 狐 狸 灵 精 神 猎 风 水 草 狐 狸';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 60px;
+    color: rgba(197, 61, 67, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 0;
+    line-height: 1.5;
+    letter-spacing: 20px;
+    transform: rotate(-10deg);
 }
 
 .layout {
     display: flex;
     min-height: 100vh;
+    position: relative;
+    z-index: 1;
 }
 
 /* Боковое меню */
@@ -32,8 +56,19 @@ body {
     border-right: 2px solid #c53d43;
 }
 
+/* Декоративная линия сверху */
+.sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #c53d43, #e8d5b5, #c53d43);
+}
+
 .sidebar-header {
-    padding: 0 20px 20px;
+    padding: 20px 20px;
     border-bottom: 1px solid #c53d43;
     text-align: center;
 }
@@ -41,7 +76,8 @@ body {
 .sidebar-header h2 {
     color: #c53d43;
     font-size: 20px;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(197, 61, 67, 0.5);
 }
 
 .branch-btn {
@@ -56,12 +92,14 @@ body {
     width: 100%;
     border-left: 3px solid transparent;
     font-family: inherit;
+    position: relative;
 }
 
 .branch-btn:hover {
     background: #1a2744;
     border-left-color: #c53d43;
     color: #e8d5b5;
+    padding-left: 25px;
 }
 
 .branch-btn.active {
@@ -71,6 +109,15 @@ body {
     color: #e8d5b5;
 }
 
+/* Красная точка у активной ветки */
+.branch-btn.active::after {
+    content: '•';
+    position: absolute;
+    right: 20px;
+    color: #c53d43;
+    font-size: 20px;
+}
+
 .sidebar-footer {
     margin-top: auto;
     padding: 20px;
@@ -78,6 +125,7 @@ body {
     border-top: 1px solid #c53d43;
     font-size: 14px;
     color: #8a7b6b;
+    letter-spacing: 2px;
 }
 
 /* Основной контент */
@@ -95,15 +143,36 @@ body {
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     border: 1px solid #c53d43;
+    position: relative;
 }
 
-/* Заголовки с китайскими символами */
+/* Декоративные уголки */
+.container::before {
+    content: '◆';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    color: #c53d43;
+    font-size: 30px;
+}
+
+.container::after {
+    content: '◆';
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    color: #c53d43;
+    font-size: 30px;
+}
+
+/* Заголовки */
 h1 {
     color: #e8d5b5;
     margin-bottom: 30px;
     text-align: center;
     position: relative;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 15px rgba(197, 61, 67, 0.3);
 }
 
 h1::before {
@@ -120,7 +189,17 @@ h2 {
     color: #c53d43;
     margin: 20px 0 10px;
     position: relative;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+}
+
+/* Красная линия под заголовком */
+h2::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c53d43, transparent);
+    margin-top: 5px;
 }
 
 .branch-content {
@@ -129,6 +208,12 @@ h2 {
 
 .branch-content.active {
     display: block;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .branch-content p {
@@ -136,11 +221,13 @@ h2 {
     text-align: center;
     font-size: 18px;
     padding: 40px 0;
+    letter-spacing: 3px;
 }
 
 /* Форма */
 .form-group {
     margin-bottom: 20px;
+    position: relative;
 }
 
 label {
@@ -149,6 +236,15 @@ label {
     color: #e8d5b5;
     font-weight: 500;
     letter-spacing: 1px;
+}
+
+/* Маленький символ перед label */
+.form-group::before {
+    content: '•';
+    position: absolute;
+    left: -15px;
+    top: 5px;
+    color: #c53d43;
 }
 
 input, select, textarea {
@@ -165,7 +261,7 @@ input, select, textarea {
 input:focus, select:focus, textarea:focus {
     outline: none;
     border-color: #e8d5b5;
-    box-shadow: 0 0 10px rgba(197, 61, 67, 0.5);
+    box-shadow: 0 0 15px rgba(197, 61, 67, 0.3);
 }
 
 input::placeholder, textarea::placeholder {
@@ -191,11 +287,14 @@ button {
     width: 100%;
     font-family: inherit;
     letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
 }
 
 button:hover {
     background: #d4535a;
-    box-shadow: 0 5px 15px rgba(197, 61, 67, 0.5);
+    box-shadow: 0 5px 20px rgba(197, 61, 67, 0.5);
+    transform: translateY(-2px);
 }
 
 .hidden {
@@ -243,6 +342,12 @@ button:hover {
     margin-bottom: 10px;
     border-radius: 5px;
     border-left: 3px solid #c53d43;
+    transition: all 0.3s;
+}
+
+.history-item:hover {
+    background: #1a2744;
+    transform: translateX(5px);
 }
 
 .history-item small {
