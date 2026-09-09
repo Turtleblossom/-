@@ -1,7 +1,6 @@
 // Инициализация
 document.addEventListener('DOMContentLoaded', function() {
     loadHistory();
-    showFoxMessage('Выбери ветку слева! 🦊');
     
     // Обработчики для кнопок веток
     const branchButtons = document.querySelectorAll('.branch-btn');
@@ -39,16 +38,6 @@ function switchBranch(branch) {
     if (contentId) {
         document.getElementById(contentId).classList.add('active');
     }
-    
-    // Сообщение от лисички
-    const messages = {
-        wei: 'Охота! Поймаем дичь! 🏹',
-        feng: 'Ветка Фэн скоро будет! 🌪️',
-        pei: 'Ветка Пэй скоро будет! 🌊',
-        cao: 'Ветка Цао скоро будет! 🌿'
-    };
-    
-    showFoxMessage(messages[branch] || 'Выбери ветку! 🦊');
 }
 
 // Обработка формы
@@ -61,7 +50,7 @@ document.getElementById('reportForm').addEventListener('submit', function(e) {
     let collectorId = document.getElementById('collectorId').value.trim();
     
     // Если собирающий не указан, используем ведущего
-    if (!collectorId) {
+    if (!collectorId && leaderId) {
         collectorId = leaderId;
     }
     
@@ -90,12 +79,11 @@ document.getElementById('reportForm').addEventListener('submit', function(e) {
         report,
         date: new Date().toISOString()
     });
-    
-    // Сообщение от лисички
-    showFoxMessage('Отчет готов! 🎉');
 });
 
 function parseParticipants(text) {
+    if (!text) return [];
+    
     const participants = [];
     const lines = text.split('\n');
     
@@ -151,23 +139,39 @@ function generateReport(huntTime, leaderId, collectorId, participants, carriers)
     // Формируем отчет
     let report = `[b]Охота [${dateStr}][/b]\n`;
     report += `[b]Вид:[/b] ${huntType}.\n`;
-    report += `[b]Ведущий:[/b] [cat${leaderId}] [${leaderId}].\n`;
-    report += `[b]Собирающий:[/b] [cat${collectorId}] [${collectorId}].\n`;
     
-    // Участники
+    // Ведущий - если пусто, то "-"
+    if (leaderId) {
+        report += `[b]Ведущий:[/b] [cat${leaderId}] [${leaderId}].\n`;
+    } else {
+        report += `[b]Ведущий:[/b] -.\n`;
+    }
+    
+    // Собирающий - если пусто, то "-"
+    if (collectorId) {
+        report += `[b]Собирающий:[/b] [cat${collectorId}] [${collectorId}].\n`;
+    } else {
+        report += `[b]Собирающий:[/b] -.\n`;
+    }
+    
+    // Участники - если пусто, то "-"
     if (participants.length > 0) {
         const participantsStr = participants.map(p => 
             `[cat${p.id}] [${p.id}] (${p.count})`
         ).join(', ');
         report += `[b]Участники:[/b] ${participantsStr}.\n`;
+    } else {
+        report += `[b]Участники:[/b] -.\n`;
     }
     
-    // Таскающие
+    // Таскающие - если пусто, то "-"
     if (carriers.length > 0) {
         const carriersStr = carriers.map(c => 
             `[cat${c}] [${c}]`
         ).join(', ');
         report += `[b]Таскающие:[/b] ${carriersStr}.\n`;
+    } else {
+        report += `[b]Таскающие:[/b] -.\n`;
     }
     
     return report;
@@ -184,7 +188,7 @@ function displayReport(report) {
 function copyReport() {
     const reportText = document.getElementById('generatedReport').textContent;
     navigator.clipboard.writeText(reportText).then(() => {
-        showFoxMessage('Скопировано! 📋');
+        alert('Скопировано! 📋');
     }).catch(() => {
         const textarea = document.createElement('textarea');
         textarea.value = reportText;
@@ -192,7 +196,7 @@ function copyReport() {
         textarea.select();
         document.execCommand('copy');
         document.body.removeChild(textarea);
-        showFoxMessage('Скопировано! 📋');
+        alert('Скопировано! 📋');
     });
 }
 
@@ -226,7 +230,7 @@ function loadHistory() {
     const historyList = document.getElementById('historyList');
     
     if (history.length === 0) {
-        historyList.innerHTML = '<p style="color: #999;">История пуста</p>';
+        historyList.innerHTML = '<p style="color: #8a7b6b;">История пуста</p>';
         return;
     }
     
@@ -236,7 +240,7 @@ function loadHistory() {
             <small>${item.huntTime === 'morning' ? 'Утренняя' : item.huntTime === 'evening' ? 'Вечерняя' : 'Для Ванцань'}</small>
             <div class="history-actions">
                 <button onclick="viewHistoryItem(${index})">Просмотр</button>
-                <button onclick="deleteHistoryItem(${index})" style="background: #e53e3e;">Удалить</button>
+                <button onclick="deleteHistoryItem(${index})" style="background: #5a4e3e;">Удалить</button>
             </div>
         </div>
     `).join('');
@@ -248,7 +252,6 @@ function viewHistoryItem(index) {
     
     if (item) {
         displayReport(item.report);
-        showFoxMessage('Вот этот отчет! 📜');
     }
 }
 
@@ -258,19 +261,10 @@ function deleteHistoryItem(index) {
         history.splice(index, 1);
         localStorage.setItem('catwarHistory', JSON.stringify(history));
         loadHistory();
-        showFoxMessage('Отчет удален 🗑️');
     }
 }
 
 function clearForm() {
     document.getElementById('reportForm').reset();
     document.getElementById('reportOutput').classList.add('hidden');
-    showFoxMessage('Давай заполним новый отчет! 📝');
-}
-
-function showFoxMessage(message) {
-    const speech = document.querySelector('.fox-speech');
-    if (speech) {
-        speech.innerHTML = message;
-    }
 }

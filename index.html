@@ -11,50 +11,31 @@
         <!-- Боковое меню -->
         <nav class="sidebar">
             <div class="sidebar-header">
-                <h2>🦊 Ветки</h2>
+                <h2>灵 精神</h2>
             </div>
             <button class="branch-btn active" data-branch="wei">
-                🏹 Ветка Вэй
+                猎 Ветка Вэй
             </button>
             <button class="branch-btn" data-branch="feng">
-                🌪️ Ветка Фэн
+                风 Ветка Фэн
             </button>
             <button class="branch-btn" data-branch="pei">
-                🌊 Ветка Пэй
+                水 Ветка Пэй
             </button>
             <button class="branch-btn" data-branch="cao">
-                🌿 Ветка Цао
+                草 Ветка Цао
             </button>
             <div class="sidebar-footer">
-                <p>Лисичка-помощница</p>
+                <p>灵 狐 狸 精 神</p>
             </div>
         </nav>
 
         <!-- Основной контент -->
         <main class="main-content">
             <div class="container">
-                <!-- Лисичка-маскот -->
-                <div class="fox-container">
-                    <div class="fox">
-                        <div class="fox-ear left"></div>
-                        <div class="fox-ear right"></div>
-                        <div class="fox-face">
-                            <div class="fox-eye left"></div>
-                            <div class="fox-eye right"></div>
-                            <div class="fox-nose"></div>
-                        </div>
-                        <div class="fox-body"></div>
-                        <div class="fox-tail"></div>
-                    </div>
-                    <div class="fox-speech">
-                        Привет! Я лисичка 🦊<br>
-                        Выбери ветку слева!
-                    </div>
-                </div>
-
                 <!-- Контент для Ветки Вэй -->
                 <div id="wei-content" class="branch-content active">
-                    <h1>🏹 Ветка Вэй - Охота</h1>
+                    <h1>猎 狩猎 猎</h1>
                     
                     <form id="reportForm">
                         <div class="form-group">
@@ -68,7 +49,7 @@
 
                         <div class="form-group">
                             <label for="leaderId">👑 Ведущий (ID котика):</label>
-                            <input type="text" id="leaderId" required placeholder="Например: 1695758">
+                            <input type="text" id="leaderId" placeholder="Например: 1695758">
                         </div>
 
                         <div class="form-group">
@@ -79,7 +60,7 @@
 
                         <div class="form-group">
                             <label for="participants">🎯 Участники (ID и количество дичи):</label>
-                            <textarea id="participants" rows="4" required 
+                            <textarea id="participants" rows="4" 
                                 placeholder="Например:&#10;121221 5&#10;1695758 6"></textarea>
                             <small>Формат: ID_котика количество_дичи (каждый с новой строки)</small>
                         </div>
@@ -97,25 +78,25 @@
 
                 <!-- Контент для Ветки Фэн -->
                 <div id="feng-content" class="branch-content">
-                    <h1>🌪️ Ветка Фэн</h1>
-                    <p>Здесь скоро будут отчеты!</p>
+                    <h1>风 风 风</h1>
+                    <p>风 Здесь скоро будут отчеты! 风</p>
                 </div>
 
                 <!-- Контент для Ветки Пэй -->
                 <div id="pei-content" class="branch-content">
-                    <h1>🌊 Ветка Пэй</h1>
-                    <p>Здесь скоро будут отчеты!</p>
+                    <h1>水 水 水</h1>
+                    <p>水 Здесь скоро будут отчеты! 水</p>
                 </div>
 
                 <!-- Контент для Ветки Цао -->
                 <div id="cao-content" class="branch-content">
-                    <h1>🌿 Ветка Цао</h1>
-                    <p>Здесь скоро будут отчеты!</p>
+                    <h1>草 草 草</h1>
+                    <p>草 Здесь скоро будут отчеты! 草</p>
                 </div>
 
                 <!-- Результат -->
                 <div id="reportOutput" class="hidden">
-                    <h2>Ваш отчет готов:</h2>
+                    <h2>📜 Ваш отчет готов:</h2>
                     <div id="generatedReport"></div>
                     <div class="actions">
                         <button onclick="copyReport()">📋 Копировать</button>

@@ -5,9 +5,10 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #1a1a2e;
     min-height: 100vh;
+    color: #d4c5a9;
 }
 
 .layout {
@@ -18,8 +19,8 @@ body {
 /* Боковое меню */
 .sidebar {
     width: 250px;
-    background: #2d3748;
-    color: white;
+    background: #16213e;
+    color: #d4c5a9;
     padding: 20px 0;
     display: flex;
     flex-direction: column;
@@ -28,21 +29,24 @@ body {
     left: 0;
     top: 0;
     z-index: 100;
+    border-right: 2px solid #c53d43;
 }
 
 .sidebar-header {
     padding: 0 20px 20px;
-    border-bottom: 1px solid #4a5568;
+    border-bottom: 1px solid #c53d43;
+    text-align: center;
 }
 
 .sidebar-header h2 {
-    color: #FF8C00;
+    color: #c53d43;
     font-size: 20px;
+    letter-spacing: 2px;
 }
 
 .branch-btn {
     background: transparent;
-    color: white;
+    color: #d4c5a9;
     border: none;
     padding: 15px 20px;
     text-align: left;
@@ -51,26 +55,29 @@ body {
     transition: all 0.3s;
     width: 100%;
     border-left: 3px solid transparent;
+    font-family: inherit;
 }
 
 .branch-btn:hover {
-    background: #4a5568;
-    border-left-color: #FF8C00;
+    background: #1a2744;
+    border-left-color: #c53d43;
+    color: #e8d5b5;
 }
 
 .branch-btn.active {
-    background: #4a5568;
-    border-left-color: #FF8C00;
+    background: #1a2744;
+    border-left-color: #c53d43;
     font-weight: bold;
+    color: #e8d5b5;
 }
 
 .sidebar-footer {
     margin-top: auto;
     padding: 20px;
     text-align: center;
-    border-top: 1px solid #4a5568;
+    border-top: 1px solid #c53d43;
     font-size: 14px;
-    color: #a0aec0;
+    color: #8a7b6b;
 }
 
 /* Основной контент */
@@ -83,151 +90,37 @@ body {
 .container {
     max-width: 800px;
     margin: 0 auto;
-    background: white;
+    background: #1e2a45;
     border-radius: 15px;
     padding: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid #c53d43;
 }
 
-/* Стили для лисички */
-.fox-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 30px;
-    gap: 20px;
-}
-
-.fox {
-    position: relative;
-    width: 100px;
-    height: 80px;
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.fox:hover {
-    transform: scale(1.1);
-}
-
-.fox-face {
-    position: absolute;
-    width: 60px;
-    height: 50px;
-    background: #FF8C00;
-    border-radius: 50% 50% 45% 45%;
-    top: 20px;
-    left: 20px;
-    z-index: 2;
-}
-
-.fox-ear {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 25px solid #FF8C00;
-    z-index: 1;
-}
-
-.fox-ear.left {
-    top: 5px;
-    left: 15px;
-    transform: rotate(-20deg);
-}
-
-.fox-ear.right {
-    top: 5px;
-    right: 15px;
-    transform: rotate(20deg);
-}
-
-.fox-eye {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: #333;
-    border-radius: 50%;
-    top: 35px;
-}
-
-.fox-eye.left {
-    left: 35px;
-}
-
-.fox-eye.right {
-    right: 35px;
-}
-
-.fox-nose {
-    position: absolute;
-    width: 8px;
-    height: 6px;
-    background: #333;
-    border-radius: 50%;
-    top: 45px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.fox-body {
-    position: absolute;
-    width: 70px;
-    height: 40px;
-    background: #FF8C00;
-    border-radius: 40% 40% 30% 30%;
-    bottom: 0;
-    left: 15px;
-    z-index: 1;
-}
-
-.fox-tail {
-    position: absolute;
-    width: 40px;
-    height: 15px;
-    background: #FF8C00;
-    border-radius: 0 50% 50% 0;
-    right: -20px;
-    bottom: 5px;
-    transform: rotate(30deg);
-    animation: tailWag 2s infinite;
-}
-
-@keyframes tailWag {
-    0%, 100% { transform: rotate(30deg); }
-    50% { transform: rotate(45deg); }
-}
-
-.fox-speech {
-    background: #FFF3E0;
-    border: 2px solid #FF8C00;
-    border-radius: 15px;
-    padding: 15px;
-    position: relative;
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-.fox-speech::before {
-    content: '';
-    position: absolute;
-    left: -12px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 6px solid transparent;
-    border-right-color: #FF8C00;
-}
-
+/* Заголовки с китайскими символами */
 h1 {
-    color: #333;
+    color: #e8d5b5;
     margin-bottom: 30px;
     text-align: center;
+    position: relative;
+    letter-spacing: 2px;
+}
+
+h1::before {
+    content: '🏮';
+    margin-right: 15px;
+}
+
+h1::after {
+    content: '🏮';
+    margin-left: 15px;
 }
 
 h2 {
-    color: #555;
+    color: #c53d43;
     margin: 20px 0 10px;
+    position: relative;
+    letter-spacing: 1px;
 }
 
 .branch-content {
@@ -239,12 +132,13 @@ h2 {
 }
 
 .branch-content p {
-    color: #666;
+    color: #8a7b6b;
     text-align: center;
     font-size: 18px;
     padding: 40px 0;
 }
 
+/* Форма */
 .form-group {
     margin-bottom: 20px;
 }
@@ -252,46 +146,56 @@ h2 {
 label {
     display: block;
     margin-bottom: 5px;
-    color: #555;
+    color: #e8d5b5;
     font-weight: 500;
+    letter-spacing: 1px;
 }
 
 input, select, textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #c53d43;
     border-radius: 5px;
     font-size: 16px;
     font-family: inherit;
+    background: #16213e;
+    color: #e8d5b5;
 }
 
 input:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: #FF8C00;
-    box-shadow: 0 0 5px rgba(255, 140, 0, 0.5);
+    border-color: #e8d5b5;
+    box-shadow: 0 0 10px rgba(197, 61, 67, 0.5);
+}
+
+input::placeholder, textarea::placeholder {
+    color: #5a4e3e;
 }
 
 small {
     display: block;
     margin-top: 5px;
-    color: #999;
+    color: #8a7b6b;
     font-size: 12px;
 }
 
 button {
-    background: #FF8C00;
-    color: white;
+    background: #c53d43;
+    color: #e8d5b5;
     padding: 12px 24px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    transition: background 0.3s;
+    transition: all 0.3s;
     width: 100%;
+    font-family: inherit;
+    letter-spacing: 2px;
 }
 
 button:hover {
-    background: #E67E00;
+    background: #d4535a;
+    box-shadow: 0 5px 15px rgba(197, 61, 67, 0.5);
 }
 
 .hidden {
@@ -299,14 +203,15 @@ button:hover {
 }
 
 #generatedReport {
-    background: #FFF8F0;
-    border-left: 4px solid #FF8C00;
+    background: #16213e;
+    border-left: 4px solid #c53d43;
     padding: 15px;
     margin: 15px 0;
     border-radius: 5px;
-    font-family: monospace;
+    font-family: 'Courier New', monospace;
     white-space: pre-wrap;
     word-wrap: break-word;
+    color: #e8d5b5;
 }
 
 .actions {
@@ -321,11 +226,11 @@ button:hover {
 }
 
 .actions button:nth-child(2) {
-    background: #48bb78;
+    background: #4a6741;
 }
 
 .actions button:nth-child(3) {
-    background: #e53e3e;
+    background: #5a4e3e;
 }
 
 #historyList {
@@ -333,15 +238,15 @@ button:hover {
 }
 
 .history-item {
-    background: #f8f9fa;
+    background: #16213e;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
-    border-left: 3px solid #FF8C00;
+    border-left: 3px solid #c53d43;
 }
 
 .history-item small {
-    color: #666;
+    color: #8a7b6b;
 }
 
 .history-actions {
@@ -380,7 +285,7 @@ button:hover {
     }
     
     .branch-btn.active {
-        border-bottom-color: #FF8C00;
+        border-bottom-color: #c53d43;
     }
     
     .sidebar-footer {
