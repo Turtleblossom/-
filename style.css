@@ -13,24 +13,43 @@ body {
     overflow-x: hidden;
 }
 
-/* Декоративные китайские символы на фоне */
+/* Китайский фон с иероглифами */
 body::before {
-    content: '灵 精 神 猎 风 水 草 狐 狸 灵 精 神 猎 风 水 草 狐 狸';
+    content: '';
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    font-size: 60px;
-    color: rgba(197, 61, 67, 0.03);
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(197, 61, 67, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(197, 61, 67, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 50% 20%, rgba(197, 61, 67, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(197, 61, 67, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Иероглифы на фоне */
+body::after {
+    content: '精 神 灵 狐 狸 猎 风 水 草 精 神 灵 狐 狸 猎 风 水 草';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 80px;
+    color: rgba(197, 61, 67, 0.04);
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: none;
     z-index: 0;
-    line-height: 1.5;
-    letter-spacing: 20px;
-    transform: rotate(-10deg);
+    line-height: 1.8;
+    letter-spacing: 30px;
+    transform: rotate(-5deg);
+    white-space: pre-wrap;
+    word-spacing: 50px;
 }
 
 .layout {
@@ -43,7 +62,7 @@ body::before {
 /* Боковое меню */
 .sidebar {
     width: 250px;
-    background: #16213e;
+    background: rgba(22, 33, 62, 0.95);
     color: #d4c5a9;
     padding: 20px 0;
     display: flex;
@@ -54,6 +73,7 @@ body::before {
     top: 0;
     z-index: 100;
     border-right: 2px solid #c53d43;
+    backdrop-filter: blur(5px);
 }
 
 /* Декоративная линия сверху */
@@ -96,20 +116,19 @@ body::before {
 }
 
 .branch-btn:hover {
-    background: #1a2744;
+    background: rgba(26, 39, 68, 0.8);
     border-left-color: #c53d43;
     color: #e8d5b5;
     padding-left: 25px;
 }
 
 .branch-btn.active {
-    background: #1a2744;
+    background: rgba(26, 39, 68, 0.8);
     border-left-color: #c53d43;
     font-weight: bold;
     color: #e8d5b5;
 }
 
-/* Красная точка у активной ветки */
 .branch-btn.active::after {
     content: '•';
     position: absolute;
@@ -138,12 +157,13 @@ body::before {
 .container {
     max-width: 800px;
     margin: 0 auto;
-    background: #1e2a45;
+    background: rgba(30, 42, 69, 0.95);
     border-radius: 15px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     border: 1px solid #c53d43;
     position: relative;
+    backdrop-filter: blur(5px);
 }
 
 /* Декоративные уголки */
@@ -154,6 +174,7 @@ body::before {
     left: -10px;
     color: #c53d43;
     font-size: 30px;
+    text-shadow: 0 0 10px rgba(197, 61, 67, 0.5);
 }
 
 .container::after {
@@ -163,6 +184,7 @@ body::before {
     right: -10px;
     color: #c53d43;
     font-size: 30px;
+    text-shadow: 0 0 10px rgba(197, 61, 67, 0.5);
 }
 
 /* Заголовки */
@@ -192,7 +214,6 @@ h2 {
     letter-spacing: 2px;
 }
 
-/* Красная линия под заголовком */
 h2::after {
     content: '';
     display: block;
@@ -202,11 +223,42 @@ h2::after {
     margin-top: 5px;
 }
 
-.branch-content {
+/* Кнопки переключения типов отчетов */
+.report-type-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.report-type-btn {
+    background: rgba(22, 33, 62, 0.8);
+    color: #d4c5a9;
+    border: 1px solid #c53d43;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    width: auto;
+    font-family: inherit;
+    letter-spacing: 1px;
+}
+
+.report-type-btn:hover {
+    background: rgba(26, 39, 68, 0.8);
+    color: #e8d5b5;
+}
+
+.report-type-btn.active {
+    background: #c53d43;
+    color: #e8d5b5;
+}
+
+/* Формы отчетов */
+.report-form {
     display: none;
 }
 
-.branch-content.active {
+.report-form.active {
     display: block;
     animation: fadeIn 0.5s;
 }
@@ -214,6 +266,15 @@ h2::after {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+.branch-content {
+    display: none;
+}
+
+.branch-content.active {
+    display: block;
+    animation: fadeIn 0.5s;
 }
 
 .branch-content p {
@@ -238,7 +299,6 @@ label {
     letter-spacing: 1px;
 }
 
-/* Маленький символ перед label */
 .form-group::before {
     content: '•';
     position: absolute;
@@ -254,7 +314,7 @@ input, select, textarea {
     border-radius: 5px;
     font-size: 16px;
     font-family: inherit;
-    background: #16213e;
+    background: rgba(22, 33, 62, 0.8);
     color: #e8d5b5;
 }
 
@@ -302,7 +362,7 @@ button:hover {
 }
 
 #generatedReport {
-    background: #16213e;
+    background: rgba(22, 33, 62, 0.8);
     border-left: 4px solid #c53d43;
     padding: 15px;
     margin: 15px 0;
@@ -337,7 +397,7 @@ button:hover {
 }
 
 .history-item {
-    background: #16213e;
+    background: rgba(22, 33, 62, 0.8);
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
@@ -346,7 +406,7 @@ button:hover {
 }
 
 .history-item:hover {
-    background: #1a2744;
+    background: rgba(26, 39, 68, 0.8);
     transform: translateX(5px);
 }
 
@@ -363,6 +423,33 @@ button:hover {
     font-size: 12px;
     width: auto;
     margin-right: 5px;
+}
+
+/* Контакты */
+.contacts {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(22, 33, 62, 0.8);
+    border-radius: 5px;
+    border: 1px solid #c53d43;
+    text-align: center;
+}
+
+.contacts p {
+    color: #8a7b6b;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.contacts a {
+    color: #c53d43;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.contacts a:hover {
+    color: #e8d5b5;
+    text-shadow: 0 0 10px rgba(197, 61, 67, 0.5);
 }
 
 @media (max-width: 768px) {
@@ -404,100 +491,4 @@ button:hover {
     .main-content {
         margin-left: 0;
     }
-}
-/* Добавьте эти стили к вашему текущему style.css */
-
-/* Кнопки переключения типов отчетов */
-.report-type-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.report-type-btn {
-    background: #16213e;
-    color: #d4c5a9;
-    border: 1px solid #c53d43;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s;
-    width: auto;
-    font-family: inherit;
-    letter-spacing: 1px;
-}
-
-.report-type-btn:hover {
-    background: #1a2744;
-    color: #e8d5b5;
-}
-
-.report-type-btn.active {
-    background: #c53d43;
-    color: #e8d5b5;
-}
-
-/* Формы отчетов */
-.report-form {
-    display: none;
-}
-
-.report-form.active {
-    display: block;
-    animation: fadeIn 0.5s;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Контакты */
-.contacts {
-    margin-top: 30px;
-    padding: 20px;
-    background: #16213e;
-    border-radius: 5px;
-    border: 1px solid #c53d43;
-    text-align: center;
-}
-
-.contacts p {
-    color: #8a7b6b;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-}
-
-.contacts a {
-    color: #c53d43;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-.contacts a:hover {
-    color: #e8d5b5;
-    text-shadow: 0 0 10px rgba(197, 61, 67, 0.5);
-}
-
-/* Кнопка очистки истории */
-#history button {
-    background: #5a4e3e;
-    margin-top: 10px;
-    transition: all 0.3s;
-}
-
-#history button:hover {
-    background: #c53d43;
-    box-shadow: 0 5px 15px rgba(197, 61, 67, 0.3);
-}
-
-/* Ссылки в отчете */
-#generatedReport a {
-    color: #c53d43;
-    text-decoration: none;
-}
-
-#generatedReport a:hover {
-    color: #e8d5b5;
-    text-decoration: underline;
 }

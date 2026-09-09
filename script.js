@@ -61,27 +61,22 @@ function switchBranch(branch) {
         document.getElementById(contentId).classList.add('active');
     }
     
-    // Скрыть результат при переключении
     document.getElementById('reportOutput').classList.add('hidden');
 }
 
 // Переключение типов отчетов
 function switchReportType(branch, reportType) {
-    // Убираем активный класс у всех кнопок в этой ветке
     const branchContent = document.getElementById(branch + '-content');
     branchContent.querySelectorAll('.report-type-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     
-    // Добавляем активный класс нажатой кнопке
     branchContent.querySelector(`[data-report="${reportType}"]`).classList.add('active');
     
-    // Скрываем все формы
     branchContent.querySelectorAll('.report-form').forEach(form => {
         form.classList.remove('active');
     });
     
-    // Показываем нужную форму
     const formMap = {
         'group-hunt': 'groupHuntForm',
         'solo-hunt': 'soloHuntForm',
@@ -95,7 +90,6 @@ function switchReportType(branch, reportType) {
         document.getElementById(formId).classList.add('active');
     }
     
-    // Скрыть результат
     document.getElementById('reportOutput').classList.add('hidden');
 }
 
@@ -121,13 +115,9 @@ function switchWatchType(type) {
 function formatTime(timeStr) {
     if (!timeStr) return '-';
     
-    // Убираем пробелы
     timeStr = timeStr.trim();
-    
-    // Заменяем точки и пробелы на двоеточие
     timeStr = timeStr.replace(/[.\s]+/g, ':');
     
-    // Проверяем формат
     const parts = timeStr.split(':');
     if (parts.length >= 2) {
         const hours = parts[0].padStart(2, '0');
@@ -162,6 +152,28 @@ function parseIds(text) {
     }
     
     return ids;
+}
+
+// Парсинг участников
+function parseParticipants(text) {
+    if (!text) return [];
+    
+    const participants = [];
+    const lines = text.split('\n');
+    
+    for (let line of lines) {
+        line = line.trim();
+        if (!line) continue;
+        
+        const parts = line.split(/\s+/);
+        if (parts.length >= 2) {
+            participants.push({ id: parts[0], count: parts[1] });
+        } else if (parts.length === 1) {
+            participants.push({ id: parts[0], count: '1' });
+        }
+    }
+    
+    return participants;
 }
 
 // Генерация групповой охоты
@@ -280,7 +292,7 @@ function generateBorderPatrol() {
     const dateStr = getCurrentDate();
     
     let report = `[b]Пограничный патруль[/b]\n`;
-    report += `[b]Дата:[/b] ${dateStr}, ${time} МСК.\n`;
+    report += `[b]Дата:[/b] ${dateStr}, ${time}.\n`;
     
     if (collectorId) {
         report += `[b]Собирающий:[/b] [cat${collectorId}] [${collectorId}].\n`;
@@ -337,7 +349,7 @@ function generateWatch() {
     const guardId = document.getElementById('watchGuard').value.trim();
     
     let report = `[b]${watchType} дозор[/b]\n`;
-    report += `[b]Дата:[/b] ${dateStr}, ${time} МСК.\n`;
+    report += `[b]Дата:[/b] ${dateStr}, ${time}.\n`;
     report += `[b]Маршрут/Локация:[/b] ${location}.\n`;
     
     if (guardId) {
@@ -365,7 +377,7 @@ function generateSelfPatrol() {
     const dateStr = getCurrentDate();
     
     let report = `[b]Самостоятельный патруль[/b]\n`;
-    report += `[b]Дата:[/b] ${dateStr}, ${time} МСК.\n`;
+    report += `[b]Дата:[/b] ${dateStr}, ${time}.\n`;
     
     if (participantId) {
         report += `[b]Участник:[/b] [cat${participantId}] [${participantId}].\n`;
@@ -395,27 +407,6 @@ function generateSelfPatrol() {
 }
 
 // Общие функции
-function parseParticipants(text) {
-    if (!text) return [];
-    
-    const participants = [];
-    const lines = text.split('\n');
-    
-    for (let line of lines) {
-        line = line.trim();
-        if (!line) continue;
-        
-        const parts = line.split(/\s+/);
-        if (parts.length >= 2) {
-            participants.push({ id: parts[0], count: parts[1] });
-        } else if (parts.length === 1) {
-            participants.push({ id: parts[0], count: '1' });
-        }
-    }
-    
-    return participants;
-}
-
 function displayReport(report) {
     const output = document.getElementById('reportOutput');
     const generated = document.getElementById('generatedReport');
@@ -523,7 +514,6 @@ function clearHistory() {
 }
 
 function clearForm() {
-    // Сбросить все формы
     document.querySelectorAll('form').forEach(form => {
         form.reset();
     });
