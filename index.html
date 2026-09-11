@@ -18,6 +18,10 @@
             <button class="branch-btn" data-branch="cao">草 Ветка Цао</button>
             <button class="branch-btn" data-branch="awards">奖 Ветка Наград</button>
             <button class="branch-btn" data-branch="school">战 Боевая школа</button>
+            <button class="branch-btn" data-branch="love">爱 Уголок любви</button>
+            <button class="branch-btn" data-branch="flowers">花 Собиратели цветов</button>
+            <button class="branch-btn" data-branch="climbers">石 Жабки и скалолазы</button>
+            <button class="branch-btn" data-branch="nion">鬼 Отряд ниЁн</button>
             <div class="sidebar-footer">
                 <p>灵 狐 狸 精 神</p>
             </div>
@@ -742,10 +746,6 @@
                             <button type="button" class="report-type-btn active" onclick="switchReportType('school', 'prep-group')">В Подготовительную</button>
                             <button type="button" class="report-type-btn" onclick="switchReportType('school', 'rank-check')">На ранг</button>
                             <button type="button" class="report-type-btn" onclick="switchReportType('school', 'obedience')">Стена послушания</button>
-                            <button type="button" class="report-type-btn" onclick="switchReportType('school', 'resources')">Отпись ресурсов</button>
-                            <button type="button" class="report-type-btn" onclick="switchReportType('school', 'herbs')">Сбор трав</button>
-                            <button type="button" class="report-type-btn" onclick="switchReportType('school', 'sleepers')">Относ спящих</button>
-                            <button type="button" class="report-type-btn" onclick="switchReportType('school', 'trash')">Уборка мусора</button>
                             <button type="button" class="report-type-btn" onclick="switchReportType('school', 'qigong')">Техника Цигун</button>
                         </div>
                     </div>
@@ -806,87 +806,6 @@
                         <div class="form-group" id="obedTribeGroup" style="display:none;">
                             <label for="obedTribes">🌍 Племена (через запятую):</label>
                             <input type="text" id="obedTribes" placeholder="Северное, Огненное">
-                        </div>
-                        <button type="submit">🦊 Сгенерировать отчет</button>
-                    </form>
-
-                    <form id="resourcesForm" class="report-form">
-                        <div class="form-group">
-                            <label for="resPlace">📍 Место добычи:</label>
-                            <select id="resPlace">
-                                <option value="расщелина">расщелина</option>
-                                <option value="дупло">дупло</option>
-                                <option value="дно">дно</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="resWho">🐱 Кто принёс (ID):</label>
-                            <input type="text" id="resWho" placeholder="1254550">
-                        </div>
-                        <div class="form-group">
-                            <label for="resList">📦 Ресурсы:</label>
-                            <textarea id="resList" rows="4" placeholder="мох 1&#10;трава 3&#10;ветки 2"></textarea>
-                            <small>Формат: ресурс количество. Разделяй траву/ветки/водоросли/мох/воду!</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="resProof">📸 Подтверждение (ссылка):</label>
-                            <input type="text" id="resProof" placeholder="https://...">
-                        </div>
-                        <button type="submit">🦊 Сгенерировать отчет</button>
-                    </form>
-
-                    <form id="herbsForm" class="report-form">
-                        <div class="form-group">
-                            <label for="herbsId">🐱 Ваш ID:</label>
-                            <input type="text" id="herbsId" placeholder="1069432">
-                        </div>
-                        <div class="form-group">
-                            <label for="herbsTime">⏰ Время похода:</label>
-                            <input type="text" id="herbsTime" placeholder="16:00">
-                        </div>
-                        <div class="form-group">
-                            <label for="herbsItems">🌿 Что принесли:</label>
-                            <input type="text" id="herbsItems" placeholder="1 трава, 2 мха, 1 ветка">
-                            <small>Названия трав не указываем</small>
-                        </div>
-                        <button type="submit">🦊 Сгенерировать отчет</button>
-                    </form>
-
-                    <form id="sleepersForm" class="report-form">
-                        <div class="form-group">
-                            <label for="sleepersId">🐱 Ваш ID:</label>
-                            <input type="text" id="sleepersId" placeholder="1254550">
-                        </div>
-                        <div class="form-group">
-                            <label for="sleepersCount">😴 Количество убранных:</label>
-                            <input type="text" id="sleepersCount" placeholder="10">
-                        </div>
-                        <div class="form-group">
-                            <label for="sleepersProof">📸 Доказательство (ссылки через запятую):</label>
-                            <input type="text" id="sleepersProof" placeholder="https://..., https://...">
-                        </div>
-                        <button type="submit">🦊 Сгенерировать отчет</button>
-                    </form>
-
-                    <form id="trashForm" class="report-form">
-                        <div class="form-group">
-                            <label for="trashType">🧹 Тип:</label>
-                            <select id="trashType">
-                                <option value="clean">Уборка мусора</option>
-                                <option value="find">Находка предмета</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="trashId">🐱 Ваш ID:</label>
-                            <input type="text" id="trashId" placeholder="1254550">
-                        </div>
-                        <div class="form-group" id="trashCountGroup">
-                            <label for="trashCount">🗑️ Количество утилизированного:</label>
-                            <input type="text" id="trashCount" placeholder="5">
-                        </div>
-                        <div class="form-group">
-                            <label for="trashProof">📸 Доказательство (ссылка):</label>
-                            <input type="text" id="trashProof" placeholder="https://...">
                         </div>
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
@@ -953,6 +872,274 @@
                             </div>
                         </div>
 
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+                </div>
+                                <!-- ==================== УГОЛОК ЛЮБВИ ==================== -->
+                <div id="love-content" class="branch-content">
+                    <h1>爱 爱情 爱</h1>
+                    
+                    <div class="form-group">
+                        <label>📋 Тип отчета:</label>
+                        <div class="report-type-buttons">
+                            <button type="button" class="report-type-btn active" onclick="switchReportType('love', 'family-create')">Создание семьи</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('love', 'kitten-accept')">Для котят</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('love', 'soul-weave')">Сплетение душ</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('love', 'task-done')">О выполнении задания</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('love', 'weekly-task')">Недельные задания</button>
+                        </div>
+                    </div>
+
+                    <!-- Создание семьи -->
+                    <form id="familyCreateForm" class="report-form active">
+                        <div class="form-group">
+                            <label for="familyParent1">🐱 ID первого родителя:</label>
+                            <input type="text" id="familyParent1" placeholder="1695758">
+                        </div>
+                        <div class="form-group">
+                            <label for="familyParent2">🐱 ID второго родителя:</label>
+                            <input type="text" id="familyParent2" placeholder="121221">
+                        </div>
+                        <div class="form-group">
+                            <label for="familyColor1">🎨 Ссылка на окрас 1:</label>
+                            <input type="text" id="familyColor1" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="familyColor2">🎨 Ссылка на окрас 2 (или арт пары):</label>
+                            <input type="text" id="familyColor2" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="familyDesc">📝 Описание семьи:</label>
+                            <textarea id="familyDesc" rows="3" placeholder="Краткое описание (не слишком длинное)"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="familyMedal">🏅 Идём на медаль "Заботливый родитель"?</label>
+                            <select id="familyMedal">
+                                <option value="no">Нет</option>
+                                <option value="both">Оба идут</option>
+                                <option value="one">Только первый идёт</option>
+                            </select>
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Для котят -->
+                    <form id="kittenAcceptForm" class="report-form">
+                        <div class="form-group">
+                            <label for="kittenAcceptId">🐱 ID котёнка:</label>
+                            <input type="text" id="kittenAcceptId" placeholder="1695758">
+                        </div>
+                        <div class="form-group">
+                            <label for="kittenAcceptParents">👨‍👩‍👧 Имена родителей:</label>
+                            <input type="text" id="kittenAcceptParents" placeholder="Мяу и Гав">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Сплетение душ -->
+                    <form id="soulWeaveForm" class="report-form">
+                        <div class="form-group">
+                            <label for="soulPartner1">🐱 ID первого:</label>
+                            <input type="text" id="soulPartner1" placeholder="1695758">
+                        </div>
+                        <div class="form-group">
+                            <label for="soulPartner2">🐱 ID второго:</label>
+                            <input type="text" id="soulPartner2" placeholder="121221">
+                        </div>
+                        <div class="form-group">
+                            <label for="soulDay">📅 День:</label>
+                            <select id="soulDay">
+                                <option value="среда">Среда</option>
+                                <option value="пятница">Пятница</option>
+                                <option value="воскресенье">Воскресенье</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="soulTime">⏰ Время:</label>
+                            <select id="soulTime">
+                                <option value="18:00">18:00</option>
+                                <option value="18:40">18:40</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="soulOath">💍 Описание клятвы (если своя):</label>
+                            <textarea id="soulOath" rows="3" placeholder="Оставьте пустым для шаблона"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="soulWishes">✨ Особые пожелания:</label>
+                            <textarea id="soulWishes" rows="2" placeholder="Что-то важное"></textarea>
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- О выполнении задания -->
+                    <form id="taskDoneForm" class="report-form">
+                        <div class="form-group">
+                            <label for="taskType">📋 Тип задания:</label>
+                            <select id="taskType">
+                                <option value="Обычное">Обычное</option>
+                                <option value="Недельное">Недельное</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskNumber">🔢 Номер:</label>
+                            <input type="text" id="taskNumber" placeholder="1-6 или 1-3">
+                        </div>
+                        <div class="form-group" id="taskCategoryGroup">
+                            <label for="taskCategory">👥 Категория:</label>
+                            <select id="taskCategory">
+                                <option value="Котята">Котята</option>
+                                <option value="Родители">Родители</option>
+                                <option value="Общее">Общее</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskScreenshot">📸 Скриншот подтверждения (ссылка):</label>
+                            <input type="text" id="taskScreenshot" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Недельные задания -->
+                    <form id="weeklyTaskForm" class="report-form">
+                        <div class="form-group">
+                            <label for="weeklyPartner1">🐱 ID первого:</label>
+                            <input type="text" id="weeklyPartner1" placeholder="1695758">
+                        </div>
+                        <div class="form-group">
+                            <label for="weeklyPartner2">🐱 ID второго:</label>
+                            <input type="text" id="weeklyPartner2" placeholder="121221">
+                        </div>
+                        <div class="form-group">
+                            <label for="weeklyNumber">🔢 Номер задания:</label>
+                            <select id="weeklyNumber">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="weeklyScreenshot">📸 Скриншот подтверждения (ссылка):</label>
+                            <input type="text" id="weeklyScreenshot" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+                </div>
+
+                <!-- ==================== СОБИРАТЕЛИ ЦВЕТОВ ==================== -->
+                <div id="flowers-content" class="branch-content">
+                    <h1>花 花朵 花</h1>
+                    
+                    <div class="form-group">
+                        <label>📋 Тип отчета:</label>
+                        <div class="report-type-buttons">
+                            <button type="button" class="report-type-btn active" onclick="switchReportType('flowers', 'flower-collect')">Сбор трав</button>
+                        </div>
+                    </div>
+
+                    <form id="flowerCollectForm" class="report-form active">
+                        <div class="form-group">
+                            <label for="flowerId">🐱 Ваш ID:</label>
+                            <input type="text" id="flowerId" placeholder="1069432">
+                        </div>
+                        <div class="form-group">
+                            <label for="flowerTime">⏰ Время похода:</label>
+                            <input type="text" id="flowerTime" placeholder="16:00">
+                        </div>
+                        <div class="form-group">
+                            <label for="flowerItems">🌿 Что принесли:</label>
+                            <input type="text" id="flowerItems" placeholder="1 трава, 2 мха, 1 ветка">
+                            <small>Названия трав не указываем</small>
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+                </div>
+
+                <!-- ==================== ЖАБКИ И СКАЛОЛАЗЫ ==================== -->
+                <div id="climbers-content" class="branch-content">
+                    <h1>石 石头 石</h1>
+                    
+                    <div class="form-group">
+                        <label>📋 Тип отчета:</label>
+                        <div class="report-type-buttons">
+                            <button type="button" class="report-type-btn active" onclick="switchReportType('climbers', 'resource-gather')">Отпись ресурсов</button>
+                        </div>
+                    </div>
+
+                    <form id="resourceGatherForm" class="report-form active">
+                        <div class="form-group">
+                            <label for="resGatherPlace">📍 Место добычи:</label>
+                            <select id="resGatherPlace">
+                                <option value="расщелина">расщелина</option>
+                                <option value="дупло">дупло</option>
+                                <option value="дно">дно</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="resGatherWho">🐱 Кто принёс (ID):</label>
+                            <input type="text" id="resGatherWho" placeholder="1254550">
+                        </div>
+                        <div class="form-group">
+                            <label for="resGatherList">📦 Ресурсы:</label>
+                            <textarea id="resGatherList" rows="4" placeholder="мох 1&#10;трава 3&#10;ветки 2"></textarea>
+                            <small>Формат: ресурс количество (каждый с новой строки). Разделяй траву/ветки/водоросли/мох/воду!</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="resGatherProof">📸 Подтверждение (ссылка):</label>
+                            <input type="text" id="resGatherProof" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+                </div>
+
+                <!-- ==================== ОТРЯД НИЁН ==================== -->
+                <div id="nion-content" class="branch-content">
+                    <h1>鬼 幽灵 鬼</h1>
+                    
+                    <div class="form-group">
+                        <label>📋 Тип отчета:</label>
+                        <div class="report-type-buttons">
+                            <button type="button" class="report-type-btn active" onclick="switchReportType('nion', 'sleepers')">Относ спящих</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('nion', 'trash')">Уборка мусора</button>
+                        </div>
+                    </div>
+
+                    <form id="sleepersForm" class="report-form active">
+                        <div class="form-group">
+                            <label for="sleepersId">🐱 Ваш ID:</label>
+                            <input type="text" id="sleepersId" placeholder="1254550">
+                        </div>
+                        <div class="form-group">
+                            <label for="sleepersCount">😴 Количество убранных:</label>
+                            <input type="text" id="sleepersCount" placeholder="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="sleepersProof">📸 Доказательство (ссылки через запятую):</label>
+                            <input type="text" id="sleepersProof" placeholder="https://..., https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <form id="trashForm" class="report-form">
+                        <div class="form-group">
+                            <label for="trashType">🧹 Тип:</label>
+                            <select id="trashType">
+                                <option value="clean">Уборка мусора</option>
+                                <option value="find">Находка предмета</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="trashId">🐱 Ваш ID:</label>
+                            <input type="text" id="trashId" placeholder="1254550">
+                        </div>
+                        <div class="form-group" id="trashCountGroup">
+                            <label for="trashCount">🗑️ Количество утилизированного:</label>
+                            <input type="text" id="trashCount" placeholder="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="trashProof">📸 Доказательство (ссылка):</label>
+                            <input type="text" id="trashProof" placeholder="https://...">
+                        </div>
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
                 </div>

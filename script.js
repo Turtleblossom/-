@@ -49,11 +49,24 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('prepGroupForm').addEventListener('submit', e => { e.preventDefault(); generatePrepGroup(); });
     document.getElementById('rankCheckForm').addEventListener('submit', e => { e.preventDefault(); generateRankCheck(); });
     document.getElementById('obedienceForm').addEventListener('submit', e => { e.preventDefault(); generateObedience(); });
-    document.getElementById('resourcesForm').addEventListener('submit', e => { e.preventDefault(); generateResources(); });
-    document.getElementById('herbsForm').addEventListener('submit', e => { e.preventDefault(); generateHerbs(); });
+    document.getElementById('qigongForm').addEventListener('submit', e => { e.preventDefault(); generateQigong(); });
+    
+    // Уголок любви
+    document.getElementById('familyCreateForm').addEventListener('submit', e => { e.preventDefault(); generateFamilyCreate(); });
+    document.getElementById('kittenAcceptForm').addEventListener('submit', e => { e.preventDefault(); generateKittenAccept(); });
+    document.getElementById('soulWeaveForm').addEventListener('submit', e => { e.preventDefault(); generateSoulWeave(); });
+    document.getElementById('taskDoneForm').addEventListener('submit', e => { e.preventDefault(); generateTaskDone(); });
+    document.getElementById('weeklyTaskForm').addEventListener('submit', e => { e.preventDefault(); generateWeeklyTask(); });
+    
+    // Собиратели цветов
+    document.getElementById('flowerCollectForm').addEventListener('submit', e => { e.preventDefault(); generateFlowerCollect(); });
+    
+    // Жабки и скалолазы
+    document.getElementById('resourceGatherForm').addEventListener('submit', e => { e.preventDefault(); generateResourceGather(); });
+    
+    // Отряд ниЁн
     document.getElementById('sleepersForm').addEventListener('submit', e => { e.preventDefault(); generateSleepers(); });
     document.getElementById('trashForm').addEventListener('submit', e => { e.preventDefault(); generateTrash(); });
-    document.getElementById('qigongForm').addEventListener('submit', e => { e.preventDefault(); generateQigong(); });
     
     // Слушатели для переключений
     document.getElementById('talesCame').addEventListener('change', updateTalesFields);
@@ -64,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('trashType').addEventListener('change', updateTrashFields);
     document.getElementById('qigongType').addEventListener('change', updateQigongFields);
     document.getElementById('qigongPearType').addEventListener('change', updateQigongPearFields);
+    document.getElementById('taskType').addEventListener('change', updateTaskFields);
     
     // Инициализация полей
     updateTalesFields();
@@ -74,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTrashFields();
     updateQigongFields();
     updateQigongPearFields();
+    updateTaskFields();
 });
 
 function switchBranch(branch) {
@@ -87,7 +102,11 @@ function switchBranch(branch) {
         pei: 'pei-content',
         cao: 'cao-content',
         awards: 'awards-content',
-        school: 'school-content'
+        school: 'school-content',
+        love: 'love-content',
+        flowers: 'flowers-content',
+        climbers: 'climbers-content',
+        nion: 'nion-content'
     };
     document.getElementById(contentMap[branch]).classList.add('active');
     
@@ -104,7 +123,11 @@ function switchReportType(branch, reportType) {
         'tales': 0, 'games': 1, 'lectures': 2, 'kitten-patrol': 3, 'kitten-watch': 4, 'butterfly': 5, 'yuan': 6, 'monthly': 7,
         'mouse-hunt': 0, 'herb-collect': 1, 'solo-collect': 2, 'healing': 3, 'self-heal': 4, 'cleaning': 5,
         'medals': 0, 'special-name': 1, 'personal-medal': 2, 'personal-trophy': 3, 'personal-status': 4, 'personal-position': 5, 'tribal-status': 6,
-        'prep-group': 0, 'rank-check': 1, 'obedience': 2, 'resources': 3, 'herbs': 4, 'sleepers': 5, 'trash': 6, 'qigong': 7
+        'prep-group': 0, 'rank-check': 1, 'obedience': 2, 'qigong': 3,
+        'family-create': 0, 'kitten-accept': 1, 'soul-weave': 2, 'task-done': 3, 'weekly-task': 4,
+        'flower-collect': 0,
+        'resource-gather': 0,
+        'sleepers': 0, 'trash': 1
     };
     
     const btns = branchContent.querySelectorAll('.report-type-btn');
@@ -125,8 +148,12 @@ function switchReportType(branch, reportType) {
         'personal-trophy': 'personalTrophyForm', 'personal-status': 'personalStatusForm',
         'personal-position': 'personalPositionForm', 'tribal-status': 'tribalStatusForm',
         'prep-group': 'prepGroupForm', 'rank-check': 'rankCheckForm', 'obedience': 'obedienceForm',
-        'resources': 'resourcesForm', 'herbs': 'herbsForm', 'sleepers': 'sleepersForm',
-        'trash': 'trashForm', 'qigong': 'qigongForm'
+        'qigong': 'qigongForm',
+        'family-create': 'familyCreateForm', 'kitten-accept': 'kittenAcceptForm',
+        'soul-weave': 'soulWeaveForm', 'task-done': 'taskDoneForm', 'weekly-task': 'weeklyTaskForm',
+        'flower-collect': 'flowerCollectForm',
+        'resource-gather': 'resourceGatherForm',
+        'sleepers': 'sleepersForm', 'trash': 'trashForm'
     };
     
     document.getElementById(formMap[reportType]).classList.add('active');
@@ -176,6 +203,11 @@ function updateQigongFields() {
 function updateQigongPearFields() {
     const type = document.getElementById('qigongPearType').value;
     document.getElementById('qigongPearSmallGroup').style.display = type === 'double' ? 'block' : 'none';
+}
+
+function updateTaskFields() {
+    const type = document.getElementById('taskType').value;
+    document.getElementById('taskCategoryGroup').style.display = type === 'Обычное' ? 'block' : 'none';
 }
 // ==================== ОБЩИЕ ФУНКЦИИ ====================
 
@@ -825,72 +857,6 @@ function generateObedience() {
     saveToHistory({ type: 'obedience', report, date: new Date().toISOString() });
 }
 
-function generateResources() {
-    const place = document.getElementById('resPlace').value;
-    const who = document.getElementById('resWho').value.trim();
-    const resourcesText = document.getElementById('resList').value.trim();
-    const proof = document.getElementById('resProof').value.trim();
-    const dateStr = getShortDate();
-    
-    const resources = resourcesText.split(/\n/).map(l => l.trim()).filter(l => l);
-    
-    let report = `[b]Место добычи:[/b] ${place}.\n`;
-    report += `[b]Дата:[/b] ${dateStr}.\n`;
-    report += `[b]Кто принёс:[/b] ${who ? `[cat${who}] [${who}]` : '-'}.\n`;
-    report += `[b]Ресурсы:[/b] ${resources.join(', ') || '-'}.\n`;
-    report += `[b]Подтверждение:[/b] ${proof ? `[url=${proof}]скриншот[/url]` : 'скриншот через url'}.`;
-    
-    displayReport(report);
-    saveToHistory({ type: 'resources', report, date: new Date().toISOString() });
-}
-
-function generateHerbs() {
-    const catId = document.getElementById('herbsId').value.trim();
-    const time = document.getElementById('herbsTime').value.trim();
-    const items = document.getElementById('herbsItems').value.trim();
-    const dateStr = getShortDate();
-    
-    let report = `[b]Cбор целительских ресурсов [${dateStr}][/b]\n`;
-    report += `[b]${catId ? `[cat${catId}] [${catId}]` : '[catID] [ID]'}[/b] ${time || 'nn:nn'} | ${items || ''}.`;
-    
-    displayReport(report);
-    saveToHistory({ type: 'herbs', report, date: new Date().toISOString() });
-}
-
-function generateSleepers() {
-    const catId = document.getElementById('sleepersId').value.trim();
-    const count = document.getElementById('sleepersCount').value.trim();
-    const proof = document.getElementById('sleepersProof').value.trim();
-    
-    let report = `[b]Относил(а):[/b] ${catId ? `[cat${catId}] [${catId}]` : '-'}.\n`;
-    report += `[b]Количество убранных:[/b] ${count || 'n'}.\n`;
-    report += `[b]Доказательство:[/b] ${proof ? proof : 'через url'}.`;
-    
-    displayReport(report);
-    saveToHistory({ type: 'sleepers', report, date: new Date().toISOString() });
-}
-
-function generateTrash() {
-    const type = document.getElementById('trashType').value;
-    const catId = document.getElementById('trashId').value.trim();
-    const count = document.getElementById('trashCount').value.trim();
-    const proof = document.getElementById('trashProof').value.trim();
-    
-    let report = '';
-    
-    if (type === 'clean') {
-        report += `[b]Убирал(а):[/b] ${catId ? `[cat${catId}] [${catId}]` : '-'}.\n`;
-        report += `[b]Количество утилизированного:[/b] ${count || 'n'}.\n`;
-        report += `[b]Доказательство:[/b] ${proof ? proof : 'через url'}.`;
-    } else {
-        report += `Я, ${catId ? `[cat${catId}] [${catId}]` : '[catID] [ID]'}, нашёл(ла) бесхозный(е) предмет(ы).\n`;
-        report += `[b]Доказательство:[/b] ${proof ? proof : 'через url'}.`;
-    }
-    
-    displayReport(report);
-    saveToHistory({ type: 'trash', report, date: new Date().toISOString() });
-}
-
 function generateQigong() {
     const type = document.getElementById('qigongType').value;
     let report = '';
@@ -926,6 +892,165 @@ function generateQigong() {
     
     displayReport(report);
     saveToHistory({ type: 'qigong', report, date: new Date().toISOString() });
+}
+// ==================== УГОЛОК ЛЮБВИ ====================
+
+function generateFamilyCreate() {
+    const parent1 = document.getElementById('familyParent1').value.trim();
+    const parent2 = document.getElementById('familyParent2').value.trim();
+    const color1 = document.getElementById('familyColor1').value.trim();
+    const color2 = document.getElementById('familyColor2').value.trim();
+    const desc = document.getElementById('familyDesc').value.trim();
+    const medal = document.getElementById('familyMedal').value;
+    
+    let report = `[b]Имена родителей:[/b] [code]${parent1 ? `[link${parent1}]` : '[linkID1]'} и ${parent2 ? `[link${parent2}]` : '[linkID2]'}[/code].\n`;
+    report += `[b]Окрас пары:[/b] ${color1 ? `[url=${color1}]1 окрас[/url]` : '[url=ссылка]1 окрас[/url]'} и ${color2 ? `[url=${color2}]2 окрас[/url]` : '[url=ссылка]2 окрас[/url]'}\n`;
+    report += `или арт вашей пары в хорошем качестве.\n`;
+    report += `[b]Описание семьи:[/b] ${desc || '*'}\n`;
+    
+    if (medal === 'both') {
+        report += `\n${parent1 ? `[link${parent1}]` : '[linkID1]'} и ${parent2 ? `[link${parent2}]` : '[linkID2]'} — идём на медаль "Заботливый родитель".`;
+    } else if (medal === 'one') {
+        report += `\n${parent1 ? `[link${parent1}]` : '[linkID1]'} — иду на медаль "Заботливый родитель".`;
+    }
+    
+    displayReport(report);
+    saveToHistory({ type: 'family-create', report, date: new Date().toISOString() });
+}
+
+function generateKittenAccept() {
+    const catId = document.getElementById('kittenAcceptId').value.trim();
+    const parents = document.getElementById('kittenAcceptParents').value.trim();
+    
+    let report = `Я, ${catId ? `[cat${catId}] [${catId}]` : '[catID] [ID]'}, был принят в семью ${parents || '[имена родителей]'}.`;
+    
+    displayReport(report);
+    saveToHistory({ type: 'kitten-accept', report, date: new Date().toISOString() });
+}
+
+function generateSoulWeave() {
+    const p1 = document.getElementById('soulPartner1').value.trim();
+    const p2 = document.getElementById('soulPartner2').value.trim();
+    const day = document.getElementById('soulDay').value;
+    const time = document.getElementById('soulTime').value;
+    const oath = document.getElementById('soulOath').value.trim();
+    const wishes = document.getElementById('soulWishes').value.trim();
+    
+    let report = `[b]Имена пары:[/b] ${p1 ? `[link${p1}]` : '[linkID1]'} и ${p2 ? `[link${p2}]` : '[linkID2]'}\n`;
+    report += `[b]Дата проведения:[/b] (${day}, ${time})\n`;
+    report += `[b]Описание клятвы (если своя):[/b] ${oath || '(шаблон из документа — прочерк)'}\n`;
+    report += `[b]Особые пожелания:[/b] ${wishes || '(что-то важное, что стоит учесть)'}`;
+    
+    displayReport(report);
+    saveToHistory({ type: 'soul-weave', report, date: new Date().toISOString() });
+}
+
+function generateTaskDone() {
+    const taskType = document.getElementById('taskType').value;
+    const number = document.getElementById('taskNumber').value.trim();
+    const category = document.getElementById('taskCategory').value;
+    const screenshot = document.getElementById('taskScreenshot').value.trim();
+    
+    let report = `[b]Задания:[/b] ${taskType}\n`;
+    
+    if (taskType === 'Обычное') {
+        report += `[b]Номер и тип:[/b] ${number || '1-6'}, ${category}\n`;
+    } else {
+        report += `[b]Номер:[/b] ${number || '1-3'}\n`;
+    }
+    
+    report += `[b]Скриншоты подтверждения:[/b] ${screenshot ? `[url=${screenshot}]подтверждение[/url]` : '[url=вашассылка]подтверждение[/url]'}`;
+    
+    displayReport(report);
+    saveToHistory({ type: 'task-done', report, date: new Date().toISOString() });
+}
+
+function generateWeeklyTask() {
+    const p1 = document.getElementById('weeklyPartner1').value.trim();
+    const p2 = document.getElementById('weeklyPartner2').value.trim();
+    const number = document.getElementById('weeklyNumber').value;
+    const screenshot = document.getElementById('weeklyScreenshot').value.trim();
+    
+    let report = `${p1 ? `[link${p1}]` : '[linkID1]'} и ${p2 ? `[link${p2}]` : '[linkID2]'} — наша семья принимает участие в Недельной активности.\n`;
+    report += `*Перед началом участия в недельной активности, важно отписаться под блог. Иначе активность до отписи считаться не будет. Отписаться и начинать прохождение заданий можно в любой промежуток указанного времени включительно.\n\n`;
+    report += `[b]Задания:[/b] Недельное\n`;
+    report += `[b]Номер:[/b] ${number}\n`;
+    report += `[b]Скриншоты подтверждения:[/b] ${screenshot ? `[url=${screenshot}]подтверждение[/url]` : '[url=вашассылка]подтверждение[/url]'}`;
+    
+    displayReport(report);
+    saveToHistory({ type: 'weekly-task', report, date: new Date().toISOString() });
+}
+
+// ==================== СОБИРАТЕЛИ ЦВЕТОВ ====================
+
+function generateFlowerCollect() {
+    const catId = document.getElementById('flowerId').value.trim();
+    const time = document.getElementById('flowerTime').value.trim();
+    const items = document.getElementById('flowerItems').value.trim();
+    const dateStr = getShortDate();
+    
+    let report = `[b]Cбор целительских ресурсов [${dateStr}][/b]\n`;
+    report += `[b]${catId ? `[cat${catId}] [${catId}]` : '[catID] [ID]'}[/b] ${time || 'nn:nn'} | ${items || ''}.`;
+    
+    displayReport(report);
+    saveToHistory({ type: 'flower-collect', report, date: new Date().toISOString() });
+}
+
+// ==================== ЖАБКИ И СКАЛОЛАЗЫ ====================
+
+function generateResourceGather() {
+    const place = document.getElementById('resGatherPlace').value;
+    const who = document.getElementById('resGatherWho').value.trim();
+    const resourcesText = document.getElementById('resGatherList').value.trim();
+    const proof = document.getElementById('resGatherProof').value.trim();
+    const dateStr = getShortDate();
+    
+    const resources = resourcesText.split(/\n/).map(l => l.trim()).filter(l => l);
+    
+    let report = `[b]Место добычи:[/b] ${place}.\n`;
+    report += `[b]Дата:[/b] ${dateStr}.\n`;
+    report += `[b]Кто принёс:[/b] ${who ? `[cat${who}] [${who}]` : '-'}.\n`;
+    report += `[b]Ресурсы:[/b] ${resources.join(', ') || '-'}.\n`;
+    report += `[b]Подтверждение:[/b] ${proof ? `[url=${proof}]скриншот[/url]` : 'скриншот через url'}.`;
+    
+    displayReport(report);
+    saveToHistory({ type: 'resource-gather', report, date: new Date().toISOString() });
+}
+
+// ==================== ОТРЯД НИЁН ====================
+
+function generateSleepers() {
+    const catId = document.getElementById('sleepersId').value.trim();
+    const count = document.getElementById('sleepersCount').value.trim();
+    const proof = document.getElementById('sleepersProof').value.trim();
+    
+    let report = `[b]Относил(а):[/b] ${catId ? `[cat${catId}] [${catId}]` : '-'}.\n`;
+    report += `[b]Количество убранных:[/b] ${count || 'n'}.\n`;
+    report += `[b]Доказательство:[/b] ${proof ? proof : 'через url'}.`;
+    
+    displayReport(report);
+    saveToHistory({ type: 'sleepers', report, date: new Date().toISOString() });
+}
+
+function generateTrash() {
+    const type = document.getElementById('trashType').value;
+    const catId = document.getElementById('trashId').value.trim();
+    const count = document.getElementById('trashCount').value.trim();
+    const proof = document.getElementById('trashProof').value.trim();
+    
+    let report = '';
+    
+    if (type === 'clean') {
+        report += `[b]Убирал(а):[/b] ${catId ? `[cat${catId}] [${catId}]` : '-'}.\n`;
+        report += `[b]Количество утилизированного:[/b] ${count || 'n'}.\n`;
+        report += `[b]Доказательство:[/b] ${proof ? proof : 'через url'}.`;
+    } else {
+        report += `Я, ${catId ? `[cat${catId}] [${catId}]` : '[catID] [ID]'}, нашёл(ла) бесхозный(е) предмет(ы).\n`;
+        report += `[b]Доказательство:[/b] ${proof ? proof : 'через url'}.`;
+    }
+    
+    displayReport(report);
+    saveToHistory({ type: 'trash', report, date: new Date().toISOString() });
 }
 
 // ==================== ОБЩИЕ ФУНКЦИИ ====================
@@ -1026,11 +1151,16 @@ function getReportTypeName(type) {
         'prep-group': 'В Подготовительную группу',
         'rank-check': 'Проверка на ранг',
         'obedience': 'Стена послушания',
-        'resources': 'Отпись ресурсов',
-        'herbs': 'Сбор трав',
+        'qigong': 'Техника Цигун',
+        'family-create': 'Создание семьи',
+        'kitten-accept': 'Принятие в семью',
+        'soul-weave': 'Сплетение душ',
+        'task-done': 'Выполнение задания',
+        'weekly-task': 'Недельное задание',
+        'flower-collect': 'Сбор трав',
+        'resource-gather': 'Отпись ресурсов',
         'sleepers': 'Относ спящих',
-        'trash': 'Уборка мусора',
-        'qigong': 'Техника Цигун'
+        'trash': 'Уборка мусора'
     };
     return names[type] || 'Отчет';
 }
@@ -1068,4 +1198,5 @@ function clearForm() {
     updateTrashFields();
     updateQigongFields();
     updateQigongPearFields();
+    updateTaskFields();
 }
