@@ -13,7 +13,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Китайский фон с иероглифами */
 body::before {
     content: '';
     position: fixed;
@@ -30,7 +29,6 @@ body::before {
     z-index: 0;
 }
 
-/* Иероглифы на фоне */
 body::after {
     content: '精 神 灵 狐 狸 猎 风 水 草 精 神 灵 狐 狸 猎 风 水 草';
     position: fixed;
@@ -59,7 +57,6 @@ body::after {
     z-index: 1;
 }
 
-/* Боковое меню */
 .sidebar {
     width: 250px;
     background: rgba(22, 33, 62, 0.95);
@@ -76,7 +73,6 @@ body::after {
     backdrop-filter: blur(5px);
 }
 
-/* Декоративная линия сверху */
 .sidebar::before {
     content: '';
     position: absolute;
@@ -147,7 +143,6 @@ body::after {
     letter-spacing: 2px;
 }
 
-/* Основной контент */
 .main-content {
     margin-left: 250px;
     flex: 1;
@@ -166,7 +161,6 @@ body::after {
     backdrop-filter: blur(5px);
 }
 
-/* Декоративные уголки */
 .container::before {
     content: '◆';
     position: absolute;
@@ -187,7 +181,6 @@ body::after {
     text-shadow: 0 0 10px rgba(197, 61, 67, 0.5);
 }
 
-/* Заголовки */
 h1 {
     color: #e8d5b5;
     margin-bottom: 30px;
@@ -223,7 +216,6 @@ h2::after {
     margin-top: 5px;
 }
 
-/* Кнопки переключения типов отчетов */
 .report-type-buttons {
     display: flex;
     gap: 10px;
@@ -253,7 +245,6 @@ h2::after {
     color: #e8d5b5;
 }
 
-/* Формы отчетов */
 .report-form {
     display: none;
 }
@@ -285,7 +276,6 @@ h2::after {
     letter-spacing: 3px;
 }
 
-/* Форма */
 .form-group {
     margin-bottom: 20px;
     position: relative;
@@ -425,7 +415,6 @@ button:hover {
     margin-right: 5px;
 }
 
-/* Контакты */
 .contacts {
     margin-top: 30px;
     padding: 20px;

@@ -36,18 +36,15 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('selfHealForm').addEventListener('submit', e => { e.preventDefault(); generateSelfHeal(); });
     document.getElementById('cleaningForm').addEventListener('submit', e => { e.preventDefault(); generateCleaning(); });
     
-    // Следим за полем "Пришёл ли кто-нибудь"
     document.getElementById('talesCame').addEventListener('change', updateTalesFields);
     document.getElementById('gamesCame').addEventListener('change', updateGamesFields);
     document.getElementById('lecturesCame').addEventListener('change', updateLecturesFields);
     
-    // Инициализация видимости полей
     updateTalesFields();
     updateGamesFields();
     updateLecturesFields();
 });
 
-// Переключение веток
 function switchBranch(branch) {
     document.querySelectorAll('.branch-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelector(`[data-branch="${branch}"]`).classList.add('active');
@@ -59,7 +56,6 @@ function switchBranch(branch) {
     document.getElementById('reportOutput').classList.add('hidden');
 }
 
-// Переключение типов отчетов
 function switchReportType(branch, reportType) {
     const branchContent = document.getElementById(branch + '-content');
     branchContent.querySelectorAll('.report-type-btn').forEach(btn => btn.classList.remove('active'));
@@ -91,7 +87,6 @@ function switchReportType(branch, reportType) {
     document.getElementById('reportOutput').classList.add('hidden');
 }
 
-// Обновление полей при выборе "Пришёл ли кто-нибудь"
 function updateTalesFields() {
     const came = document.getElementById('talesCame').value;
     document.getElementById('talesYuanGroup').style.display = came === 'yes' ? 'block' : 'none';
@@ -109,7 +104,6 @@ function updateLecturesFields() {
     document.getElementById('lecturesGuestsGroup').style.display = came === 'yes' ? 'block' : 'none';
 }
 
-// Переключение типа дозора (Фэн)
 function switchWatchType(type) {
     const routeGroup = document.getElementById('watchRouteGroup');
     const locationGroup = document.getElementById('watchLocationGroup');
@@ -127,7 +121,6 @@ function switchWatchType(type) {
     }
 }
 
-// Переключение типа дозора (Пэй - котячьи)
 function switchKittenWatchType(type) {
     const routeGroup = document.getElementById('kittenWatchRouteGroup');
     const locationGroup = document.getElementById('kittenWatchLocationGroup');
@@ -141,7 +134,6 @@ function switchKittenWatchType(type) {
     }
 }
 
-// Форматирование времени
 function formatTime(timeStr) {
     if (!timeStr) return '-';
     timeStr = timeStr.trim();
@@ -153,35 +145,29 @@ function formatTime(timeStr) {
     return timeStr;
 }
 
-// Получение текущей даты (дд.мм.гг)
 function getCurrentDate() {
     const now = new Date();
     return `${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getFullYear()).slice(-2)}`;
 }
 
-// Получение текущей даты (дд.мм)
 function getShortDate() {
     const now = new Date();
     return `${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}`;
 }
 
-// Парсинг ID (разделитель: запятая, пробел, новая строка)
 function parseIds(text) {
     if (!text) return [];
     const cleaned = text.replace(/[,\n\r]+/g, ' ');
     return cleaned.split(/\s+/).filter(p => p.trim());
 }
 
-// Парсинг пар "ID количество"
 function parseIdCountPairs(text) {
     if (!text) return [];
-    
     const results = [];
-    const chunks = text.split(/[,\n\r]+/).map(c => c.trim()).filter(c => c);
+    const chunks = text.split(/[,\n\r]+/).map(c => c.trim()).filter(c => c !== '');
     
     for (const chunk of chunks) {
         const parts = chunk.split(/\s+/).filter(p => p);
-        
         if (parts.length >= 2) {
             for (let i = 0; i < parts.length; i += 2) {
                 if (parts[i + 1]) {
@@ -194,11 +180,9 @@ function parseIdCountPairs(text) {
             results.push({ id: parts[0], count: '1' });
         }
     }
-    
     return results;
 }
 
-// Форматирование "ID/баллы" в [catID] [ID/баллы]
 function formatCollector(text) {
     if (text.includes('/')) {
         const id = text.split('/')[0];
@@ -206,19 +190,16 @@ function formatCollector(text) {
     }
     return `[cat${text}] [${text}]`;
 }
-
 // ==================== ВЕТКА ВЭЙ ====================
 
 function generateGroupHunt() {
     const huntType = document.getElementById('huntType').value;
     const leaderId = document.getElementById('leaderId').value.trim();
     let collectorId = document.getElementById('collectorId').value.trim();
-    
     if (!collectorId && leaderId) collectorId = leaderId;
     
     const participants = parseIdCountPairs(document.getElementById('participants').value.trim());
     const carriers = parseIds(document.getElementById('carriers').value.trim());
-    
     const dateStr = getCurrentDate();
     const huntTypeMap = { morning: 'утренняя', evening: 'вечерняя', vantsan: 'для Ванцань' };
     
@@ -226,18 +207,12 @@ function generateGroupHunt() {
     report += `[b]Вид:[/b] ${huntTypeMap[huntType] || huntType}.\n`;
     report += `[b]Ведущий:[/b] ${leaderId ? `[cat${leaderId}] [${leaderId}]` : '-'}.\n`;
     report += `[b]Собирающий:[/b] ${collectorId ? `[cat${collectorId}] [${collectorId}]` : '-'}.\n`;
-    
-    if (participants.length > 0) {
-        report += `[b]Участники:[/b] ${participants.map(p => `[cat${p.id}] [${p.id}] (${p.count})`).join(', ')}.\n`;
-    } else {
-        report += `[b]Участники:[/b] -.\n`;
-    }
-    
-    if (carriers.length > 0) {
-        report += `[b]Таскающие:[/b] ${carriers.map(c => `[cat${c}] [${c}]`).join(', ')}.\n`;
-    } else {
-        report += `[b]Таскающие:[/b] -.\n`;
-    }
+    report += participants.length > 0 
+        ? `[b]Участники:[/b] ${participants.map(p => `[cat${p.id}] [${p.id}] (${p.count})`).join(', ')}.\n`
+        : `[b]Участники:[/b] -.\n`;
+    report += carriers.length > 0 
+        ? `[b]Таскающие:[/b] ${carriers.map(c => `[cat${c}] [${c}]`).join(', ')}.\n`
+        : `[b]Таскающие:[/b] -.\n`;
     
     displayReport(report);
     saveToHistory({ type: 'group-hunt', report, date: new Date().toISOString() });
@@ -255,11 +230,9 @@ function generateSoloHunt() {
     
     if (hunterText) {
         const parts = hunterText.split(/\s+/);
-        if (parts.length >= 2) {
-            report += `[b]Охотник:[/b] [cat${parts[0]}] [${parts[0]}] (${parts[1]}).\n`;
-        } else {
-            report += `[b]Охотник:[/b] [cat${parts[0]}] [${parts[0]}].\n`;
-        }
+        report += parts.length >= 2
+            ? `[b]Охотник:[/b] [cat${parts[0]}] [${parts[0]}] (${parts[1]}).\n`
+            : `[b]Охотник:[/b] [cat${parts[0]}] [${parts[0]}].\n`;
     } else {
         report += `[b]Охотник:[/b] -.\n`;
     }
@@ -281,18 +254,12 @@ function generateBorderPatrol() {
     let report = `[b]Пограничный патруль[/b]\n`;
     report += `[b]Дата:[/b] ${dateStr}, ${time}.\n`;
     report += `[b]Собирающий:[/b] ${collectorId ? `[cat${collectorId}] [${collectorId}]` : '-'}.\n`;
-    
-    if (participants.length > 0) {
-        report += `[b]Участники:[/b] ${participants.map(p => `[cat${p}] [${p}]`).join(', ')}.\n`;
-    } else {
-        report += `[b]Участники:[/b] -.\n`;
-    }
-    
-    if (violators.length > 0) {
-        report += `[b]Нарушители:[/b] ${violators.map(v => `[cat${v}] [${v}] - скриншот`).join(', ')}.\n`;
-    } else {
-        report += `[b]Нарушители:[/b] -.\n`;
-    }
+    report += participants.length > 0
+        ? `[b]Участники:[/b] ${participants.map(p => `[cat${p}] [${p}]`).join(', ')}.\n`
+        : `[b]Участники:[/b] -.\n`;
+    report += violators.length > 0
+        ? `[b]Нарушители:[/b] ${violators.map(v => `[cat${v}] [${v}] - скриншот`).join(', ')}.\n`
+        : `[b]Нарушители:[/b] -.\n`;
     
     if (route) {
         report += `\nЯ, [b][link${collectorId || 'ID'}] [${collectorId || 'ID'}][/b], занял локацию/маршрут ${route}.`;
@@ -338,13 +305,9 @@ function generateSelfPatrol() {
     let report = `[b]Самостоятельный патруль[/b]\n`;
     report += `[b]Дата:[/b] ${dateStr}, ${time}.\n`;
     report += `[b]Участник:[/b] ${participantId ? `[cat${participantId}] [${participantId}]` : '-'}.\n`;
-    
-    if (violators.length > 0) {
-        report += `[b]Нарушители:[/b] ${violators.map(v => `[cat${v}] [${v}], [url=ссылка]скриншот нарушения[/url]`).join(', ')}.\n`;
-    } else {
-        report += `[b]Нарушители:[/b] -.\n`;
-    }
-    
+    report += violators.length > 0
+        ? `[b]Нарушители:[/b] ${violators.map(v => `[cat${v}] [${v}], [url=ссылка]скриншот нарушения[/url]`).join(', ')}.\n`
+        : `[b]Нарушители:[/b] -.\n`;
     report += `[b]Скриншоты:[/b]\n`;
     report += `начало (стартовая локация)${screenshotStart ? ` - [url=${screenshotStart}]скриншот[/url]` : ''},\n`;
     report += `конец (конечная локация)${screenshotEnd ? ` - [url=${screenshotEnd}]скриншот[/url]` : ''},\n`;
@@ -370,11 +333,9 @@ function generateTales() {
     } else {
         report += `[b]Вёл:[/b] ${leaderId ? `[cat${leaderId}] [${leaderId}]` : '-'}.\n`;
         report += `[b]Кол-во рассказанных сказок:[/b] ${count || 'n'}.\n`;
-        if (yuan.length > 0) {
-            report += `[b]Юани:[/b] ${yuan.map(y => `[cat${y.id}] [${y.id}] (${y.count})`).join(', ')}.\n`;
-        } else {
-            report += `[b]Юани:[/b] -.\n`;
-        }
+        report += yuan.length > 0
+            ? `[b]Юани:[/b] ${yuan.map(y => `[cat${y.id}] [${y.id}] (${y.count})`).join(', ')}.\n`
+            : `[b]Юани:[/b] -.\n`;
     }
     
     displayReport(report);
@@ -396,16 +357,12 @@ function generateGames() {
     } else {
         report += `[b]Вёл:[/b] ${leaderId ? `[cat${leaderId}] [${leaderId}]` : '-'}.\n`;
         report += `[b]Кол-во проведённых игр:[/b] ${count || 'n'}.\n`;
-        if (yuan.length > 0) {
-            report += `[b]Юани:[/b] ${yuan.map(y => `[cat${y.id}] [${y.id}] (${y.count})`).join(', ')}.\n`;
-        } else {
-            report += `[b]Юани:[/b] -.\n`;
-        }
-        if (guests.length > 0) {
-            report += `[b]Гости:[/b] ${guests.map(g => `[cat${g.id}] [${g.id}] (${g.count})`).join(', ')}.\n`;
-        } else {
-            report += `[b]Гости:[/b] -.\n`;
-        }
+        report += yuan.length > 0
+            ? `[b]Юани:[/b] ${yuan.map(y => `[cat${y.id}] [${y.id}] (${y.count})`).join(', ')}.\n`
+            : `[b]Юани:[/b] -.\n`;
+        report += guests.length > 0
+            ? `[b]Гости:[/b] ${guests.map(g => `[cat${g.id}] [${g.id}] (${g.count})`).join(', ')}.\n`
+            : `[b]Гости:[/b] -.\n`;
     }
     
     displayReport(report);
@@ -427,16 +384,12 @@ function generateLectures() {
     } else {
         report += `[b]Тема:[/b] ${topic || '-'}.\n`;
         report += `[b]Рассказывал:[/b] ${speakerId ? `[cat${speakerId}] [${speakerId}]` : '-'}.\n`;
-        if (yuan.length > 0) {
-            report += `[b]Юани:[/b] ${yuan.map(y => `[cat${y.id}] [${y.id}] (${y.count})`).join(', ')}.\n`;
-        } else {
-            report += `[b]Юани:[/b] -.\n`;
-        }
-        if (guests.length > 0) {
-            report += `[b]Гости:[/b] ${guests.map(g => `[cat${g.id}] [${g.id}] (${g.count})`).join(', ')}.\n`;
-        } else {
-            report += `[b]Гости:[/b] -.\n`;
-        }
+        report += yuan.length > 0
+            ? `[b]Юани:[/b] ${yuan.map(y => `[cat${y.id}] [${y.id}] (${y.count})`).join(', ')}.\n`
+            : `[b]Юани:[/b] -.\n`;
+        report += guests.length > 0
+            ? `[b]Гости:[/b] ${guests.map(g => `[cat${g.id}] [${g.id}] (${g.count})`).join(', ')}.\n`
+            : `[b]Гости:[/b] -.\n`;
     }
     
     displayReport(report);
@@ -563,12 +516,9 @@ function generateMouseHunt() {
     
     let report = `[b]Охота на мышей [${dateStr}][/b]\n`;
     report += `[b]Собирающий:[/b] ${collectorText ? formatCollector(collectorText) : '-'}.\n`;
-    
-    if (participants.length > 0) {
-        report += `[b]Участники:[/b] ${participants.map(p => `[cat${p.id}] [${p.id}] (${p.count})`).join(', ')}.\n`;
-    } else {
-        report += `[b]Участники:[/b] -.\n`;
-    }
+    report += participants.length > 0
+        ? `[b]Участники:[/b] ${participants.map(p => `[cat${p.id}] [${p.id}] (${p.count})`).join(', ')}.\n`
+        : `[b]Участники:[/b] -.\n`;
     
     displayReport(report);
     saveToHistory({ type: 'mouse-hunt', report, date: new Date().toISOString() });
@@ -583,12 +533,9 @@ function generateHerbCollect() {
     let report = `[b]${herbType}[/b]\n`;
     report += `[b]Дата:[/b] ${dateStr}.\n`;
     report += `[b]Собирающий:[/b] ${collectorText ? formatCollector(collectorText) : '-'}.\n`;
-    
-    if (participants.length > 0) {
-        report += `[b]Участники:[/b] ${participants.map(p => `[cat${p}] [${p}]`).join(', ')}.\n`;
-    } else {
-        report += `[b]Участники:[/b] -.\n`;
-    }
+    report += participants.length > 0
+        ? `[b]Участники:[/b] ${participants.map(p => `[cat${p}] [${p}]`).join(', ')}.\n`
+        : `[b]Участники:[/b] -.\n`;
     
     displayReport(report);
     saveToHistory({ type: 'herb-collect', report, date: new Date().toISOString() });
@@ -600,12 +547,9 @@ function generateSoloCollect() {
     
     let report = `[b]Самостоятельный сбор [${collectType}]\n`;
     report += `Cобиравшие:[/b] `;
-    
-    if (collectors.length > 0) {
-        report += collectors.map(c => `[cat${c}] [${c}]`).join(', ');
-    } else {
-        report += '-';
-    }
+    report += collectors.length > 0
+        ? collectors.map(c => `[cat${c}] [${c}]`).join(', ')
+        : '-';
     report += '.';
     
     displayReport(report);
@@ -628,11 +572,9 @@ function generateHealing() {
         report += `[b]Помощник Цао:[/b] -.\n`;
     }
     
-    if (patients.length > 0) {
-        report += `[b]Вылечили:[/b] ${patients.map(p => `[cat${p}] [${p}]`).join(', ')}.\n`;
-    } else {
-        report += `[b]Вылечили:[/b] -.\n`;
-    }
+    report += patients.length > 0
+        ? `[b]Вылечили:[/b] ${patients.map(p => `[cat${p}] [${p}]`).join(', ')}.\n`
+        : `[b]Вылечили:[/b] -.\n`;
     
     displayReport(report);
     saveToHistory({ type: 'healing', report, date: new Date().toISOString() });
@@ -661,4 +603,127 @@ function generateCleaning() {
     report += `[b]Помощник Цао:[/b] ${helperText ? formatCollector(helperText) : '-'}.`;
     
     displayReport(report);
-    saveToHistory
+    saveToHistory({ type: 'cleaning', report, date: new Date().toISOString() });
+}
+
+// ==================== ОБЩИЕ ФУНКЦИИ ====================
+
+function displayReport(report) {
+    const output = document.getElementById('reportOutput');
+    const generated = document.getElementById('generatedReport');
+    generated.textContent = report;
+    output.classList.remove('hidden');
+    output.scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyReport() {
+    const reportText = document.getElementById('generatedReport').textContent;
+    navigator.clipboard.writeText(reportText).then(() => {
+        alert('Скопировано! 📋');
+    }).catch(() => {
+        const textarea = document.createElement('textarea');
+        textarea.value = reportText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert('Скопировано! 📋');
+    });
+}
+
+function downloadReport() {
+    const reportText = document.getElementById('generatedReport').textContent;
+    const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const date = new Date();
+    const filename = `отчет_${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getFullYear()).slice(-2)}.txt`;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function saveToHistory(data) {
+    let history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
+    history.unshift(data);
+    if (history.length > 50) history = history.slice(0, 50);
+    localStorage.setItem('catwarHistory', JSON.stringify(history));
+    loadHistory();
+}
+
+function loadHistory() {
+    const history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
+    const historyList = document.getElementById('historyList');
+    
+    if (history.length === 0) {
+        historyList.innerHTML = '<p style="color: #8a7b6b;">История пуста</p>';
+        return;
+    }
+    
+    historyList.innerHTML = history.map((item, index) => `
+        <div class="history-item">
+            <strong>${getReportTypeName(item.type)}</strong>
+            <small>${new Date(item.date).toLocaleDateString('ru-RU')}</small>
+            <div class="history-actions">
+                <button onclick="viewHistoryItem(${index})">Просмотр</button>
+                <button onclick="deleteHistoryItem(${index})" style="background: #5a4e3e;">Удалить</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function getReportTypeName(type) {
+    const names = {
+        'group-hunt': 'Групповая охота',
+        'solo-hunt': 'Одиночная охота',
+        'border-patrol': 'Пограничный патруль',
+        'watch': 'Дозор',
+        'self-patrol': 'Самостоятельный патруль',
+        'tales': 'Сказки',
+        'games': 'Игры',
+        'lectures': 'Лекции',
+        'kitten-patrol': 'Котячий патруль',
+        'kitten-watch': 'Котячий дозор',
+        'butterfly': 'Охота на бабочек',
+        'yuan': 'Юани',
+        'monthly': 'Ежемесячное задание',
+        'mouse-hunt': 'Охота на мышей',
+        'herb-collect': 'Травник/мховник/веточник',
+        'solo-collect': 'Самостоятельный сбор',
+        'healing': 'Лечение котов',
+        'self-heal': 'Пополнение кучи самолечения',
+        'cleaning': 'Уборка в Теплой канавке'
+    };
+    return names[type] || 'Отчет';
+}
+
+function viewHistoryItem(index) {
+    const history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
+    if (history[index]) displayReport(history[index].report);
+}
+
+function deleteHistoryItem(index) {
+    if (confirm('Удалить этот отчет из истории?')) {
+        let history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
+        history.splice(index, 1);
+        localStorage.setItem('catwarHistory', JSON.stringify(history));
+        loadHistory();
+    }
+}
+
+function clearHistory() {
+    if (confirm('Очистить всю историю отчетов?')) {
+        localStorage.removeItem('catwarHistory');
+        loadHistory();
+        alert('История очищена!');
+    }
+}
+
+function clearForm() {
+    document.querySelectorAll('form').forEach(form => form.reset());
+    document.getElementById('reportOutput').classList.add('hidden');
+    updateTalesFields();
+    updateGamesFields();
+    updateLecturesFields();
+}
