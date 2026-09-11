@@ -929,3 +929,86 @@ function loadHistory() {
             <strong>${getReportTypeName(item.type)}</strong>
             <small>${new Date(item.date).toLocaleDateString('ru-RU')}</small>
             <div class="history-actions
+            function loadHistory() {
+    const history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
+    const historyList = document.getElementById('historyList');
+    
+    if (history.length === 0) {
+        historyList.innerHTML = '<p style="color: #8a7b6b;">История пуста</p>';
+        return;
+    }
+    
+    historyList.innerHTML = history.map((item, index) => `
+        <div class="history-item">
+            <strong>${getReportTypeName(item.type)}</strong>
+            <small>${new Date(item.date).toLocaleDateString('ru-RU')}</small>
+            <div class="history-actions">
+                <button onclick="viewHistoryItem(${index})">Просмотр</button>
+                <button onclick="deleteHistoryItem(${index})" style="background: #5a4e3e;">Удалить</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function getReportTypeName(type) {
+    const names = {
+        'group-hunt': 'Групповая охота',
+        'solo-hunt': 'Одиночная охота',
+        'border-patrol': 'Пограничный патруль',
+        'watch': 'Дозор',
+        'self-patrol': 'Самостоятельный патруль',
+        'tales': 'Сказки',
+        'games': 'Игры',
+        'lectures': 'Лекции',
+        'kitten-patrol': 'Котячий патруль',
+        'kitten-watch': 'Котячий дозор',
+        'butterfly': 'Охота на бабочек',
+        'yuan': 'Юани',
+        'monthly': 'Ежемесячное задание',
+        'mouse-hunt': 'Охота на мышей',
+        'herb-collect': 'Травник/мовник/веточник',
+        'solo-collect': 'Самостоятельный сбор',
+        'healing': 'Лечение котов',
+        'self-heal': 'Пополнение кучи самолечения',
+        'cleaning': 'Уборка в Теплой канавке',
+        'medals': 'Медали',
+        'special-name': 'Особое имя',
+        'personal-medal': 'Личная медаль',
+        'personal-trophy': 'Личный трофей',
+        'personal-status': 'Личный статус',
+        'personal-position': 'Личная должность',
+        'tribal-status': 'Племенной статус'
+    };
+    return names[type] || 'Отчет';
+}
+
+function viewHistoryItem(index) {
+    const history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
+    if (history[index]) displayReport(history[index].report);
+}
+
+function deleteHistoryItem(index) {
+    if (confirm('Удалить этот отчет из истории?')) {
+        let history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
+        history.splice(index, 1);
+        localStorage.setItem('catwarHistory', JSON.stringify(history));
+        loadHistory();
+    }
+}
+
+function clearHistory() {
+    if (confirm('Очистить всю историю отчетов?')) {
+        localStorage.removeItem('catwarHistory');
+        loadHistory();
+        alert('История очищена!');
+    }
+}
+
+function clearForm() {
+    document.querySelectorAll('form').forEach(form => form.reset());
+    document.getElementById('reportOutput').classList.add('hidden');
+    updateTalesFields();
+    updateGamesFields();
+    updateLecturesFields();
+    updateTribalMarksFields();
+}
