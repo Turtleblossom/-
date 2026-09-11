@@ -33,24 +33,23 @@
         <!-- Основной контент -->
         <main class="main-content">
             <div class="container">
-                <!-- Контент для Ветки Вэй -->
+                <!-- ==================== ВЕТКА ВЭЙ ==================== -->
                 <div id="wei-content" class="branch-content active">
                     <h1>猎 狩猎 猎</h1>
                     
-                    <!-- Выбор типа отчета -->
                     <div class="form-group">
                         <label>📋 Тип отчета:</label>
                         <div class="report-type-buttons">
-                            <button type="button" class="report-type-btn active" data-report="group-hunt" onclick="switchReportType('wei', 'group-hunt')">
+                            <button type="button" class="report-type-btn active" onclick="switchReportType('wei', 'group-hunt')">
                                 Групповая охота
                             </button>
-                            <button type="button" class="report-type-btn" data-report="solo-hunt" onclick="switchReportType('wei', 'solo-hunt')">
+                            <button type="button" class="report-type-btn" onclick="switchReportType('wei', 'solo-hunt')">
                                 Одиночная охота
                             </button>
                         </div>
                     </div>
 
-                    <!-- Форма групповой охоты -->
+                    <!-- Групповая охота -->
                     <form id="groupHuntForm" class="report-form active">
                         <div class="form-group">
                             <label for="huntType">🎯 Вид охоты:</label>
@@ -62,80 +61,78 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="leaderId">👑 Ведущий (ID котика):</label>
+                            <label for="leaderId">👑 Ведущий (ID):</label>
                             <input type="text" id="leaderId" placeholder="Например: 1695758">
                         </div>
 
                         <div class="form-group">
-                            <label for="collectorId">📦 Собирающий (ID котика):</label>
+                            <label for="collectorId">📦 Собирающий (ID):</label>
                             <input type="text" id="collectorId" placeholder="Оставьте пустым, если тот же">
-                            <small>Если собирающий тот же, что и ведущий - оставьте пустым</small>
                         </div>
 
                         <div class="form-group">
-                            <label for="participants">🎯 Участники (ID и количество дичи):</label>
+                            <label for="participants">🎯 Участники (ID и дичь):</label>
                             <textarea id="participants" rows="4" 
-                                placeholder="Например:&#10;121221 5&#10;1695758 6"></textarea>
-                            <small>Формат: ID_котика количество_дичи (каждый с новой строки)</small>
+                                placeholder="Например:&#10;121221 5&#10;1695758 6&#10;или: 121221 5, 1695758 6"></textarea>
+                            <small>Формат: ID количество (через пробел, запятую или новую строку)</small>
                         </div>
 
                         <div class="form-group">
-                            <label for="carriers">🏋️ Таскающие (ID котиков):</label>
+                            <label for="carriers">🏋️ Таскающие (ID):</label>
                             <textarea id="carriers" rows="3" 
-                                placeholder="Например:&#10;12312321&#10;45645654"></textarea>
-                            <small>Если таскающих нет - оставьте пустым</small>
+                                placeholder="Например:&#10;12312321&#10;45645654&#10;или: 12312321, 45645654"></textarea>
+                            <small>Если нет - оставьте пустым</small>
                         </div>
 
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
 
-                    <!-- Форма одиночной охоты -->
+                    <!-- Одиночная охота -->
                     <form id="soloHuntForm" class="report-form">
                         <div class="form-group">
                             <label for="soloTime">⏰ Время:</label>
                             <input type="text" id="soloTime" placeholder="Например: 12:22">
-                            <small>Допускается: 12 22, 12:22, 12.22. Время указывать по МСК</small>
+                            <small>Допускается: 12 22, 12:22, 12.22. Время по МСК</small>
                         </div>
 
                         <div class="form-group">
                             <label for="soloLocation">📍 Локация:</label>
                             <select id="soloLocation" required>
-                                <option value="zablachny">Заоблачный предел</option>
-                                <option value="apelsin">Апельсиновая Роща</option>
+                                <option value="Заоблачный предел">Заоблачный предел</option>
+                                <option value="Апельсиновая Роща">Апельсиновая Роща</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="soloHunter">🏹 Охотник (ID котика и количество дичи):</label>
+                            <label for="soloHunter">🏹 Охотник (ID и дичь):</label>
                             <input type="text" id="soloHunter" placeholder="Например: 1695758 3">
-                            <small>Формат: ID_котика количество_дичи</small>
+                            <small>Формат: ID количество</small>
                         </div>
 
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
                 </div>
 
-                <!-- Контент для Ветки Фэн -->
+                <!-- ==================== ВЕТКА ФЭН ==================== -->
                 <div id="feng-content" class="branch-content">
                     <h1>风 巡逻 风</h1>
                     
-                    <!-- Выбор типа отчета -->
                     <div class="form-group">
                         <label>📋 Тип отчета:</label>
                         <div class="report-type-buttons">
-                            <button type="button" class="report-type-btn active" data-report="border-patrol" onclick="switchReportType('feng', 'border-patrol')">
+                            <button type="button" class="report-type-btn active" onclick="switchReportType('feng', 'border-patrol')">
                                 Пограничный патруль
                             </button>
-                            <button type="button" class="report-type-btn" data-report="watch" onclick="switchReportType('feng', 'watch')">
+                            <button type="button" class="report-type-btn" onclick="switchReportType('feng', 'watch')">
                                 Дозор
                             </button>
-                            <button type="button" class="report-type-btn" data-report="self-patrol" onclick="switchReportType('feng', 'self-patrol')">
+                            <button type="button" class="report-type-btn" onclick="switchReportType('feng', 'self-patrol')">
                                 Самостоятельный патруль
                             </button>
                         </div>
                     </div>
 
-                    <!-- Форма пограничного патруля -->
+                    <!-- Пограничный патруль -->
                     <form id="borderPatrolForm" class="report-form active">
                         <div class="form-group">
                             <label for="borderTime">⏰ Время:</label>
@@ -147,37 +144,37 @@
                                 <option value="20:00">20:00</option>
                                 <option value="23:00">23:00</option>
                             </select>
-                            <small>Время указано по МСК</small>
+                            <small>Время по МСК</small>
                         </div>
 
                         <div class="form-group">
-                            <label for="borderCollector">📦 Собирающий (ID котика):</label>
+                            <label for="borderCollector">📦 Собирающий (ID):</label>
                             <input type="text" id="borderCollector" placeholder="Например: 1695758">
                         </div>
 
                         <div class="form-group">
-                            <label for="borderParticipants">🎯 Участники (ID котиков):</label>
+                            <label for="borderParticipants">🎯 Участники (ID):</label>
                             <textarea id="borderParticipants" rows="4" 
-                                placeholder="Например:&#10;121221&#10;1695758"></textarea>
-                            <small>Каждый ID с новой строки</small>
+                                placeholder="121221&#10;1695758&#10;или: 121221, 1695758"></textarea>
+                            <small>Через пробел, запятую или новую строку</small>
                         </div>
 
                         <div class="form-group">
-                            <label for="borderViolators">⚠️ Нарушители (ID котиков):</label>
+                            <label for="borderViolators">⚠️ Нарушители (ID):</label>
                             <textarea id="borderViolators" rows="3" 
-                                placeholder="Например:&#10;12312321"></textarea>
-                            <small>Если нарушителей нет - оставьте пустым</small>
+                                placeholder="12312321"></textarea>
+                            <small>Если нет - оставьте пустым</small>
                         </div>
 
                         <div class="form-group">
                             <label for="borderRoute">📍 Маршрут/Локация:</label>
-                            <input type="text" id="borderRoute" placeholder="Например: 1 или название локации">
+                            <input type="text" id="borderRoute" placeholder="Например: 1">
                         </div>
 
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
 
-                    <!-- Форма дозора -->
+                    <!-- Дозор -->
                     <form id="watchForm" class="report-form">
                         <div class="form-group">
                             <label>👁️ Тип дозора:</label>
@@ -193,8 +190,8 @@
 
                         <div class="form-group">
                             <label for="watchTime">⏰ Время:</label>
-                            <input type="text" id="watchTime" placeholder="Например: 12:22">
-                            <small>Допускается: 12 22, 12:22, 12.22. Время указывать по МСК</small>
+                            <input type="text" id="watchTime" placeholder="12:22">
+                            <small>По МСК</small>
                         </div>
 
                         <div class="form-group" id="watchRouteGroup">
@@ -210,7 +207,7 @@
                         <div class="form-group" id="watchLocationGroup" style="display:none;">
                             <label for="watchLocation">📍 Локация:</label>
                             <select id="watchLocation">
-                                <option value="Развилка">⊵ Развилка</option>
+                                <option value="⊵ Развилка">⊵ Развилка</option>
                                 <option value="Замшелый мост">Замшелый мост</option>
                                 <option value="Апельсиновая роща">Апельсиновая роща</option>
                                 <option value="Нагорье">Нагорье</option>
@@ -221,51 +218,350 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="watchGuard">👁️ Дозорный (ID котика):</label>
-                            <input type="text" id="watchGuard" placeholder="Например: 1695758">
+                            <label for="watchGuard">👁️ Дозорный (ID):</label>
+                            <input type="text" id="watchGuard" placeholder="1695758">
                         </div>
 
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
 
-                    <!-- Форма самостоятельного патруля -->
+                    <!-- Самостоятельный патруль -->
                     <form id="selfPatrolForm" class="report-form">
                         <div class="form-group">
                             <label for="selfTime">⏰ Время:</label>
-                            <input type="text" id="selfTime" placeholder="Например: 12:22">
-                            <small>Допускается: 12 22, 12:22, 12.22. Время указывать по МСК</small>
+                            <input type="text" id="selfTime" placeholder="12:22">
+                            <small>По МСК</small>
                         </div>
 
                         <div class="form-group">
-                            <label for="selfParticipant">🎯 Участник (ID котика):</label>
-                            <input type="text" id="selfParticipant" placeholder="Например: 1695758">
+                            <label for="selfParticipant">🎯 Участник (ID):</label>
+                            <input type="text" id="selfParticipant" placeholder="1695758">
                         </div>
 
                         <div class="form-group">
-                            <label for="selfViolators">⚠️ Нарушители (ID котиков):</label>
-                            <textarea id="selfViolators" rows="3" 
-                                placeholder="Например:&#10;12312321"></textarea>
-                            <small>Если нарушителей нет - оставьте пустым</small>
+                            <label for="selfViolators">⚠️ Нарушители (ID):</label>
+                            <textarea id="selfViolators" rows="3"></textarea>
+                            <small>Если нет - оставьте пустым</small>
                         </div>
 
                         <div class="form-group">
-                            <label for="selfScreenshots">📸 Скриншоты:</label>
-                            <textarea id="selfScreenshots" rows="4" 
-                                placeholder="Начало: ссылка&#10;Конец: ссылка&#10;История: ссылка"></textarea>
-                            <small>Ссылки на скриншоты</small>
+                            <label for="selfScreenshotStart">📸 Скриншот начала (ссылка):</label>
+                            <input type="text" id="selfScreenshotStart" placeholder="https://...">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="selfScreenshotEnd">📸 Скриншот конца (ссылка):</label>
+                            <input type="text" id="selfScreenshotEnd" placeholder="https://...">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="selfScreenshotHistory">📸 Скриншот истории (ссылка):</label>
+                            <input type="text" id="selfScreenshotHistory" placeholder="https://...">
                         </div>
 
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
                 </div>
 
-                <!-- Контент для Ветки Пэй -->
+                <!-- ==================== ВЕТКА ПЭЙ ==================== -->
                 <div id="pei-content" class="branch-content">
                     <h1>水 水 水</h1>
-                    <p>水 Здесь скоро будут отчеты! 水</p>
+                    
+                    <div class="form-group">
+                        <label>📋 Тип отчета:</label>
+                        <div class="report-type-buttons">
+                            <button type="button" class="report-type-btn active" onclick="switchReportType('pei', 'tales')">
+                                Сказки
+                            </button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('pei', 'games')">
+                                Игры
+                            </button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('pei', 'lectures')">
+                                Лекции
+                            </button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('pei', 'kitten-patrol')">
+                                Котячьи патрули
+                            </button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('pei', 'kitten-watch')">
+                                Котячьи дозоры
+                            </button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('pei', 'butterfly')">
+                                Охоты на бабочек
+                            </button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('pei', 'yuan')">
+                                Юани
+                            </button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('pei', 'monthly')">
+                                Ежемесячные задания
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Сказки -->
+                    <form id="talesForm" class="report-form active">
+                        <div class="form-group">
+                            <label for="talesLeader">👑 Вёл (ID):</label>
+                            <input type="text" id="talesLeader" placeholder="1695758">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="talesCount">📚 Кол-во рассказанных сказок:</label>
+                            <input type="text" id="talesCount" placeholder="5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="talesCame">❓ Пришёл ли кто-нибудь?</label>
+                            <select id="talesCame">
+                                <option value="yes">Да</option>
+                                <option value="no">Нет</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="talesYuanGroup">
+                            <label for="talesYuan">💰 Юани (ID и количество):</label>
+                            <textarea id="talesYuan" rows="3" 
+                                placeholder="1695758 10&#10;121221 5&#10;или: 1695758 10, 121221 5"></textarea>
+                            <small>Формат: ID количество</small>
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Игры -->
+                    <form id="gamesForm" class="report-form">
+                        <div class="form-group">
+                            <label for="gamesLeader">👑 Вёл (ID):</label>
+                            <input type="text" id="gamesLeader" placeholder="1695758">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gamesCount">🎮 Кол-во проведённых игр:</label>
+                            <input type="text" id="gamesCount" placeholder="5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gamesCame">❓ Пришёл ли кто-нибудь?</label>
+                            <select id="gamesCame">
+                                <option value="yes">Да</option>
+                                <option value="no">Нет</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="gamesYuanGroup">
+                            <label for="gamesYuan">💰 Юани (ID и количество):</label>
+                            <textarea id="gamesYuan" rows="3" 
+                                placeholder="1695758 10"></textarea>
+                        </div>
+
+                        <div class="form-group" id="gamesGuestsGroup">
+                            <label for="gamesGuests">👥 Гости (ID и кол-во игр):</label>
+                            <textarea id="gamesGuests" rows="3" 
+                                placeholder="121221 3"></textarea>
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Лекции -->
+                    <form id="lecturesForm" class="report-form">
+                        <div class="form-group">
+                            <label for="lecturesTopic">📖 Тема:</label>
+                            <input type="text" id="lecturesTopic" placeholder="О звёздах">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lecturesSpeaker">👑 Рассказывал (ID):</label>
+                            <input type="text" id="lecturesSpeaker" placeholder="1695758">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lecturesCame">❓ Пришёл ли кто-нибудь?</label>
+                            <select id="lecturesCame">
+                                <option value="yes">Да</option>
+                                <option value="no">Нет</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="lecturesYuanGroup">
+                            <label for="lecturesYuan">💰 Юани (ID и количество):</label>
+                            <textarea id="lecturesYuan" rows="3" 
+                                placeholder="1695758 10"></textarea>
+                        </div>
+
+                        <div class="form-group" id="lecturesGuestsGroup">
+                            <label for="lecturesGuests">👥 Гости (ID и кол-во лекций):</label>
+                            <textarea id="lecturesGuests" rows="3" 
+                                placeholder="121221 1"></textarea>
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Котячьи патрули -->
+                    <form id="kittenPatrolForm" class="report-form">
+                        <div class="form-group">
+                            <label for="kittenPatrolEnd">⏰ Время окончания:</label>
+                            <input type="text" id="kittenPatrolEnd" placeholder="12:22">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kittenPatrolRoute">📍 Номер маршрута:</label>
+                            <input type="text" id="kittenPatrolRoute" placeholder="1">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kittenPatrolMember">🎯 Участник (ID):</label>
+                            <input type="text" id="kittenPatrolMember" placeholder="1695758">
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Котячьи дозоры -->
+                    <form id="kittenWatchForm" class="report-form">
+                        <div class="form-group">
+                            <label>👁️ Тип дозора:</label>
+                            <div class="report-type-buttons">
+                                <button type="button" class="report-type-btn active" onclick="switchKittenWatchType('active')">
+                                    Активный
+                                </button>
+                                <button type="button" class="report-type-btn" onclick="switchKittenWatchType('passive')">
+                                    Пассивный
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kittenWatchTimeStart">⏰ Время начала:</label>
+                            <input type="text" id="kittenWatchTimeStart" placeholder="12:00">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kittenWatchTimeEnd">⏰ Время конца:</label>
+                            <input type="text" id="kittenWatchTimeEnd" placeholder="14:00">
+                        </div>
+
+                        <div class="form-group" id="kittenWatchRouteGroup">
+                            <label for="kittenWatchRoute">📍 Маршрут:</label>
+                            <select id="kittenWatchRoute">
+                                <option value="1">Маршрут 1</option>
+                                <option value="2">Маршрут 2</option>
+                                <option value="3">Маршрут 3</option>
+                                <option value="4">Маршрут 4</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="kittenWatchLocationGroup" style="display:none;">
+                            <label for="kittenWatchLocation">📍 Локация:</label>
+                            <select id="kittenWatchLocation">
+                                <option value="⊵ Развилка">⊵ Развилка</option>
+                                <option value="Замшелый мост">Замшелый мост</option>
+                                <option value="Апельсиновая роща">Апельсиновая роща</option>
+                                <option value="Нагорье">Нагорье</option>
+                                <option value="Песчаный Берег">Песчаный Берег</option>
+                                <option value="Покрытый паутиной грот">Покрытый паутиной грот</option>
+                                <option value="Зелёная чаща">Зелёная чаща</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kittenWatchGuard">👁️ Дозорил (ID):</label>
+                            <input type="text" id="kittenWatchGuard" placeholder="1695758">
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Охоты на бабочек -->
+                    <form id="butterflyForm" class="report-form">
+                        <div class="form-group">
+                            <label for="butterflyTimeStart">⏰ Время начала:</label>
+                            <input type="text" id="butterflyTimeStart" placeholder="12:00">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="butterflyTimeEnd">⏰ Время конца:</label>
+                            <input type="text" id="butterflyTimeEnd" placeholder="14:00">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="butterflyCatcher">🦋 Ловил (ID, бабочки, светлячки):</label>
+                            <input type="text" id="butterflyCatcher" placeholder="1695758 5 3">
+                            <small>Формат: ID бабочки светлячки</small>
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Юани -->
+                    <form id="yuanForm" class="report-form">
+                        <div class="form-group">
+                            <label for="yuanCatId">🐱 ID котика:</label>
+                            <input type="text" id="yuanCatId" placeholder="1695758">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="yuanSkill">📈 Навык/активность:</label>
+                            <input type="text" id="yuanSkill" placeholder="Ловкость">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="yuanStart">📊 Начальный уровень:</label>
+                            <input type="text" id="yuanStart" placeholder="3">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="yuanEnd">📊 Конечный уровень:</label>
+                            <input type="text" id="yuanEnd" placeholder="5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="yuanScreenshotBefore">📸 Скриншот ДО (ссылка):</label>
+                            <input type="text" id="yuanScreenshotBefore" placeholder="https://...">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="yuanScreenshotAfter">📸 Скриншот ПОСЛЕ (ссылка):</label>
+                            <input type="text" id="yuanScreenshotAfter" placeholder="https://...">
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Ежемесячные задания -->
+                    <form id="monthlyForm" class="report-form">
+                        <div class="form-group">
+                            <label for="monthlyCatId">🐱 ID котика:</label>
+                            <input type="text" id="monthlyCatId" placeholder="1695758">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="monthlyCategory">📁 Категория задания:</label>
+                            <select id="monthlyCategory">
+                                <option value="Творческие">Творческие</option>
+                                <option value="Лор и мир">Лор и мир</option>
+                                <option value="Особые">Особые</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="monthlyNumber">🔢 Номер задания:</label>
+                            <select id="monthlyNumber">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="monthlyScreenshot">📸 Скриншот (ссылка):</label>
+                            <input type="text" id="monthlyScreenshot" placeholder="https://...">
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
                 </div>
 
-                <!-- Контент для Ветки Цао -->
+                <!-- ==================== ВЕТКА ЦАО ==================== -->
                 <div id="cao-content" class="branch-content">
                     <h1>草 草 草</h1>
                     <p>草 Здесь скоро будут отчеты! 草</p>
