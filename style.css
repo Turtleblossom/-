@@ -13,6 +13,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Китайский фон с иероглифами */
 body::before {
     content: '';
     position: fixed;
@@ -71,6 +72,7 @@ body::after {
     z-index: 100;
     border-right: 2px solid #c53d43;
     backdrop-filter: blur(5px);
+    overflow-y: auto;
 }
 
 .sidebar::before {
@@ -87,6 +89,7 @@ body::after {
     padding: 20px 20px;
     border-bottom: 1px solid #c53d43;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .sidebar-header h2 {
@@ -141,6 +144,7 @@ body::after {
     font-size: 14px;
     color: #8a7b6b;
     letter-spacing: 2px;
+    flex-shrink: 0;
 }
 
 .main-content {
@@ -233,16 +237,19 @@ h2::after {
     width: auto;
     font-family: inherit;
     letter-spacing: 1px;
+    border-radius: 5px;
 }
 
 .report-type-btn:hover {
     background: rgba(26, 39, 68, 0.8);
     color: #e8d5b5;
+    transform: translateY(-2px);
 }
 
 .report-type-btn.active {
     background: #c53d43;
     color: #e8d5b5;
+    font-weight: bold;
 }
 
 .report-form {
@@ -347,6 +354,13 @@ button:hover {
     transform: translateY(-2px);
 }
 
+.qigong-block {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(22, 33, 62, 0.5);
+    border-left: 3px solid #c53d43;
+    border-radius: 5px;
+}
 .hidden {
     display: none;
 }
@@ -441,6 +455,25 @@ button:hover {
     text-shadow: 0 0 10px rgba(197, 61, 67, 0.5);
 }
 
+/* Скроллбар */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c53d43;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #d4535a;
+}
+
+/* Мобильная версия */
 @media (max-width: 768px) {
     .sidebar {
         width: 100%;
@@ -449,6 +482,7 @@ button:hover {
         flex-direction: row;
         flex-wrap: wrap;
         padding: 10px;
+        overflow-y: visible;
     }
     
     .sidebar-header {
@@ -465,8 +499,16 @@ button:hover {
         border-bottom: 3px solid transparent;
     }
     
+    .branch-btn:hover {
+        padding-left: 10px;
+    }
+    
     .branch-btn.active {
         border-bottom-color: #c53d43;
+    }
+    
+    .branch-btn.active::after {
+        display: none;
     }
     
     .sidebar-footer {
@@ -479,5 +521,13 @@ button:hover {
     
     .main-content {
         margin-left: 0;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+    
+    .actions {
+        flex-direction: column;
     }
 }
