@@ -1,6 +1,75 @@
 // Инициализация
 document.addEventListener('DOMContentLoaded', function() {
     loadHistory();
+                    <button onclick="viewHistoryItem(${index})">Просмотр</button>
+                <button onclick="deleteHistoryItem(${index})" style="background: #5a4e3e;">Удалить</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function getReportTypeName(type) {
+    const names = {
+        'group-hunt': 'Групповая охота',
+        'solo-hunt': 'Одиночная охота',
+        'border-patrol': 'Пограничный патруль',
+        'watch': 'Дозор',
+        'self-patrol': 'Самостоятельный патруль',
+        'tales': 'Сказки',
+        'games': 'Игры',
+        'lectures': 'Лекции',
+        'kitten-patrol': 'Котячий патруль',
+        'kitten-watch': 'Котячий дозор',
+        'butterfly': 'Охота на бабочек',
+        'yuan': 'Юани',
+        'monthly': 'Ежемесячное задание',
+        'mouse-hunt': 'Охота на мышей',
+        'herb-collect': 'Травник/мховник/веточник',
+        'solo-collect': 'Самостоятельный сбор',
+        'healing': 'Лечение котов',
+        'self-heal': 'Пополнение кучи самолечения',
+        'cleaning': 'Уборка в Теплой канавке',
+        'medals': 'Медали',
+        'special-name': 'Особое имя',
+        'personal-medal': 'Личная медаль',
+        'personal-trophy': 'Личный трофей',
+        'personal-status': 'Личный статус',
+        'personal-position': 'Личная должность',
+        'tribal-status': 'Племенной статус'
+    };
+    return names[type] || 'Отчет';
+}
+
+function viewHistoryItem(index) {
+    const history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
+    if (history[index]) displayReport(history[index].report);
+}
+
+function deleteHistoryItem(index) {
+    if (confirm('Удалить этот отчет из истории?')) {
+        let history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
+        history.splice(index, 1);
+        localStorage.setItem('catwarHistory', JSON.stringify(history));
+        loadHistory();
+    }
+}
+
+function clearHistory() {
+    if (confirm('Очистить всю историю отчетов?')) {
+        localStorage.removeItem('catwarHistory');
+        loadHistory();
+        alert('История очищена!');
+    }
+}
+
+function clearForm() {
+    document.querySelectorAll('form').forEach(form => form.reset());
+    document.getElementById('reportOutput').classList.add('hidden');
+    updateTalesFields();
+    updateGamesFields();
+    updateLecturesFields();
+    updateTribalMarksFields();
+}
     
     const branchButtons = document.querySelectorAll('.branch-btn');
     branchButtons.forEach(btn => {
@@ -36,13 +105,24 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('selfHealForm').addEventListener('submit', e => { e.preventDefault(); generateSelfHeal(); });
     document.getElementById('cleaningForm').addEventListener('submit', e => { e.preventDefault(); generateCleaning(); });
     
+    // Награды
+    document.getElementById('medalsForm').addEventListener('submit', e => { e.preventDefault(); generateMedals(); });
+    document.getElementById('specialNameForm').addEventListener('submit', e => { e.preventDefault(); generateSpecialName(); });
+    document.getElementById('personalMedalForm').addEventListener('submit', e => { e.preventDefault(); generatePersonalMedal(); });
+    document.getElementById('personalTrophyForm').addEventListener('submit', e => { e.preventDefault(); generatePersonalTrophy(); });
+    document.getElementById('personalStatusForm').addEventListener('submit', e => { e.preventDefault(); generatePersonalStatus(); });
+    document.getElementById('personalPositionForm').addEventListener('submit', e => { e.preventDefault(); generatePersonalPosition(); });
+    document.getElementById('tribalStatusForm').addEventListener('submit', e => { e.preventDefault(); generateTribalStatus(); });
+    
     document.getElementById('talesCame').addEventListener('change', updateTalesFields);
     document.getElementById('gamesCame').addEventListener('change', updateGamesFields);
     document.getElementById('lecturesCame').addEventListener('change', updateLecturesFields);
+    document.getElementById('tribalMarks').addEventListener('change', updateTribalMarksFields);
     
     updateTalesFields();
     updateGamesFields();
     updateLecturesFields();
+    updateTribalMarksFields();
 });
 
 function switchBranch(branch) {
@@ -50,7 +130,7 @@ function switchBranch(branch) {
     document.querySelector(`[data-branch="${branch}"]`).classList.add('active');
     
     document.querySelectorAll('.branch-content').forEach(content => content.classList.remove('active'));
-    const contentMap = { wei: 'wei-content', feng: 'feng-content', pei: 'pei-content', cao: 'cao-content' };
+    const contentMap = { wei: 'wei-content', feng: 'feng-content', pei: 'pei-content', cao: 'cao-content', awards: 'awards-content' };
     document.getElementById(contentMap[branch]).classList.add('active');
     
     document.getElementById('reportOutput').classList.add('hidden');
@@ -64,7 +144,8 @@ function switchReportType(branch, reportType) {
         'group-hunt': 0, 'solo-hunt': 1,
         'border-patrol': 0, 'watch': 1, 'self-patrol': 2,
         'tales': 0, 'games': 1, 'lectures': 2, 'kitten-patrol': 3, 'kitten-watch': 4, 'butterfly': 5, 'yuan': 6, 'monthly': 7,
-        'mouse-hunt': 0, 'herb-collect': 1, 'solo-collect': 2, 'healing': 3, 'self-heal': 4, 'cleaning': 5
+        'mouse-hunt': 0, 'herb-collect': 1, 'solo-collect': 2, 'healing': 3, 'self-heal': 4, 'cleaning': 5,
+        'medals': 0, 'special-name': 1, 'personal-medal': 2, 'personal-trophy': 3, 'personal-status': 4, 'personal-position': 5, 'tribal-status': 6
     };
     
     const btns = branchContent.querySelectorAll('.report-type-btn');
@@ -80,7 +161,10 @@ function switchReportType(branch, reportType) {
         'kitten-patrol': 'kittenPatrolForm', 'kitten-watch': 'kittenWatchForm',
         'butterfly': 'butterflyForm', 'yuan': 'yuanForm', 'monthly': 'monthlyForm',
         'mouse-hunt': 'mouseHuntForm', 'herb-collect': 'herbCollectForm', 'solo-collect': 'soloCollectForm',
-        'healing': 'healingForm', 'self-heal': 'selfHealForm', 'cleaning': 'cleaningForm'
+        'healing': 'healingForm', 'self-heal': 'selfHealForm', 'cleaning': 'cleaningForm',
+        'medals': 'medalsForm', 'special-name': 'specialNameForm', 'personal-medal': 'personalMedalForm',
+        'personal-trophy': 'personalTrophyForm', 'personal-status': 'personalStatusForm',
+        'personal-position': 'personalPositionForm', 'tribal-status': 'tribalStatusForm'
     };
     
     document.getElementById(formMap[reportType]).classList.add('active');
@@ -102,6 +186,12 @@ function updateLecturesFields() {
     const came = document.getElementById('lecturesCame').value;
     document.getElementById('lecturesYuanGroup').style.display = came === 'yes' ? 'block' : 'none';
     document.getElementById('lecturesGuestsGroup').style.display = came === 'yes' ? 'block' : 'none';
+}
+
+function updateTribalMarksFields() {
+    const marks = document.getElementById('tribalMarks').value;
+    document.getElementById('tribalMarksDetailsGroup').style.display = marks === 'yes' ? 'block' : 'none';
+    document.getElementById('tribalMarksColorGroup').style.display = marks === 'yes' ? 'block' : 'none';
 }
 
 function switchWatchType(type) {
@@ -606,6 +696,179 @@ function generateCleaning() {
     saveToHistory({ type: 'cleaning', report, date: new Date().toISOString() });
 }
 
+// ==================== ВЕТКА НАГРАД ====================
+
+function generateMedals() {
+    const catId = document.getElementById('medalsId').value.trim();
+    const medalName = document.getElementById('medalsName').value.trim();
+    const screenshot = document.getElementById('medalsScreenshot').value.trim();
+    
+    let report = `${catId ? `[link${catId}] [${catId}]` : '[linkID] [ID]'} — ${medalName || 'название медали'} `;
+    
+    if (screenshot) {
+        report += `[[url=${screenshot}]скриншот требований[/url]].`;
+    } else {
+        report += `[[url=ссылка]скриншот требований[/url]].`;
+    }
+    
+    displayReport(report);
+    saveToHistory({ type: 'medals', report, date: new Date().toISOString() });
+}
+
+function generateSpecialName() {
+    const catId = document.getElementById('specialNameYourId').value.trim();
+    const desiredName = document.getElementById('specialNameDesired').value.trim();
+    const screenshot = document.getElementById('specialNameScreenshot').value.trim();
+    
+    let report = `[b]Имя [ID]:[/b] ${catId ? `[link${catId}] [${catId}]` : '[linkID] [ID]'}.\n`;
+    report += `[b]Желаемое имя:[/b] ${desiredName || ''}.\n`;
+    report += `[b]Скриншоты выполненных требований:[/b] `;
+    
+    if (screenshot) {
+        report += `[url=${screenshot}]скриншот[/url]`;
+    } else {
+        report += `через url`;
+    }
+    report += '.';
+    
+    displayReport(report);
+    saveToHistory({ type: 'special-name', report, date: new Date().toISOString() });
+}
+
+function generatePersonalMedal() {
+    const catId = document.getElementById('personalMedalYourId').value.trim();
+    const medalImage = document.getElementById('personalMedalImage').value.trim();
+    const medalName = document.getElementById('personalMedalName').value.trim();
+    const screenshot = document.getElementById('personalMedalScreenshot').value.trim();
+    
+    let report = `[b]Имя [ID]:[/b] ${catId ? `[link${catId}] [${catId}]` : '[linkID] [ID]'}.\n`;
+    report += `[b]Медаль:[/b] `;
+    
+    if (medalImage) {
+        report += `[img]${medalImage}[/img]`;
+    } else {
+        report += `[img]изображение медали[/img]`;
+    }
+    report += ` - ${medalName ? `«${medalName}»` : 'название'}.\n`;
+    report += `[b]Скриншоты выполненных требований:[/b] `;
+    
+    if (screenshot) {
+        report += `[url=${screenshot}]скриншот[/url]`;
+    } else {
+        report += `через url`;
+    }
+    report += '.';
+    
+    displayReport(report);
+    saveToHistory({ type: 'personal-medal', report, date: new Date().toISOString() });
+}
+
+function generatePersonalTrophy() {
+    const catId = document.getElementById('personalTrophyYourId').value.trim();
+    const trophyImage = document.getElementById('personalTrophyImage').value.trim();
+    const trophyName = document.getElementById('personalTrophyName').value.trim();
+    const action = document.getElementById('personalTrophyAction').value.trim();
+    const history = document.getElementById('personalTrophyHistory').value.trim();
+    const screenshot = document.getElementById('personalTrophyScreenshot').value.trim();
+    
+    let report = `[b]Имя [ID]:[/b] ${catId ? `[link${catId}] [${catId}]` : '[linkID] [ID]'}.\n`;
+    report += `[b]Трофей:[/b] `;
+    
+    if (trophyImage) {
+        report += `[img]${trophyImage}[/img]`;
+    } else {
+        report += `[img]изображение трофея[/img]`;
+    }
+    report += ` - ${trophyName || 'название'}.\n`;
+    report += `[b]Название действия:[/b] ${action || ''}.\n`;
+    report += `[b]Строчка в истории:[/b] ${history || ''}.\n`;
+    report += `[b]Скриншоты выполненных требований:[/b] `;
+    
+    if (screenshot) {
+        report += `[url=${screenshot}]скриншот[/url]`;
+    } else {
+        report += `через url`;
+    }
+    report += '.';
+    
+    displayReport(report);
+    saveToHistory({ type: 'personal-trophy', report, date: new Date().toISOString() });
+}
+
+function generatePersonalStatus() {
+    const catId = document.getElementById('personalStatusYourId').value.trim();
+    const statusImage = document.getElementById('personalStatusImage').value.trim();
+    const statusText = document.getElementById('personalStatusText').value.trim();
+    const screenshot = document.getElementById('personalStatusScreenshot').value.trim();
+    
+    let report = `[b]Имя [ID]:[/b] ${catId ? `[link${catId}] [${catId}]` : '[linkID] [ID]'}.\n`;
+    report += `[b]Статус:[/b] `;
+    
+    if (statusImage) {
+        report += `[img]${statusImage}[/img]/${statusText || ''}`;
+    } else {
+        report += `${statusText || ''}`;
+    }
+    report += `.\n`;
+    report += `[b]Скриншоты выполненных требований:[/b] `;
+    
+    if (screenshot) {
+        report += `[url=${screenshot}]скриншот[/url]`;
+    } else {
+        report += `через url`;
+    }
+    report += '.';
+    
+    displayReport(report);
+    saveToHistory({ type: 'personal-status', report, date: new Date().toISOString() });
+}
+
+function generatePersonalPosition() {
+    const catId = document.getElementById('personalPositionYourId').value.trim();
+    const desiredPosition = document.getElementById('personalPositionDesired').value.trim();
+    const screenshot = document.getElementById('personalPositionScreenshot').value.trim();
+    
+    let report = `[b]Имя [ID]:[/b] ${catId ? `[link${catId}] [${catId}]` : '[linkID] [ID]'}.\n`;
+    report += `[b]Желаемая должность:[/b] ${desiredPosition || ''}.\n`;
+    report += `[code][b]Скриншоты выполненных требований:[/b] `;
+    
+    if (screenshot) {
+        report += `[url=${screenshot}]скриншот[/url]`;
+    } else {
+        report += `через url`;
+    }
+    report += '.';
+    
+    displayReport(report);
+    saveToHistory({ type: 'personal-position', report, date: new Date().toISOString() });
+}
+
+function generateTribalStatus() {
+    const spiritName = document.getElementById('tribalSpiritName').value.trim();
+    const spiritColor = document.getElementById('tribalSpiritColor').value.trim();
+    const fox = document.getElementById('tribalFox').value;
+    const frame = document.getElementById('tribalFrame').value;
+    const marks = document.getElementById('tribalMarks').value;
+    const marksNumber = document.getElementById('tribalMarksNumber').value.trim();
+    const marksColor = document.getElementById('tribalMarksColor').value.trim();
+    const stones = document.getElementById('tribalStones').value;
+    
+    let report = `[b]Духовное имя и цвет:[/b] ${spiritName || ''}, ${spiritColor || ''}.\n`;
+    report += `[b]Желаемая лиса:[/b] ${fox}.\n`;
+    report += `[b]Рамка:[/b] ${frame}.\n`;
+    
+    if (marks === 'yes') {
+        report += `[b]Духовные метки и цвет:[/b] Да, ${marksNumber || 'N'}, ${marksColor || 'цвет'}.\n`;
+    } else {
+        report += `[b]Духовные метки и цвет:[/b] Нет.\n`;
+    }
+    
+    report += `[b]Камни:[/b] ${stones}.`;
+    
+    displayReport(report);
+    saveToHistory({ type: 'tribal-status', report, date: new Date().toISOString() });
+}
+
 // ==================== ОБЩИЕ ФУНКЦИИ ====================
 
 function displayReport(report) {
@@ -665,65 +928,4 @@ function loadHistory() {
         <div class="history-item">
             <strong>${getReportTypeName(item.type)}</strong>
             <small>${new Date(item.date).toLocaleDateString('ru-RU')}</small>
-            <div class="history-actions">
-                <button onclick="viewHistoryItem(${index})">Просмотр</button>
-                <button onclick="deleteHistoryItem(${index})" style="background: #5a4e3e;">Удалить</button>
-            </div>
-        </div>
-    `).join('');
-}
-
-function getReportTypeName(type) {
-    const names = {
-        'group-hunt': 'Групповая охота',
-        'solo-hunt': 'Одиночная охота',
-        'border-patrol': 'Пограничный патруль',
-        'watch': 'Дозор',
-        'self-patrol': 'Самостоятельный патруль',
-        'tales': 'Сказки',
-        'games': 'Игры',
-        'lectures': 'Лекции',
-        'kitten-patrol': 'Котячий патруль',
-        'kitten-watch': 'Котячий дозор',
-        'butterfly': 'Охота на бабочек',
-        'yuan': 'Юани',
-        'monthly': 'Ежемесячное задание',
-        'mouse-hunt': 'Охота на мышей',
-        'herb-collect': 'Травник/мховник/веточник',
-        'solo-collect': 'Самостоятельный сбор',
-        'healing': 'Лечение котов',
-        'self-heal': 'Пополнение кучи самолечения',
-        'cleaning': 'Уборка в Теплой канавке'
-    };
-    return names[type] || 'Отчет';
-}
-
-function viewHistoryItem(index) {
-    const history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
-    if (history[index]) displayReport(history[index].report);
-}
-
-function deleteHistoryItem(index) {
-    if (confirm('Удалить этот отчет из истории?')) {
-        let history = JSON.parse(localStorage.getItem('catwarHistory')) || [];
-        history.splice(index, 1);
-        localStorage.setItem('catwarHistory', JSON.stringify(history));
-        loadHistory();
-    }
-}
-
-function clearHistory() {
-    if (confirm('Очистить всю историю отчетов?')) {
-        localStorage.removeItem('catwarHistory');
-        loadHistory();
-        alert('История очищена!');
-    }
-}
-
-function clearForm() {
-    document.querySelectorAll('form').forEach(form => form.reset());
-    document.getElementById('reportOutput').classList.add('hidden');
-    updateTalesFields();
-    updateGamesFields();
-    updateLecturesFields();
-}
+            <div class="history-actions
