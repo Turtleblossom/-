@@ -17,6 +17,7 @@
             <button class="branch-btn" data-branch="pei">水 Ветка Пэй</button>
             <button class="branch-btn" data-branch="cao">草 Ветка Цао</button>
             <button class="branch-btn" data-branch="awards">奖 Ветка Наград</button>
+            <button class="branch-btn" data-branch="school">战 Боевая школа</button>
             <div class="sidebar-footer">
                 <p>灵 狐 狸 精 神</p>
             </div>
@@ -204,8 +205,7 @@
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
                 </div>
-
-                <!-- ==================== ВЕТКА ПЭЙ ==================== -->
+                                <!-- ==================== ВЕТКА ПЭЙ ==================== -->
                 <div id="pei-content" class="branch-content">
                     <h1>水 水 水</h1>
                     
@@ -543,202 +543,419 @@
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
                 </div>
-                <!-- ==================== ВЕТКА НАГРАД ==================== -->
-<div id="awards-content" class="branch-content">
-    <h1>奖 奖励 奖</h1>
-    
-    <div class="form-group">
-        <label>📋 Тип отчета:</label>
-        <div class="report-type-buttons">
-            <button type="button" class="report-type-btn active" onclick="switchReportType('awards', 'medals')">Медали</button>
-            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'special-name')">Особое имя</button>
-            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'personal-medal')">Личная медаль</button>
-            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'personal-trophy')">Личный трофей</button>
-            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'personal-status')">Личный статус</button>
-            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'personal-position')">Личная должность</button>
-            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'tribal-status')">Племенной статус</button>
-        </div>
-    </div>
+                                <!-- ==================== ВЕТКА НАГРАД ==================== -->
+                <div id="awards-content" class="branch-content">
+                    <h1>奖 奖励 奖</h1>
+                    
+                    <div class="form-group">
+                        <label>📋 Тип отчета:</label>
+                        <div class="report-type-buttons">
+                            <button type="button" class="report-type-btn active" onclick="switchReportType('awards', 'medals')">Медали</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'special-name')">Особое имя</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'personal-medal')">Личная медаль</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'personal-trophy')">Личный трофей</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'personal-status')">Личный статус</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'personal-position')">Личная должность</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('awards', 'tribal-status')">Племенной статус</button>
+                        </div>
+                    </div>
 
-    <!-- Медали -->
-    <form id="medalsForm" class="report-form active">
-        <div class="form-group">
-            <label for="medalsId">🐱 ID котика:</label>
-            <input type="text" id="medalsId" placeholder="1514283">
-        </div>
-        <div class="form-group">
-            <label for="medalsName">🏅 Название медали:</label>
-            <input type="text" id="medalsName" placeholder="Тяжёлые налоги">
-        </div>
-        <div class="form-group">
-            <label for="medalsScreenshot">📸 Скриншот требований (ссылка):</label>
-            <input type="text" id="medalsScreenshot" placeholder="https://...">
-            <small>Скриншоты из блога Активности/блога ветви или подтверждение от отвечающего</small>
-        </div>
-        <button type="submit">🦊 Сгенерировать отчет</button>
-    </form>
+                    <form id="medalsForm" class="report-form active">
+                        <div class="form-group">
+                            <label for="medalsId">🐱 ID котика:</label>
+                            <input type="text" id="medalsId" placeholder="1514283">
+                        </div>
+                        <div class="form-group">
+                            <label for="medalsName">🏅 Название медали:</label>
+                            <input type="text" id="medalsName" placeholder="Тяжёлые налоги">
+                        </div>
+                        <div class="form-group">
+                            <label for="medalsScreenshot">📸 Скриншот требований (ссылка):</label>
+                            <input type="text" id="medalsScreenshot" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
 
-    <!-- Особое имя -->
-    <form id="specialNameForm" class="report-form">
-        <div class="form-group">
-            <label for="specialNameYourId">🐱 Ваш ID:</label>
-            <input type="text" id="specialNameYourId" placeholder="1514283">
-        </div>
-        <div class="form-group">
-            <label for="specialNameDesired">✨ Желаемое имя:</label>
-            <input type="text" id="specialNameDesired" placeholder="Летающая Грозная Туча">
-        </div>
-        <div class="form-group">
-            <label for="specialNameScreenshot">📸 Скриншоты выполненных требований (ссылка):</label>
-            <input type="text" id="specialNameScreenshot" placeholder="https://...">
-        </div>
-        <button type="submit">🦊 Сгенерировать отчет</button>
-    </form>
+                    <form id="specialNameForm" class="report-form">
+                        <div class="form-group">
+                            <label for="specialNameYourId">🐱 Ваш ID:</label>
+                            <input type="text" id="specialNameYourId" placeholder="1514283">
+                        </div>
+                        <div class="form-group">
+                            <label for="specialNameDesired">✨ Желаемое имя:</label>
+                            <input type="text" id="specialNameDesired" placeholder="Летающая Грозная Туча">
+                        </div>
+                        <div class="form-group">
+                            <label for="specialNameScreenshot">📸 Скриншоты требований (ссылка):</label>
+                            <input type="text" id="specialNameScreenshot" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
 
-    <!-- Личная медаль -->
-    <form id="personalMedalForm" class="report-form">
-        <div class="form-group">
-            <label for="personalMedalYourId">🐱 Ваш ID:</label>
-            <input type="text" id="personalMedalYourId" placeholder="1514283">
-        </div>
-        <div class="form-group">
-            <label for="personalMedalImage">🖼️ Изображение медали (ссылка):</label>
-            <input type="text" id="personalMedalImage" placeholder="https://...">
-        </div>
-        <div class="form-group">
-            <label for="personalMedalName">🏅 Название медали:</label>
-            <input type="text" id="personalMedalName" placeholder="Когда-нибудь мы встретимся вновь">
-        </div>
-        <div class="form-group">
-            <label for="personalMedalScreenshot">📸 Скриншоты выполненных требований (ссылка):</label>
-            <input type="text" id="personalMedalScreenshot" placeholder="https://...">
-        </div>
-        <button type="submit">🦊 Сгенерировать отчет</button>
-    </form>
+                    <form id="personalMedalForm" class="report-form">
+                        <div class="form-group">
+                            <label for="personalMedalYourId">🐱 Ваш ID:</label>
+                            <input type="text" id="personalMedalYourId" placeholder="1514283">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalMedalImage">🖼️ Изображение медали (ссылка):</label>
+                            <input type="text" id="personalMedalImage" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalMedalName">🏅 Название медали:</label>
+                            <input type="text" id="personalMedalName" placeholder="Когда-нибудь мы встретимся вновь">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalMedalScreenshot">📸 Скриншоты требований (ссылка):</label>
+                            <input type="text" id="personalMedalScreenshot" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
 
-    <!-- Личный трофей -->
-    <form id="personalTrophyForm" class="report-form">
-        <div class="form-group">
-            <label for="personalTrophyYourId">🐱 Ваш ID:</label>
-            <input type="text" id="personalTrophyYourId" placeholder="1514283">
-        </div>
-        <div class="form-group">
-            <label for="personalTrophyImage">🖼️ Изображение трофея (ссылка):</label>
-            <input type="text" id="personalTrophyImage" placeholder="https://...">
-        </div>
-        <div class="form-group">
-            <label for="personalTrophyName">🏆 Название трофея:</label>
-            <input type="text" id="personalTrophyName" placeholder="воробья">
-        </div>
-        <div class="form-group">
-            <label for="personalTrophyAction">⚡ Название действия:</label>
-            <input type="text" id="personalTrophyAction" placeholder="подкинуть воробья">
-        </div>
-        <div class="form-group">
-            <label for="personalTrophyHistory">📜 Строчка в истории:</label>
-            <input type="text" id="personalTrophyHistory" placeholder="Подкинул воробья, он улетел">
-        </div>
-        <div class="form-group">
-            <label for="personalTrophyScreenshot">📸 Скриншоты выполненных требований (ссылка):</label>
-            <input type="text" id="personalTrophyScreenshot" placeholder="https://...">
-        </div>
-        <button type="submit">🦊 Сгенерировать отчет</button>
-    </form>
+                    <form id="personalTrophyForm" class="report-form">
+                        <div class="form-group">
+                            <label for="personalTrophyYourId">🐱 Ваш ID:</label>
+                            <input type="text" id="personalTrophyYourId" placeholder="1514283">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalTrophyImage">🖼️ Изображение трофея (ссылка):</label>
+                            <input type="text" id="personalTrophyImage" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalTrophyName">🏆 Название трофея:</label>
+                            <input type="text" id="personalTrophyName" placeholder="воробья">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalTrophyAction">⚡ Название действия:</label>
+                            <input type="text" id="personalTrophyAction" placeholder="подкинуть воробья">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalTrophyHistory">📜 Строчка в истории:</label>
+                            <input type="text" id="personalTrophyHistory" placeholder="Подкинул воробья, он улетел">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalTrophyScreenshot">📸 Скриншоты требований (ссылка):</label>
+                            <input type="text" id="personalTrophyScreenshot" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
 
-    <!-- Личный статус -->
-    <form id="personalStatusForm" class="report-form">
-        <div class="form-group">
-            <label for="personalStatusYourId">🐱 Ваш ID:</label>
-            <input type="text" id="personalStatusYourId" placeholder="1514283">
-        </div>
-        <div class="form-group">
-            <label for="personalStatusImage">🖼️ Изображение статуса (ссылка, опционально):</label>
-            <input type="text" id="personalStatusImage" placeholder="https://...">
-        </div>
-        <div class="form-group">
-            <label for="personalStatusText">💬 Строчка в статусе:</label>
-            <input type="text" id="personalStatusText" placeholder="Убегу в даль, не догонишь">
-        </div>
-        <div class="form-group">
-            <label for="personalStatusScreenshot">📸 Скриншоты выполненных требований (ссылка):</label>
-            <input type="text" id="personalStatusScreenshot" placeholder="https://...">
-        </div>
-        <button type="submit">🦊 Сгенерировать отчет</button>
-    </form>
+                    <form id="personalStatusForm" class="report-form">
+                        <div class="form-group">
+                            <label for="personalStatusYourId">🐱 Ваш ID:</label>
+                            <input type="text" id="personalStatusYourId" placeholder="1514283">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalStatusImage">🖼️ Изображение статуса (ссылка, опционально):</label>
+                            <input type="text" id="personalStatusImage" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalStatusText">💬 Строчка в статусе:</label>
+                            <input type="text" id="personalStatusText" placeholder="Убегу в даль, не догонишь">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalStatusScreenshot">📸 Скриншоты требований (ссылка):</label>
+                            <input type="text" id="personalStatusScreenshot" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
 
-    <!-- Личная должность -->
-    <form id="personalPositionForm" class="report-form">
-        <div class="form-group">
-            <label for="personalPositionYourId">🐱 Ваш ID:</label>
-            <input type="text" id="personalPositionYourId" placeholder="1152153">
-        </div>
-        <div class="form-group">
-            <label for="personalPositionDesired">💼 Желаемая должность:</label>
-            <input type="text" id="personalPositionDesired" placeholder="Весенний лучик тепла">
-        </div>
-        <div class="form-group">
-            <label for="personalPositionScreenshot">📸 Скриншоты выполненных требований (ссылка):</label>
-            <input type="text" id="personalPositionScreenshot" placeholder="https://...">
-        </div>
-        <button type="submit">🦊 Сгенерировать отчет</button>
-    </form>
+                    <form id="personalPositionForm" class="report-form">
+                        <div class="form-group">
+                            <label for="personalPositionYourId">🐱 Ваш ID:</label>
+                            <input type="text" id="personalPositionYourId" placeholder="1152153">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalPositionDesired">💼 Желаемая должность:</label>
+                            <input type="text" id="personalPositionDesired" placeholder="Весенний лучик тепла">
+                        </div>
+                        <div class="form-group">
+                            <label for="personalPositionScreenshot">📸 Скриншоты требований (ссылка):</label>
+                            <input type="text" id="personalPositionScreenshot" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
 
-    <!-- Племенной статус -->
-    <form id="tribalStatusForm" class="report-form">
-        <div class="form-group">
-            <label for="tribalSpiritName">✨ Духовное имя:</label>
-            <input type="text" id="tribalSpiritName" placeholder="Зов Императора Драконов">
-        </div>
-        <div class="form-group">
-            <label for="tribalSpiritColor">🎨 Цвет духовного имени:</label>
-            <input type="text" id="tribalSpiritColor" placeholder="красный">
-        </div>
-        <div class="form-group">
-            <label for="tribalFox">🦊 Желаемая лиса:</label>
-            <select id="tribalFox">
-                <option value="Серая">Серая</option>
-                <option value="Огненная">Огненная</option>
-                <option value="Кремовая">Кремовая</option>
-                <option value="Черная">Черная</option>
-                <option value="Бежевая">Бежевая</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="tribalFrame">🖼️ Рамка:</label>
-            <select id="tribalFrame">
-                <option value="Дерево">Дерево</option>
-                <option value="Бронза">Бронза</option>
-                <option value="Серебро">Серебро</option>
-                <option value="Золото">Золото</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="tribalMarks">🔮 Духовные метки:</label>
-            <select id="tribalMarks">
-                <option value="no">Нет</option>
-                <option value="yes">Да</option>
-            </select>
-        </div>
-        <div class="form-group" id="tribalMarksDetailsGroup" style="display:none;">
-            <label for="tribalMarksNumber">🔢 Номер метки:</label>
-            <input type="text" id="tribalMarksNumber" placeholder="3">
-        </div>
-        <div class="form-group" id="tribalMarksColorGroup" style="display:none;">
-            <label for="tribalMarksColor">🎨 Цвет метки:</label>
-            <input type="text" id="tribalMarksColor" placeholder="нежно фиолетовый">
-        </div>
-        <div class="form-group">
-            <label for="tribalStones">💎 Камни:</label>
-            <select id="tribalStones">
-                <option value="Цилинь">Цилинь</option>
-                <option value="Черепаха">Черепаха</option>
-                <option value="Тигр">Тигр</option>
-                <option value="Феникс">Феникс</option>
-            </select>
-        </div>
-        <button type="submit">🦊 Сгенерировать отчет</button>
-    </form>
-</div>
+                    <form id="tribalStatusForm" class="report-form">
+                        <div class="form-group">
+                            <label for="tribalSpiritName">✨ Духовное имя:</label>
+                            <input type="text" id="tribalSpiritName" placeholder="Зов Императора Драконов">
+                        </div>
+                        <div class="form-group">
+                            <label for="tribalSpiritColor">🎨 Цвет духовного имени:</label>
+                            <input type="text" id="tribalSpiritColor" placeholder="красный">
+                        </div>
+                        <div class="form-group">
+                            <label for="tribalFox">🦊 Желаемая лиса:</label>
+                            <select id="tribalFox">
+                                <option value="Серая">Серая</option>
+                                <option value="Огненная">Огненная</option>
+                                <option value="Кремовая">Кремовая</option>
+                                <option value="Черная">Черная</option>
+                                <option value="Бежевая">Бежевая</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tribalFrame">🖼️ Рамка:</label>
+                            <select id="tribalFrame">
+                                <option value="Дерево">Дерево</option>
+                                <option value="Бронза">Бронза</option>
+                                <option value="Серебро">Серебро</option>
+                                <option value="Золото">Золото</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tribalMarks">🔮 Духовные метки:</label>
+                            <select id="tribalMarks">
+                                <option value="no">Нет</option>
+                                <option value="yes">Да</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="tribalMarksDetailsGroup" style="display:none;">
+                            <label for="tribalMarksNumber">🔢 Номер метки:</label>
+                            <input type="text" id="tribalMarksNumber" placeholder="3">
+                        </div>
+                        <div class="form-group" id="tribalMarksColorGroup" style="display:none;">
+                            <label for="tribalMarksColor">🎨 Цвет метки:</label>
+                            <input type="text" id="tribalMarksColor" placeholder="нежно фиолетовый">
+                        </div>
+                        <div class="form-group">
+                            <label for="tribalStones">💎 Камни:</label>
+                            <select id="tribalStones">
+                                <option value="Цилинь">Цилинь</option>
+                                <option value="Черепаха">Черепаха</option>
+                                <option value="Тигр">Тигр</option>
+                                <option value="Феникс">Феникс</option>
+                            </select>
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+                </div>
+
+                <!-- ==================== БОЕВАЯ ШКОЛА ==================== -->
+                <div id="school-content" class="branch-content">
+                    <h1>战 战斗 战</h1>
+                    
+                    <div class="form-group">
+                        <label>📋 Тип отчета:</label>
+                        <div class="report-type-buttons">
+                            <button type="button" class="report-type-btn active" onclick="switchReportType('school', 'prep-group')">В Подготовительную</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('school', 'rank-check')">На ранг</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('school', 'obedience')">Стена послушания</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('school', 'resources')">Отпись ресурсов</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('school', 'herbs')">Сбор трав</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('school', 'sleepers')">Относ спящих</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('school', 'trash')">Уборка мусора</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('school', 'qigong')">Техника Цигун</button>
+                        </div>
+                    </div>
+
+                    <form id="prepGroupForm" class="report-form active">
+                        <div class="form-group">
+                            <label for="prepYourId">🐱 Ваш ID:</label>
+                            <input type="text" id="prepYourId" placeholder="1514283">
+                        </div>
+                        <div class="form-group">
+                            <label for="prepLevel">📊 Уровень БУ:</label>
+                            <input type="text" id="prepLevel" placeholder="9">
+                        </div>
+                        <div class="form-group">
+                            <label for="prepVk">🔗 ВК (ссылка):</label>
+                            <input type="text" id="prepVk" placeholder="https://vk.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label for="prepBu">📸 Скриншот БУ (ссылка):</label>
+                            <input type="text" id="prepBu" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <form id="rankCheckForm" class="report-form">
+                        <div class="form-group">
+                            <label for="rankYourId">🐱 Ваш ID:</label>
+                            <input type="text" id="rankYourId" placeholder="1514283">
+                        </div>
+                        <div class="form-group">
+                            <label for="rankLevel">📊 Уровень БУ:</label>
+                            <input type="text" id="rankLevel" placeholder="9">
+                        </div>
+                        <div class="form-group">
+                            <label for="rankVk">🔗 ВК (ссылка):</label>
+                            <input type="text" id="rankVk" placeholder="https://vk.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label for="rankBu">📸 Скриншот БУ (ссылка):</label>
+                            <input type="text" id="rankBu" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <form id="obedienceForm" class="report-form">
+                        <div class="form-group">
+                            <label for="obedType">🏛️ Тип нарушителя:</label>
+                            <select id="obedType">
+                                <option value="temple">Из Храма</option>
+                                <option value="foreign">Иноплеменный</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="obedViolators">⚠️ Нарушители (ID, нарушение, кол-во):</label>
+                            <textarea id="obedViolators" rows="4" placeholder="1695758 драка 2&#10;121221 непослушание 1"></textarea>
+                            <small>Формат: ID нарушение количество (каждый с новой строки)</small>
+                        </div>
+                        <div class="form-group" id="obedTribeGroup" style="display:none;">
+                            <label for="obedTribes">🌍 Племена (через запятую):</label>
+                            <input type="text" id="obedTribes" placeholder="Северное, Огненное">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <form id="resourcesForm" class="report-form">
+                        <div class="form-group">
+                            <label for="resPlace">📍 Место добычи:</label>
+                            <select id="resPlace">
+                                <option value="расщелина">расщелина</option>
+                                <option value="дупло">дупло</option>
+                                <option value="дно">дно</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="resWho">🐱 Кто принёс (ID):</label>
+                            <input type="text" id="resWho" placeholder="1254550">
+                        </div>
+                        <div class="form-group">
+                            <label for="resList">📦 Ресурсы:</label>
+                            <textarea id="resList" rows="4" placeholder="мох 1&#10;трава 3&#10;ветки 2"></textarea>
+                            <small>Формат: ресурс количество. Разделяй траву/ветки/водоросли/мох/воду!</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="resProof">📸 Подтверждение (ссылка):</label>
+                            <input type="text" id="resProof" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <form id="herbsForm" class="report-form">
+                        <div class="form-group">
+                            <label for="herbsId">🐱 Ваш ID:</label>
+                            <input type="text" id="herbsId" placeholder="1069432">
+                        </div>
+                        <div class="form-group">
+                            <label for="herbsTime">⏰ Время похода:</label>
+                            <input type="text" id="herbsTime" placeholder="16:00">
+                        </div>
+                        <div class="form-group">
+                            <label for="herbsItems">🌿 Что принесли:</label>
+                            <input type="text" id="herbsItems" placeholder="1 трава, 2 мха, 1 ветка">
+                            <small>Названия трав не указываем</small>
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <form id="sleepersForm" class="report-form">
+                        <div class="form-group">
+                            <label for="sleepersId">🐱 Ваш ID:</label>
+                            <input type="text" id="sleepersId" placeholder="1254550">
+                        </div>
+                        <div class="form-group">
+                            <label for="sleepersCount">😴 Количество убранных:</label>
+                            <input type="text" id="sleepersCount" placeholder="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="sleepersProof">📸 Доказательство (ссылки через запятую):</label>
+                            <input type="text" id="sleepersProof" placeholder="https://..., https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <form id="trashForm" class="report-form">
+                        <div class="form-group">
+                            <label for="trashType">🧹 Тип:</label>
+                            <select id="trashType">
+                                <option value="clean">Уборка мусора</option>
+                                <option value="find">Находка предмета</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="trashId">🐱 Ваш ID:</label>
+                            <input type="text" id="trashId" placeholder="1254550">
+                        </div>
+                        <div class="form-group" id="trashCountGroup">
+                            <label for="trashCount">🗑️ Количество утилизированного:</label>
+                            <input type="text" id="trashCount" placeholder="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="trashProof">📸 Доказательство (ссылка):</label>
+                            <input type="text" id="trashProof" placeholder="https://...">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <form id="qigongForm" class="report-form">
+                        <div class="form-group">
+                            <label for="qigongType">☯️ Тип:</label>
+                            <select id="qigongType">
+                                <option value="partner">Поиск напарника</option>
+                                <option value="butterfly">Активация бабочки</option>
+                                <option value="pear">Грушевание</option>
+                            </select>
+                        </div>
+
+                        <div id="qigongPartner" class="qigong-block">
+                            <div class="form-group">
+                                <label for="qigongPartnerId">🐱 Ваш ID:</label>
+                                <input type="text" id="qigongPartnerId" placeholder="1514283">
+                            </div>
+                            <div class="form-group">
+                                <label for="qigongPartnerWish">💭 Пожелания:</label>
+                                <textarea id="qigongPartnerWish" rows="3" placeholder="БУ 9, вечер, тактика..."></textarea>
+                            </div>
+                        </div>
+
+                        <div id="qigongButterfly" class="qigong-block" style="display:none;">
+                            <div class="form-group">
+                                <label for="qigongActivatorId">🦋 Активатор (ID):</label>
+                                <input type="text" id="qigongActivatorId" placeholder="1514283">
+                            </div>
+                            <div class="form-group">
+                                <label for="qigongBuLink">📸 Скриншот котёнка до и после (ссылка):</label>
+                                <input type="text" id="qigongBuLink" placeholder="https://...">
+                            </div>
+                            <div class="form-group">
+                                <label for="qigongDialogLink">📸 Скриншот диалога с бабочкой (ссылка):</label>
+                                <input type="text" id="qigongDialogLink" placeholder="https://...">
+                            </div>
+                        </div>
+
+                        <div id="qigongPear" class="qigong-block" style="display:none;">
+                            <div class="form-group">
+                                <label for="qigongPearStart">⏰ Время начала:</label>
+                                <input type="text" id="qigongPearStart" placeholder="12:00">
+                            </div>
+                            <div class="form-group">
+                                <label for="qigongPearEnd">⏰ Время конца:</label>
+                                <input type="text" id="qigongPearEnd" placeholder="14:00">
+                            </div>
+                            <div class="form-group">
+                                <label for="qigongPearType">🍐 Тип грушевания:</label>
+                                <select id="qigongPearType">
+                                    <option value="double">Парное</option>
+                                    <option value="single">Одиночное</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="qigongPearBig">🐱 Большая груша (ID):</label>
+                                <input type="text" id="qigongPearBig" placeholder="1514283">
+                            </div>
+                            <div class="form-group" id="qigongPearSmallGroup">
+                                <label for="qigongPearSmall">🐱 Маленькая груша (ID):</label>
+                                <input type="text" id="qigongPearSmall" placeholder="1514284">
+                            </div>
+                        </div>
+
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+                </div>
 
                 <div id="reportOutput" class="hidden">
                     <h2>📜 Ваш отчет готов:</h2>
