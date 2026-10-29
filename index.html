@@ -22,12 +22,28 @@
             <button class="branch-btn" data-branch="flowers">花 Собиратели цветов</button>
             <button class="branch-btn" data-branch="climbers">石 Жабки и скалолазы</button>
             <button class="branch-btn" data-branch="nion">鬼 Отряд ниЁн</button>
+            <button class="branch-btn" data-branch="crafters">艺 Затейники</button>
             <div class="sidebar-footer">
                 <p>灵 狐 狸 精 神</p>
             </div>
         </nav>
 
         <main class="main-content">
+            <div class="fox-helper" id="foxHelper">
+                <div class="fox">
+                    <div class="fox-ear left"></div>
+                    <div class="fox-ear right"></div>
+                    <div class="fox-face">
+                        <div class="fox-eye left"></div>
+                        <div class="fox-eye right"></div>
+                        <div class="fox-nose"></div>
+                    </div>
+                    <div class="fox-body"></div>
+                    <div class="fox-tail"></div>
+                </div>
+                <div class="fox-speech" id="foxSpeech">Привет! Я лисичка 🦊<br>Помогу с отчётом!</div>
+            </div>
+
             <div class="container">
                 <!-- ==================== ВЕТКА ВЭЙ ==================== -->
                 <div id="wei-content" class="branch-content active">
@@ -49,6 +65,11 @@
                                 <option value="evening">Вечерняя</option>
                                 <option value="vantsan">Для Ванцань</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="huntTime">⏰ Время:</label>
+                            <input type="text" id="huntTime" placeholder="15:00" value="15:00">
+                            <small>Допускается: 15 00, 15:00, 15.00</small>
                         </div>
                         <div class="form-group">
                             <label for="leaderId">👑 Ведущий (ID):</label>
@@ -82,6 +103,7 @@
                             <select id="soloLocation" required>
                                 <option value="Заоблачный предел">Заоблачный предел</option>
                                 <option value="Апельсиновая Роща">Апельсиновая Роща</option>
+                                <option value="Рисовые поля">Рисовые поля</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -131,10 +153,6 @@
                             <textarea id="borderViolators" rows="3" placeholder="12312321"></textarea>
                             <small>Если нет - оставьте пустым</small>
                         </div>
-                        <div class="form-group">
-                            <label for="borderRoute">📍 Маршрут/Локация:</label>
-                            <input type="text" id="borderRoute" placeholder="1">
-                        </div>
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
 
@@ -149,7 +167,7 @@
                         <div class="form-group">
                             <label for="watchTime">⏰ Время:</label>
                             <input type="text" id="watchTime" placeholder="12:22">
-                            <small>По МСК</small>
+                            <small>Допускается: 12 22, 12:22, 12.22</small>
                         </div>
                         <div class="form-group" id="watchRouteGroup">
                             <label for="watchRoute">📍 Маршрут:</label>
@@ -183,7 +201,7 @@
                         <div class="form-group">
                             <label for="selfTime">⏰ Время:</label>
                             <input type="text" id="selfTime" placeholder="12:22">
-                            <small>По МСК</small>
+                            <small>Допускается: 12 22, 12:22, 12.22</small>
                         </div>
                         <div class="form-group">
                             <label for="selfParticipant">🎯 Участник (ID):</label>
@@ -224,6 +242,7 @@
                             <button type="button" class="report-type-btn" onclick="switchReportType('pei', 'butterfly')">Охоты на бабочек</button>
                             <button type="button" class="report-type-btn" onclick="switchReportType('pei', 'yuan')">Юани</button>
                             <button type="button" class="report-type-btn" onclick="switchReportType('pei', 'monthly')">Ежемесячные задания</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('pei', 'fantasy')">Фантазёры</button>
                         </div>
                     </div>
 
@@ -308,6 +327,7 @@
                         <div class="form-group">
                             <label for="kittenPatrolEnd">⏰ Время окончания:</label>
                             <input type="text" id="kittenPatrolEnd" placeholder="12:22">
+                            <small>Допускается: 12 22, 12:22, 12.22</small>
                         </div>
                         <div class="form-group">
                             <label for="kittenPatrolRoute">📍 Номер маршрута:</label>
@@ -331,10 +351,12 @@
                         <div class="form-group">
                             <label for="kittenWatchTimeStart">⏰ Время начала:</label>
                             <input type="text" id="kittenWatchTimeStart" placeholder="12:00">
+                            <small>Допускается: 12 00, 12:00, 12.00</small>
                         </div>
                         <div class="form-group">
                             <label for="kittenWatchTimeEnd">⏰ Время конца:</label>
                             <input type="text" id="kittenWatchTimeEnd" placeholder="14:00">
+                            <small>Допускается: 14 00, 14:00, 14.00</small>
                         </div>
                         <div class="form-group" id="kittenWatchRouteGroup">
                             <label for="kittenWatchRoute">📍 Маршрут:</label>
@@ -368,10 +390,12 @@
                         <div class="form-group">
                             <label for="butterflyTimeStart">⏰ Время начала:</label>
                             <input type="text" id="butterflyTimeStart" placeholder="12:00">
+                            <small>Допускается: 12 00, 12:00, 12.00</small>
                         </div>
                         <div class="form-group">
                             <label for="butterflyTimeEnd">⏰ Время конца:</label>
                             <input type="text" id="butterflyTimeEnd" placeholder="14:00">
+                            <small>Допускается: 14 00, 14:00, 14.00</small>
                         </div>
                         <div class="form-group">
                             <label for="butterflyCatcher">🦋 Ловил (ID, бабочки, светлячки):</label>
@@ -434,9 +458,59 @@
                         </div>
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
-                </div>
 
-                <!-- ==================== ВЕТКА ЦАО ==================== -->
+                    <form id="fantasyForm" class="report-form">
+                        <div class="form-group">
+                            <label for="fantasyType">📋 Тип:</label>
+                            <select id="fantasyType">
+                                <option value="booking">Бронь</option>
+                                <option value="task">Выполнение задания</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="fantasyCatId">🐱 ID котика:</label>
+                            <input type="text" id="fantasyCatId" placeholder="1695758">
+                        </div>
+                        <div class="form-group">
+                            <label for="fantasyCategory">📁 Категория:</label>
+                            <select id="fantasyCategory">
+                                <option value="творческое">Творческое</option>
+                                <option value="лор и мир">Лор и мир</option>
+                                <option value="особое">Особое</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="fantasyNumber">🔢 Номер задания:</label>
+                            <select id="fantasyNumber">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="fantasyMonthGroup">
+                            <label for="fantasyMonth">📅 Месяц (для брони):</label>
+                            <select id="fantasyMonth">
+                                <option value="январь">Январь</option>
+                                <option value="февраль">Февраль</option>
+                                <option value="март">Март</option>
+                                <option value="апрель">Апрель</option>
+                                <option value="май">Май</option>
+                                <option value="июнь">Июнь</option>
+                                <option value="июль">Июль</option>
+                                <option value="август">Август</option>
+                                <option value="сентябрь">Сентябрь</option>
+                                <option value="октябрь">Октябрь</option>
+                                <option value="ноябрь">Ноябрь</option>
+                                <option value="декабрь">Декабрь</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="fantasyDescGroup" style="display:none;">
+                            <label for="fantasyDesc">📝 Описание задания:</label>
+                            <textarea id="fantasyDesc" rows="3" placeholder="Описание выполненного задания"></textarea>
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+                </div>
+                                <!-- ==================== ВЕТКА ЦАО ==================== -->
                 <div id="cao-content" class="branch-content">
                     <h1>草 草药 草</h1>
                     
@@ -454,13 +528,18 @@
 
                     <form id="mouseHuntForm" class="report-form active">
                         <div class="form-group">
-                            <label for="mouseCollector">📦 Собирающий (ID/кол-во баллов):</label>
-                            <input type="text" id="mouseCollector" placeholder="1695758/5">
-                            <small>Если никто не пришёл и собирающий сам ловил - сумма баллов за сбор и ловлю</small>
+                            <label for="mouseCollectorId">📦 Собирающий (ID):</label>
+                            <input type="text" id="mouseCollectorId" placeholder="1695758">
+                        </div>
+                        <div class="form-group">
+                            <label for="mouseCollectorCatch">🐭 Поймал мышей (если сам ловил):</label>
+                            <input type="text" id="mouseCollectorCatch" placeholder="5">
+                            <small>1 мышь = 1 балл. Если никто не пришёл и собирающий ловил сам</small>
                         </div>
                         <div class="form-group">
                             <label for="mouseParticipants">🎯 Участники (ID и кол-во мышей):</label>
                             <textarea id="mouseParticipants" rows="4" placeholder="1695758 3&#10;121221 5"></textarea>
+                            <small>Формат: ID количество (через пробел, запятую или новую строку)</small>
                         </div>
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
@@ -475,8 +554,9 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="herbCollector">📦 Собирающий (ID/кол-во баллов):</label>
-                            <input type="text" id="herbCollector" placeholder="1695758/5">
+                            <label for="herbCollectorId">📦 Собирающий (ID):</label>
+                            <input type="text" id="herbCollectorId" placeholder="1695758">
+                            <small>Сбор = 10 баллов автоматически</small>
                         </div>
                         <div class="form-group">
                             <label for="herbParticipants">🎯 Участники (ID):</label>
@@ -503,9 +583,13 @@
 
                     <form id="healingForm" class="report-form">
                         <div class="form-group">
-                            <label for="healingHelper">💊 Помощник Цао (ID/баллы и кол-во вылеченных):</label>
-                            <input type="text" id="healingHelper" placeholder="1678144/5 1">
-                            <small>Формат: ID/баллы количество_вылеченных</small>
+                            <label for="healingHelperId">💊 Помощник Цао (ID):</label>
+                            <input type="text" id="healingHelperId" placeholder="1678144">
+                        </div>
+                        <div class="form-group">
+                            <label for="healingCount">🐱 Количество вылеченных котов:</label>
+                            <input type="text" id="healingCount" placeholder="1">
+                            <small>Лечение = 5 баллов за каждого кота</small>
                         </div>
                         <div class="form-group">
                             <label for="healingPatients">🐱 Вылечили (ID):</label>
@@ -523,8 +607,9 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="selfHealHelper">💊 Помощник Цао (ID/кол-во баллов):</label>
-                            <input type="text" id="selfHealHelper" placeholder="955326/5">
+                            <label for="selfHealHelperId">💊 Помощник Цао (ID):</label>
+                            <input type="text" id="selfHealHelperId" placeholder="955326">
+                            <small>Пополнение = 5 баллов автоматически</small>
                         </div>
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
@@ -537,17 +622,18 @@
                                 <option value="Травник">Травник</option>
                                 <option value="Мховник">Мховник</option>
                                 <option value="Охота на мышей">Охота на мышей</option>
-                                <option value="Складывание трав и чистка кучек">Складывание трав и чистка кучек</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="cleaningHelper">💊 Помощник Цао (ID/кол-во баллов):</label>
-                            <input type="text" id="cleaningHelper" placeholder="1680855/10">
+                            <label for="cleaningHelperId">💊 Помощник Цао (ID):</label>
+                            <input type="text" id="cleaningHelperId" placeholder="1680855">
+                            <small>После травника/мышей = 10 баллов, после мховника/веточника = 5 баллов</small>
                         </div>
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
                 </div>
-                                <!-- ==================== ВЕТКА НАГРАД ==================== -->
+
+                <!-- ==================== ВЕТКА НАГРАД ==================== -->
                 <div id="awards-content" class="branch-content">
                     <h1>奖 奖励 奖</h1>
                     
@@ -735,8 +821,7 @@
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
                 </div>
-
-                <!-- ==================== БОЕВАЯ ШКОЛА ==================== -->
+                                <!-- ==================== БОЕВАЯ ШКОЛА ==================== -->
                 <div id="school-content" class="branch-content">
                     <h1>战 战斗 战</h1>
                     
@@ -850,10 +935,12 @@
                             <div class="form-group">
                                 <label for="qigongPearStart">⏰ Время начала:</label>
                                 <input type="text" id="qigongPearStart" placeholder="12:00">
+                                <small>Допускается: 12 00, 12:00, 12.00</small>
                             </div>
                             <div class="form-group">
                                 <label for="qigongPearEnd">⏰ Время конца:</label>
                                 <input type="text" id="qigongPearEnd" placeholder="14:00">
+                                <small>Допускается: 14 00, 14:00, 14.00</small>
                             </div>
                             <div class="form-group">
                                 <label for="qigongPearType">🍐 Тип грушевания:</label>
@@ -875,7 +962,8 @@
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
                 </div>
-                                <!-- ==================== УГОЛОК ЛЮБВИ ==================== -->
+
+                <!-- ==================== УГОЛОК ЛЮБВИ ==================== -->
                 <div id="love-content" class="branch-content">
                     <h1>爱 爱情 爱</h1>
                     
@@ -890,7 +978,6 @@
                         </div>
                     </div>
 
-                    <!-- Создание семьи -->
                     <form id="familyCreateForm" class="report-form active">
                         <div class="form-group">
                             <label for="familyParent1">🐱 ID первого родителя:</label>
@@ -910,7 +997,7 @@
                         </div>
                         <div class="form-group">
                             <label for="familyDesc">📝 Описание семьи:</label>
-                            <textarea id="familyDesc" rows="3" placeholder="Краткое описание (не слишком длинное)"></textarea>
+                            <textarea id="familyDesc" rows="3" placeholder="Краткое описание"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="familyMedal">🏅 Идём на медаль "Заботливый родитель"?</label>
@@ -923,7 +1010,6 @@
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
 
-                    <!-- Для котят -->
                     <form id="kittenAcceptForm" class="report-form">
                         <div class="form-group">
                             <label for="kittenAcceptId">🐱 ID котёнка:</label>
@@ -936,7 +1022,6 @@
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
 
-                    <!-- Сплетение душ -->
                     <form id="soulWeaveForm" class="report-form">
                         <div class="form-group">
                             <label for="soulPartner1">🐱 ID первого:</label>
@@ -972,7 +1057,6 @@
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
 
-                    <!-- О выполнении задания -->
                     <form id="taskDoneForm" class="report-form">
                         <div class="form-group">
                             <label for="taskType">📋 Тип задания:</label>
@@ -1000,7 +1084,6 @@
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
 
-                    <!-- Недельные задания -->
                     <form id="weeklyTaskForm" class="report-form">
                         <div class="form-group">
                             <label for="weeklyPartner1">🐱 ID первого:</label>
@@ -1045,6 +1128,7 @@
                         <div class="form-group">
                             <label for="flowerTime">⏰ Время похода:</label>
                             <input type="text" id="flowerTime" placeholder="16:00">
+                            <small>Допускается: 16 00, 16:00, 16.00</small>
                         </div>
                         <div class="form-group">
                             <label for="flowerItems">🌿 Что принесли:</label>
@@ -1143,6 +1227,88 @@
                         <button type="submit">🦊 Сгенерировать отчет</button>
                     </form>
                 </div>
+                                <!-- ==================== ЗАТЕЙНИКИ ==================== -->
+                <div id="crafters-content" class="branch-content">
+                    <h1>艺 艺术 艺</h1>
+                    
+                    <div class="form-group">
+                        <label>📋 Тип отчета:</label>
+                        <div class="report-type-buttons">
+                            <button type="button" class="report-type-btn active" onclick="switchReportType('crafters', 'guangao')">Гуангао (отзывы)</button>
+                            <button type="button" class="report-type-btn" onclick="switchReportType('crafters', 'qingdian')">Циндянь (работы)</button>
+                        </div>
+                    </div>
+
+                    <!-- Гуангао -->
+                    <form id="guangaoForm" class="report-form active">
+                        <div class="form-group">
+                            <label for="guangaoId">🐱 ID котика:</label>
+                            <input type="text" id="guangaoId" placeholder="1514283">
+                        </div>
+                        <div class="form-group">
+                            <label for="guangaoType">📝 Тип отзыва:</label>
+                            <select id="guangaoType">
+                                <option value="личный отзыв">Личный отзыв</option>
+                                <option value="личный развернутый отзыв+">Личный развёрнутый отзыв+</option>
+                                <option value="шаблонный отзыв">Шаблонный отзыв</option>
+                                <option value="личный шаблонный отзыв">Личный шаблонный отзыв</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="guangaoLink">🔗 Ссылка на отзыв:</label>
+                            <input type="text" id="guangaoLink" placeholder="https://catwar.su/sniff1214009">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+
+                    <!-- Циндянь -->
+                    <form id="qingdianForm" class="report-form">
+                        <div class="form-group">
+                            <label for="qingdianType">📋 Тип:</label>
+                            <select id="qingdianType">
+                                <option value="booking">Бронь</option>
+                                <option value="report">Отчёт</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="qingdianCatId">🐱 Ваш ID:</label>
+                            <input type="text" id="qingdianCatId" placeholder="1514283">
+                        </div>
+                        <div class="form-group">
+                            <label for="qingdianTargetId">🎯 ID игрока (для кого работа):</label>
+                            <input type="text" id="qingdianTargetId" placeholder="121221">
+                        </div>
+                        <div class="form-group">
+                            <label for="qingdianWork">🛠️ Тип работы:</label>
+                            <select id="qingdianWork">
+                                <option value="оформление">Оформление</option>
+                                <option value="написание предисловия">Написание предисловия</option>
+                                <option value="рисунок">Рисунок</option>
+                                <option value="сбор поздравлений">Сбор поздравлений</option>
+                                <option value="написание стиха">Написание стиха</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="qingdianDrawingTypeGroup" style="display:none;">
+                            <label for="qingdianDrawingType">🎨 Тип рисунка:</label>
+                            <select id="qingdianDrawingType">
+                                <option value="полный рост">Полный рост</option>
+                                <option value="пиксельный">Пиксельный</option>
+                                <option value="половина роста">Половина роста</option>
+                                <option value="чиби">Чиби</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="qingdianCountGroup">
+                            <label for="qingdianCount">🔢 Количество:</label>
+                            <input type="text" id="qingdianCount" placeholder="1">
+                            <small>Для рисунка (бронь), стиха — сколько штук</small>
+                        </div>
+                        <div class="form-group" id="qingdianPeopleGroup" style="display:none;">
+                            <label for="qingdianPeople">👥 Сколько людей опросили:</label>
+                            <input type="text" id="qingdianPeople" placeholder="5">
+                        </div>
+                        <button type="submit">🦊 Сгенерировать отчет</button>
+                    </form>
+                </div>
 
                 <div id="reportOutput" class="hidden">
                     <h2>📜 Ваш отчет готов:</h2>
@@ -1157,7 +1323,7 @@
                 <div id="history">
                     <h2>📜 История отчетов:</h2>
                     <div id="historyList"></div>
-                    <button onclick="clearHistory()" style="background: #5a4e3e; margin-top: 10px;">🗑️ Очистить историю</button>
+                    <button onclick="clearHistory()" style="background: #b8a88a; margin-top: 10px;">🗑️ Очистить историю</button>
                 </div>
 
                 <div class="contacts">

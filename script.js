@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('butterflyForm').addEventListener('submit', e => { e.preventDefault(); generateButterfly(); });
     document.getElementById('yuanForm').addEventListener('submit', e => { e.preventDefault(); generateYuan(); });
     document.getElementById('monthlyForm').addEventListener('submit', e => { e.preventDefault(); generateMonthly(); });
+    document.getElementById('fantasyForm').addEventListener('submit', e => { e.preventDefault(); generateFantasy(); });
     
     // Цао
     document.getElementById('mouseHuntForm').addEventListener('submit', e => { e.preventDefault(); generateMouseHunt(); });
@@ -68,7 +69,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('sleepersForm').addEventListener('submit', e => { e.preventDefault(); generateSleepers(); });
     document.getElementById('trashForm').addEventListener('submit', e => { e.preventDefault(); generateTrash(); });
     
-    // Слушатели для переключений
+    // Затейники
+    document.getElementById('guangaoForm').addEventListener('submit', e => { e.preventDefault(); generateGuangao(); });
+    document.getElementById('qingdianForm').addEventListener('submit', e => { e.preventDefault(); generateQingdian(); });
+    
+    // Слушатели
     document.getElementById('talesCame').addEventListener('change', updateTalesFields);
     document.getElementById('gamesCame').addEventListener('change', updateGamesFields);
     document.getElementById('lecturesCame').addEventListener('change', updateLecturesFields);
@@ -78,8 +83,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('qigongType').addEventListener('change', updateQigongFields);
     document.getElementById('qigongPearType').addEventListener('change', updateQigongPearFields);
     document.getElementById('taskType').addEventListener('change', updateTaskFields);
+    document.getElementById('fantasyType').addEventListener('change', updateFantasyFields);
+    document.getElementById('qingdianType').addEventListener('change', updateQingdianFields);
+    document.getElementById('qingdianWork').addEventListener('change', updateQingdianWorkFields);
     
-    // Инициализация полей
     updateTalesFields();
     updateGamesFields();
     updateLecturesFields();
@@ -89,6 +96,9 @@ document.addEventListener('DOMContentLoaded', function() {
     updateQigongFields();
     updateQigongPearFields();
     updateTaskFields();
+    updateFantasyFields();
+    updateQingdianFields();
+    updateQingdianWorkFields();
 });
 
 function switchBranch(branch) {
@@ -97,20 +107,15 @@ function switchBranch(branch) {
     
     document.querySelectorAll('.branch-content').forEach(content => content.classList.remove('active'));
     const contentMap = {
-        wei: 'wei-content',
-        feng: 'feng-content',
-        pei: 'pei-content',
-        cao: 'cao-content',
-        awards: 'awards-content',
-        school: 'school-content',
-        love: 'love-content',
-        flowers: 'flowers-content',
-        climbers: 'climbers-content',
-        nion: 'nion-content'
+        wei: 'wei-content', feng: 'feng-content', pei: 'pei-content', cao: 'cao-content',
+        awards: 'awards-content', school: 'school-content', love: 'love-content',
+        flowers: 'flowers-content', climbers: 'climbers-content', nion: 'nion-content',
+        crafters: 'crafters-content'
     };
     document.getElementById(contentMap[branch]).classList.add('active');
     
     document.getElementById('reportOutput').classList.add('hidden');
+    updateFoxMessage('Выбери отчёт и заполни форму! 🦊');
 }
 
 function switchReportType(branch, reportType) {
@@ -120,14 +125,13 @@ function switchReportType(branch, reportType) {
     const btnMap = {
         'group-hunt': 0, 'solo-hunt': 1,
         'border-patrol': 0, 'watch': 1, 'self-patrol': 2,
-        'tales': 0, 'games': 1, 'lectures': 2, 'kitten-patrol': 3, 'kitten-watch': 4, 'butterfly': 5, 'yuan': 6, 'monthly': 7,
+        'tales': 0, 'games': 1, 'lectures': 2, 'kitten-patrol': 3, 'kitten-watch': 4, 'butterfly': 5, 'yuan': 6, 'monthly': 7, 'fantasy': 8,
         'mouse-hunt': 0, 'herb-collect': 1, 'solo-collect': 2, 'healing': 3, 'self-heal': 4, 'cleaning': 5,
         'medals': 0, 'special-name': 1, 'personal-medal': 2, 'personal-trophy': 3, 'personal-status': 4, 'personal-position': 5, 'tribal-status': 6,
         'prep-group': 0, 'rank-check': 1, 'obedience': 2, 'qigong': 3,
         'family-create': 0, 'kitten-accept': 1, 'soul-weave': 2, 'task-done': 3, 'weekly-task': 4,
-        'flower-collect': 0,
-        'resource-gather': 0,
-        'sleepers': 0, 'trash': 1
+        'flower-collect': 0, 'resource-gather': 0, 'sleepers': 0, 'trash': 1,
+        'guangao': 0, 'qingdian': 1
     };
     
     const btns = branchContent.querySelectorAll('.report-type-btn');
@@ -141,19 +145,18 @@ function switchReportType(branch, reportType) {
         'border-patrol': 'borderPatrolForm', 'watch': 'watchForm', 'self-patrol': 'selfPatrolForm',
         'tales': 'talesForm', 'games': 'gamesForm', 'lectures': 'lecturesForm',
         'kitten-patrol': 'kittenPatrolForm', 'kitten-watch': 'kittenWatchForm',
-        'butterfly': 'butterflyForm', 'yuan': 'yuanForm', 'monthly': 'monthlyForm',
+        'butterfly': 'butterflyForm', 'yuan': 'yuanForm', 'monthly': 'monthlyForm', 'fantasy': 'fantasyForm',
         'mouse-hunt': 'mouseHuntForm', 'herb-collect': 'herbCollectForm', 'solo-collect': 'soloCollectForm',
         'healing': 'healingForm', 'self-heal': 'selfHealForm', 'cleaning': 'cleaningForm',
         'medals': 'medalsForm', 'special-name': 'specialNameForm', 'personal-medal': 'personalMedalForm',
         'personal-trophy': 'personalTrophyForm', 'personal-status': 'personalStatusForm',
         'personal-position': 'personalPositionForm', 'tribal-status': 'tribalStatusForm',
-        'prep-group': 'prepGroupForm', 'rank-check': 'rankCheckForm', 'obedience': 'obedienceForm',
-        'qigong': 'qigongForm',
+        'prep-group': 'prepGroupForm', 'rank-check': 'rankCheckForm', 'obedience': 'obedienceForm', 'qigong': 'qigongForm',
         'family-create': 'familyCreateForm', 'kitten-accept': 'kittenAcceptForm',
         'soul-weave': 'soulWeaveForm', 'task-done': 'taskDoneForm', 'weekly-task': 'weeklyTaskForm',
-        'flower-collect': 'flowerCollectForm',
-        'resource-gather': 'resourceGatherForm',
-        'sleepers': 'sleepersForm', 'trash': 'trashForm'
+        'flower-collect': 'flowerCollectForm', 'resource-gather': 'resourceGatherForm',
+        'sleepers': 'sleepersForm', 'trash': 'trashForm',
+        'guangao': 'guangaoForm', 'qingdian': 'qingdianForm'
     };
     
     document.getElementById(formMap[reportType]).classList.add('active');
@@ -209,6 +212,29 @@ function updateTaskFields() {
     const type = document.getElementById('taskType').value;
     document.getElementById('taskCategoryGroup').style.display = type === 'Обычное' ? 'block' : 'none';
 }
+
+function updateFantasyFields() {
+    const type = document.getElementById('fantasyType').value;
+    document.getElementById('fantasyMonthGroup').style.display = type === 'booking' ? 'block' : 'none';
+    document.getElementById('fantasyDescGroup').style.display = type === 'task' ? 'block' : 'none';
+}
+
+function updateQingdianFields() {
+    const type = document.getElementById('qingdianType').value;
+    // Бронь и отчёт — оба показывают одни и те же поля, но с разными подписями
+    document.getElementById('qingdianCountGroup').style.display = type === 'booking' ? 'block' : 'none';
+    document.getElementById('qingdianPeopleGroup').style.display = type === 'report' ? 'block' : 'none';
+}
+
+function updateQingdianWorkFields() {
+    const work = document.getElementById('qingdianWork').value;
+    document.getElementById('qingdianDrawingTypeGroup').style.display = work === 'рисунок' ? 'block' : 'none';
+}
+
+function updateFoxMessage(message) {
+    const speech = document.getElementById('foxSpeech');
+    if (speech) speech.innerHTML = message;
+}
 // ==================== ОБЩИЕ ФУНКЦИИ ====================
 
 function formatTime(timeStr) {
@@ -260,12 +286,17 @@ function parseIdCountPairs(text) {
     return results;
 }
 
-function formatCollector(text) {
-    if (text.includes('/')) {
-        const id = text.split('/')[0];
-        return `[cat${id}] [${text}]`;
-    }
-    return `[cat${text}] [${text}]`;
+function formatCollector(id, points) {
+    return `[cat${id}] [${id}/${points}]`;
+}
+
+function formatUrl(link, text) {
+    if (!link) return text || 'скриншот';
+    const links = link.split(',').map(l => l.trim()).filter(l => l);
+    return links.map((l, i) => {
+        const label = links.length > 1 ? `${text || 'скриншот'} ${i + 1}` : (text || 'скриншот');
+        return `[url=${l}]${label}[/url]`;
+    }).join(', ');
 }
 
 function parseViolators(text) {
@@ -285,6 +316,7 @@ function parseViolators(text) {
 
 function generateGroupHunt() {
     const huntType = document.getElementById('huntType').value;
+    const time = formatTime(document.getElementById('huntTime').value);
     const leaderId = document.getElementById('leaderId').value.trim();
     let collectorId = document.getElementById('collectorId').value.trim();
     if (!collectorId && leaderId) collectorId = leaderId;
@@ -296,6 +328,7 @@ function generateGroupHunt() {
     
     let report = `[b]Охота [${dateStr}][/b]\n`;
     report += `[b]Вид:[/b] ${huntTypeMap[huntType] || huntType}.\n`;
+    report += `[b]Время:[/b] ${time}.\n`;
     report += `[b]Ведущий:[/b] ${leaderId ? `[cat${leaderId}] [${leaderId}]` : '-'}.\n`;
     report += `[b]Собирающий:[/b] ${collectorId ? `[cat${collectorId}] [${collectorId}]` : '-'}.\n`;
     report += participants.length > 0 
@@ -307,6 +340,7 @@ function generateGroupHunt() {
     
     displayReport(report);
     saveToHistory({ type: 'group-hunt', report, date: new Date().toISOString() });
+    updateFoxMessage('Охота записана! 🏹');
 }
 
 function generateSoloHunt() {
@@ -330,6 +364,7 @@ function generateSoloHunt() {
     
     displayReport(report);
     saveToHistory({ type: 'solo-hunt', report, date: new Date().toISOString() });
+    updateFoxMessage('Удачной охоты! 🏹');
 }
 
 // ==================== ВЕТКА ФЭН ====================
@@ -339,7 +374,6 @@ function generateBorderPatrol() {
     const collectorId = document.getElementById('borderCollector').value.trim();
     const participants = parseIds(document.getElementById('borderParticipants').value.trim());
     const violators = parseIds(document.getElementById('borderViolators').value.trim());
-    const route = document.getElementById('borderRoute').value.trim();
     const dateStr = getCurrentDate();
     
     let report = `[b]Пограничный патруль[/b]\n`;
@@ -352,12 +386,9 @@ function generateBorderPatrol() {
         ? `[b]Нарушители:[/b] ${violators.map(v => `[cat${v}] [${v}] - скриншот`).join(', ')}.\n`
         : `[b]Нарушители:[/b] -.\n`;
     
-    if (route) {
-        report += `\nЯ, [b][link${collectorId || 'ID'}] [${collectorId || 'ID'}][/b], занял локацию/маршрут ${route}.`;
-    }
-    
     displayReport(report);
     saveToHistory({ type: 'border-patrol', report, date: new Date().toISOString() });
+    updateFoxMessage('Патруль записан! 🌪️');
 }
 
 function generateWatch() {
@@ -382,6 +413,7 @@ function generateWatch() {
     
     displayReport(report);
     saveToHistory({ type: 'watch', report, date: new Date().toISOString() });
+    updateFoxMessage('Дозор записан! 👁️');
 }
 
 function generateSelfPatrol() {
@@ -397,17 +429,17 @@ function generateSelfPatrol() {
     report += `[b]Дата:[/b] ${dateStr}, ${time}.\n`;
     report += `[b]Участник:[/b] ${participantId ? `[cat${participantId}] [${participantId}]` : '-'}.\n`;
     report += violators.length > 0
-        ? `[b]Нарушители:[/b] ${violators.map(v => `[cat${v}] [${v}], [url=ссылка]скриншот нарушения[/url]`).join(', ')}.\n`
+        ? `[b]Нарушители:[/b] ${violators.map(v => `[cat${v}] [${v}], ${formatUrl('ссылка', 'скриншот нарушения')}`).join(', ')}.\n`
         : `[b]Нарушители:[/b] -.\n`;
     report += `[b]Скриншоты:[/b]\n`;
-    report += `начало (стартовая локация)${screenshotStart ? ` - [url=${screenshotStart}]скриншот[/url]` : ''},\n`;
-    report += `конец (конечная локация)${screenshotEnd ? ` - [url=${screenshotEnd}]скриншот[/url]` : ''},\n`;
-    report += `скриншот истории${screenshotHistory ? ` - [url=${screenshotHistory}]скриншот[/url]` : ''}.\n`;
+    report += `начало (стартовая локация)${screenshotStart ? ` - ${formatUrl(screenshotStart, 'скриншот')}` : ''},\n`;
+    report += `конец (конечная локация)${screenshotEnd ? ` - ${formatUrl(screenshotEnd, 'скриншот')}` : ''},\n`;
+    report += `скриншот истории${screenshotHistory ? ` - ${formatUrl(screenshotHistory, 'скриншот')}` : ''}.\n`;
     
     displayReport(report);
     saveToHistory({ type: 'self-patrol', report, date: new Date().toISOString() });
+    updateFoxMessage('Патруль записан! 🌪️');
 }
-
 // ==================== ВЕТКА ПЭЙ ====================
 
 function generateTales() {
@@ -431,6 +463,7 @@ function generateTales() {
     
     displayReport(report);
     saveToHistory({ type: 'tales', report, date: new Date().toISOString() });
+    updateFoxMessage('Сказки записаны! 📚');
 }
 
 function generateGames() {
@@ -458,6 +491,7 @@ function generateGames() {
     
     displayReport(report);
     saveToHistory({ type: 'games', report, date: new Date().toISOString() });
+    updateFoxMessage('Игры записаны! 🎮');
 }
 
 function generateLectures() {
@@ -485,6 +519,7 @@ function generateLectures() {
     
     displayReport(report);
     saveToHistory({ type: 'lectures', report, date: new Date().toISOString() });
+    updateFoxMessage('Лекции записаны! 📖');
 }
 
 function generateKittenPatrol() {
@@ -498,6 +533,7 @@ function generateKittenPatrol() {
     
     displayReport(report);
     saveToHistory({ type: 'kitten-patrol', report, date: new Date().toISOString() });
+    updateFoxMessage('Котячий патруль записан! 🐾');
 }
 
 function generateKittenWatch() {
@@ -525,6 +561,7 @@ function generateKittenWatch() {
     
     displayReport(report);
     saveToHistory({ type: 'kitten-watch', report, date: new Date().toISOString() });
+    updateFoxMessage('Котячий дозор записан! 👁️');
 }
 
 function generateButterfly() {
@@ -550,6 +587,7 @@ function generateButterfly() {
     
     displayReport(report);
     saveToHistory({ type: 'butterfly', report, date: new Date().toISOString() });
+    updateFoxMessage('Охота на бабочек записана! 🦋');
 }
 
 function generateYuan() {
@@ -564,14 +602,15 @@ function generateYuan() {
     report += `[b]Скриншоты:[/b] `;
     
     const screenshots = [];
-    if (screenshotBefore) screenshots.push(`[url=${screenshotBefore}]до[/url]`);
-    if (screenshotAfter) screenshots.push(`[url=${screenshotAfter}]после[/url]`);
+    if (screenshotBefore) screenshots.push(formatUrl(screenshotBefore, 'до'));
+    if (screenshotAfter) screenshots.push(formatUrl(screenshotAfter, 'после'));
     
     report += screenshots.length > 0 ? screenshots.join(' и ') : 'скриншот до и после через url.';
     report += '.';
     
     displayReport(report);
     saveToHistory({ type: 'yuan', report, date: new Date().toISOString() });
+    updateFoxMessage('Юани записаны! 💰');
 }
 
 function generateMonthly() {
@@ -582,44 +621,77 @@ function generateMonthly() {
     
     let report = `Я, [b]${catId ? `[cat${catId}]` : '[catID]'}[/b], выполнил задание категории (${category}) под номером (${number}).\n`;
     report += `[b]Скриншот:[/b] `;
-    report += screenshot ? `[url=${screenshot}]скриншот выполнения[/url]` : `[url=]скриншот выполнения[/url]`;
+    report += screenshot ? formatUrl(screenshot, 'скриншот выполнения') : `[url=]скриншот выполнения[/url]`;
     report += '.';
     
     displayReport(report);
     saveToHistory({ type: 'monthly', report, date: new Date().toISOString() });
+    updateFoxMessage('Задание записано! 📋');
 }
+
+function generateFantasy() {
+    const type = document.getElementById('fantasyType').value;
+    const catId = document.getElementById('fantasyCatId').value.trim();
+    const category = document.getElementById('fantasyCategory').value;
+    const number = document.getElementById('fantasyNumber').value;
+    const month = document.getElementById('fantasyMonth').value;
+    const desc = document.getElementById('fantasyDesc').value.trim();
+    
+    let report = '';
+    
+    if (type === 'booking') {
+        report = `#бронь\n`;
+        report += `Я, ${catId ? `[cat${catId}] [${catId}]` : '[catID] [ID]'}, хочу делать ${category} задание (${number}) на (${month}).\n`;
+        report += `Напоминаю, в каждой категории по 2 задания!\n`;
+        report += `Занимать очередь надо заранее, а не в последний день месяца!`;
+    } else {
+        report = `#задания\n\n`;
+        report += `${category.charAt(0).toUpperCase() + category.slice(1)} (${number}) (1/2)\n`;
+        report += `${desc || '(описание)'}`;
+    }
+    
+    displayReport(report);
+    saveToHistory({ type: 'fantasy', report, date: new Date().toISOString() });
+    updateFoxMessage('Фантазёры записаны! ✨');
+}
+
 // ==================== ВЕТКА ЦАО ====================
 
 function generateMouseHunt() {
-    const collectorText = document.getElementById('mouseCollector').value.trim();
+    const collectorId = document.getElementById('mouseCollectorId').value.trim();
+    const collectorCatch = document.getElementById('mouseCollectorCatch').value.trim();
     const participants = parseIdCountPairs(document.getElementById('mouseParticipants').value.trim());
     const dateStr = getShortDate();
     
+    let collectorPoints = collectorCatch ? collectorCatch : '10';
+    
     let report = `[b]Охота на мышей [${dateStr}][/b]\n`;
-    report += `[b]Собирающий:[/b] ${collectorText ? formatCollector(collectorText) : '-'}.\n`;
+    report += `[b]Собирающий:[/b] ${collectorId ? formatCollector(collectorId, collectorPoints) : '-'}.\n`;
     report += participants.length > 0
         ? `[b]Участники:[/b] ${participants.map(p => `[cat${p.id}] [${p.id}] (${p.count})`).join(', ')}.\n`
         : `[b]Участники:[/b] -.\n`;
     
     displayReport(report);
     saveToHistory({ type: 'mouse-hunt', report, date: new Date().toISOString() });
+    updateFoxMessage('Охота на мышей записана! 🐭');
 }
 
 function generateHerbCollect() {
     const herbType = document.getElementById('herbType').value;
-    const collectorText = document.getElementById('herbCollector').value.trim();
+    const collectorId = document.getElementById('herbCollectorId').value.trim();
     const participants = parseIds(document.getElementById('herbParticipants').value.trim());
     const dateStr = getCurrentDate();
     
     let report = `[b]${herbType}[/b]\n`;
     report += `[b]Дата:[/b] ${dateStr}.\n`;
-    report += `[b]Собирающий:[/b] ${collectorText ? formatCollector(collectorText) : '-'}.\n`;
+    report += `[b]Собирающий:[/b] ${collectorId ? formatCollector(collectorId, '10') : '-'}.\n`;
     report += participants.length > 0
         ? `[b]Участники:[/b] ${participants.map(p => `[cat${p}] [${p}]`).join(', ')}.\n`
         : `[b]Участники:[/b] -.\n`;
     
     displayReport(report);
     saveToHistory({ type: 'herb-collect', report, date: new Date().toISOString() });
+    updateFoxMessage('Сбор записан! 🌿');
 }
 
 function generateSoloCollect() {
@@ -635,20 +707,21 @@ function generateSoloCollect() {
     
     displayReport(report);
     saveToHistory({ type: 'solo-collect', report, date: new Date().toISOString() });
+    updateFoxMessage('Самостоятельный сбор записан! 🌿');
 }
 
 function generateHealing() {
-    const helperText = document.getElementById('healingHelper').value.trim();
+    const helperId = document.getElementById('healingHelperId').value.trim();
+    const healingCount = parseInt(document.getElementById('healingCount').value.trim()) || 1;
     const patients = parseIds(document.getElementById('healingPatients').value.trim());
     const dateStr = getShortDate();
     
+    let points = healingCount * 5;
+    
     let report = `[b]Лечение Кота [${dateStr}][/b]\n`;
     
-    if (helperText) {
-        const parts = helperText.split(/\s+/);
-        const helperIdPart = parts[0];
-        const patientCount = parts[1] || '1';
-        report += `[b]Помощник Цао:[/b] ${formatCollector(helperIdPart)} (${patientCount}).\n`;
+    if (helperId) {
+        report += `[b]Помощник Цао:[/b] ${formatCollector(helperId, points)} (${healingCount}).\n`;
     } else {
         report += `[b]Помощник Цао:[/b] -.\n`;
     }
@@ -659,34 +732,38 @@ function generateHealing() {
     
     displayReport(report);
     saveToHistory({ type: 'healing', report, date: new Date().toISOString() });
+    updateFoxMessage('Лечение записано! 💊');
 }
 
 function generateSelfHeal() {
     const location = document.getElementById('selfHealLocation').value;
-    const helperText = document.getElementById('selfHealHelper').value.trim();
+    const helperId = document.getElementById('selfHealHelperId').value.trim();
     const dateStr = getShortDate();
     
     let report = `[b]Пополнение кучи самолечения [${dateStr}][/b]\n`;
     report += `[b]${location}[/b]\n`;
-    report += `[b]Помощник Цао:[/b] ${helperText ? formatCollector(helperText) : '-'}.`;
+    report += `[b]Помощник Цао:[/b] ${helperId ? formatCollector(helperId, '5') : '-'}.`;
     
     displayReport(report);
     saveToHistory({ type: 'self-heal', report, date: new Date().toISOString() });
+    updateFoxMessage('Пополнение записано! 💊');
 }
 
 function generateCleaning() {
     const cleaningType = document.getElementById('cleaningType').value;
-    const helperText = document.getElementById('cleaningHelper').value.trim();
+    const helperId = document.getElementById('cleaningHelperId').value.trim();
     const dateStr = getShortDate();
+    
+    let points = (cleaningType === 'Травник' || cleaningType === 'Охота на мышей') ? '10' : '5';
     
     let report = `[b]Уборка в Теплой канавке [${dateStr}][/b]\n`;
     report += `[b]${cleaningType}[/b]\n`;
-    report += `[b]Помощник Цао:[/b] ${helperText ? formatCollector(helperText) : '-'}.`;
+    report += `[b]Помощник Цао:[/b] ${helperId ? formatCollector(helperId, points) : '-'}.`;
     
     displayReport(report);
     saveToHistory({ type: 'cleaning', report, date: new Date().toISOString() });
+    updateFoxMessage('Уборка записана! 🧹');
 }
-
 // ==================== ВЕТКА НАГРАД ====================
 
 function generateMedals() {
@@ -699,6 +776,7 @@ function generateMedals() {
     
     displayReport(report);
     saveToHistory({ type: 'medals', report, date: new Date().toISOString() });
+    updateFoxMessage('Медаль записана! 🏅');
 }
 
 function generateSpecialName() {
@@ -709,10 +787,11 @@ function generateSpecialName() {
     let report = `[b]Имя [ID]:[/b] ${catId ? `[link${catId}] [${catId}]` : '[linkID] [ID]'}.\n`;
     report += `[b]Желаемое имя:[/b] ${desiredName || ''}.\n`;
     report += `[b]Скриншоты выполненных требований:[/b] `;
-    report += screenshot ? `[url=${screenshot}]скриншот[/url].` : `через url.`;
+    report += screenshot ? `${formatUrl(screenshot, 'скриншот')}.` : `через url.`;
     
     displayReport(report);
     saveToHistory({ type: 'special-name', report, date: new Date().toISOString() });
+    updateFoxMessage('Особое имя записано! ✨');
 }
 
 function generatePersonalMedal() {
@@ -726,10 +805,11 @@ function generatePersonalMedal() {
     report += medalImage ? `[img]${medalImage}[/img]` : `[img]изображение медали[/img]`;
     report += ` - ${medalName ? `«${medalName}»` : 'название'}.\n`;
     report += `[b]Скриншоты выполненных требований:[/b] `;
-    report += screenshot ? `[url=${screenshot}]скриншот[/url].` : `через url.`;
+    report += screenshot ? `${formatUrl(screenshot, 'скриншот')}.` : `через url.`;
     
     displayReport(report);
     saveToHistory({ type: 'personal-medal', report, date: new Date().toISOString() });
+    updateFoxMessage('Личная медаль записана! 🏅');
 }
 
 function generatePersonalTrophy() {
@@ -747,10 +827,11 @@ function generatePersonalTrophy() {
     report += `[b]Название действия:[/b] ${action || ''}.\n`;
     report += `[b]Строчка в истории:[/b] ${history || ''}.\n`;
     report += `[b]Скриншоты выполненных требований:[/b] `;
-    report += screenshot ? `[url=${screenshot}]скриншот[/url].` : `через url.`;
+    report += screenshot ? `${formatUrl(screenshot, 'скриншот')}.` : `через url.`;
     
     displayReport(report);
     saveToHistory({ type: 'personal-trophy', report, date: new Date().toISOString() });
+    updateFoxMessage('Личный трофей записан! 🏆');
 }
 
 function generatePersonalStatus() {
@@ -764,10 +845,11 @@ function generatePersonalStatus() {
     report += statusImage ? `[img]${statusImage}[/img]/${statusText || ''}` : `${statusText || ''}`;
     report += `.\n`;
     report += `[b]Скриншоты выполненных требований:[/b] `;
-    report += screenshot ? `[url=${screenshot}]скриншот[/url].` : `через url.`;
+    report += screenshot ? `${formatUrl(screenshot, 'скриншот')}.` : `через url.`;
     
     displayReport(report);
     saveToHistory({ type: 'personal-status', report, date: new Date().toISOString() });
+    updateFoxMessage('Личный статус записан! 💬');
 }
 
 function generatePersonalPosition() {
@@ -778,10 +860,11 @@ function generatePersonalPosition() {
     let report = `[b]Имя [ID]:[/b] ${catId ? `[link${catId}] [${catId}]` : '[linkID] [ID]'}.\n`;
     report += `[b]Желаемая должность:[/b] ${desiredPosition || ''}.\n`;
     report += `[code][b]Скриншоты выполненных требований:[/b] `;
-    report += screenshot ? `[url=${screenshot}]скриншот[/url].` : `через url.`;
+    report += screenshot ? `${formatUrl(screenshot, 'скриншот')}.` : `через url.`;
     
     displayReport(report);
     saveToHistory({ type: 'personal-position', report, date: new Date().toISOString() });
+    updateFoxMessage('Личная должность записана! 💼');
 }
 
 function generateTribalStatus() {
@@ -804,6 +887,7 @@ function generateTribalStatus() {
     
     displayReport(report);
     saveToHistory({ type: 'tribal-status', report, date: new Date().toISOString() });
+    updateFoxMessage('Племенной статус записан! 🦊');
 }
 
 // ==================== БОЕВАЯ ШКОЛА ====================
@@ -820,6 +904,7 @@ function generatePrepGroup() {
     
     displayReport(report);
     saveToHistory({ type: 'prep-group', report, date: new Date().toISOString() });
+    updateFoxMessage('Заявка записана! ⚔️');
 }
 
 function generateRankCheck() {
@@ -834,6 +919,7 @@ function generateRankCheck() {
     
     displayReport(report);
     saveToHistory({ type: 'rank-check', report, date: new Date().toISOString() });
+    updateFoxMessage('Проверка на ранг записана! ⚔️');
 }
 
 function generateObedience() {
@@ -855,6 +941,7 @@ function generateObedience() {
     
     displayReport(report);
     saveToHistory({ type: 'obedience', report, date: new Date().toISOString() });
+    updateFoxMessage('Стена послушания записана! 🏛️');
 }
 
 function generateQigong() {
@@ -892,7 +979,9 @@ function generateQigong() {
     
     displayReport(report);
     saveToHistory({ type: 'qigong', report, date: new Date().toISOString() });
+    updateFoxMessage('Цигун записан! ☯️');
 }
+
 // ==================== УГОЛОК ЛЮБВИ ====================
 
 function generateFamilyCreate() {
@@ -916,6 +1005,7 @@ function generateFamilyCreate() {
     
     displayReport(report);
     saveToHistory({ type: 'family-create', report, date: new Date().toISOString() });
+    updateFoxMessage('Семья создана! 💕');
 }
 
 function generateKittenAccept() {
@@ -926,6 +1016,7 @@ function generateKittenAccept() {
     
     displayReport(report);
     saveToHistory({ type: 'kitten-accept', report, date: new Date().toISOString() });
+    updateFoxMessage('Котёнок принят в семью! 🐾');
 }
 
 function generateSoulWeave() {
@@ -943,6 +1034,7 @@ function generateSoulWeave() {
     
     displayReport(report);
     saveToHistory({ type: 'soul-weave', report, date: new Date().toISOString() });
+    updateFoxMessage('Сплетение душ записано! 💍');
 }
 
 function generateTaskDone() {
@@ -959,10 +1051,11 @@ function generateTaskDone() {
         report += `[b]Номер:[/b] ${number || '1-3'}\n`;
     }
     
-    report += `[b]Скриншоты подтверждения:[/b] ${screenshot ? `[url=${screenshot}]подтверждение[/url]` : '[url=вашассылка]подтверждение[/url]'}`;
+    report += `[b]Скриншоты подтверждения:[/b] ${screenshot ? formatUrl(screenshot, 'подтверждение') : '[url=вашассылка]подтверждение[/url]'}`;
     
     displayReport(report);
     saveToHistory({ type: 'task-done', report, date: new Date().toISOString() });
+    updateFoxMessage('Задание записано! 📋');
 }
 
 function generateWeeklyTask() {
@@ -975,17 +1068,17 @@ function generateWeeklyTask() {
     report += `*Перед началом участия в недельной активности, важно отписаться под блог. Иначе активность до отписи считаться не будет. Отписаться и начинать прохождение заданий можно в любой промежуток указанного времени включительно.\n\n`;
     report += `[b]Задания:[/b] Недельное\n`;
     report += `[b]Номер:[/b] ${number}\n`;
-    report += `[b]Скриншоты подтверждения:[/b] ${screenshot ? `[url=${screenshot}]подтверждение[/url]` : '[url=вашассылка]подтверждение[/url]'}`;
+    report += `[b]Скриншоты подтверждения:[/b] ${screenshot ? formatUrl(screenshot, 'подтверждение') : '[url=вашассылка]подтверждение[/url]'}`;
     
     displayReport(report);
     saveToHistory({ type: 'weekly-task', report, date: new Date().toISOString() });
+    updateFoxMessage('Недельное задание записано! 📋');
 }
-
 // ==================== СОБИРАТЕЛИ ЦВЕТОВ ====================
 
 function generateFlowerCollect() {
     const catId = document.getElementById('flowerId').value.trim();
-    const time = document.getElementById('flowerTime').value.trim();
+    const time = formatTime(document.getElementById('flowerTime').value.trim());
     const items = document.getElementById('flowerItems').value.trim();
     const dateStr = getShortDate();
     
@@ -994,6 +1087,7 @@ function generateFlowerCollect() {
     
     displayReport(report);
     saveToHistory({ type: 'flower-collect', report, date: new Date().toISOString() });
+    updateFoxMessage('Сбор цветов записан! 🌺');
 }
 
 // ==================== ЖАБКИ И СКАЛОЛАЗЫ ====================
@@ -1011,10 +1105,11 @@ function generateResourceGather() {
     report += `[b]Дата:[/b] ${dateStr}.\n`;
     report += `[b]Кто принёс:[/b] ${who ? `[cat${who}] [${who}]` : '-'}.\n`;
     report += `[b]Ресурсы:[/b] ${resources.join(', ') || '-'}.\n`;
-    report += `[b]Подтверждение:[/b] ${proof ? `[url=${proof}]скриншот[/url]` : 'скриншот через url'}.`;
+    report += `[b]Подтверждение:[/b] ${proof ? formatUrl(proof, 'скриншот') : 'скриншот через url'}.`;
     
     displayReport(report);
     saveToHistory({ type: 'resource-gather', report, date: new Date().toISOString() });
+    updateFoxMessage('Ресурсы записаны! 🪨');
 }
 
 // ==================== ОТРЯД НИЁН ====================
@@ -1026,10 +1121,11 @@ function generateSleepers() {
     
     let report = `[b]Относил(а):[/b] ${catId ? `[cat${catId}] [${catId}]` : '-'}.\n`;
     report += `[b]Количество убранных:[/b] ${count || 'n'}.\n`;
-    report += `[b]Доказательство:[/b] ${proof ? proof : 'через url'}.`;
+    report += `[b]Доказательство:[/b] ${proof ? formatUrl(proof, 'скриншот') : 'через url'}.`;
     
     displayReport(report);
     saveToHistory({ type: 'sleepers', report, date: new Date().toISOString() });
+    updateFoxMessage('Относ спящих записан! 😴');
 }
 
 function generateTrash() {
@@ -1043,14 +1139,71 @@ function generateTrash() {
     if (type === 'clean') {
         report += `[b]Убирал(а):[/b] ${catId ? `[cat${catId}] [${catId}]` : '-'}.\n`;
         report += `[b]Количество утилизированного:[/b] ${count || 'n'}.\n`;
-        report += `[b]Доказательство:[/b] ${proof ? proof : 'через url'}.`;
+        report += `[b]Доказательство:[/b] ${proof ? formatUrl(proof, 'скриншот') : 'через url'}.`;
     } else {
         report += `Я, ${catId ? `[cat${catId}] [${catId}]` : '[catID] [ID]'}, нашёл(ла) бесхозный(е) предмет(ы).\n`;
-        report += `[b]Доказательство:[/b] ${proof ? proof : 'через url'}.`;
+        report += `[b]Доказательство:[/b] ${proof ? formatUrl(proof, 'скриншот') : 'через url'}.`;
     }
     
     displayReport(report);
     saveToHistory({ type: 'trash', report, date: new Date().toISOString() });
+    updateFoxMessage('Уборка записана! 🧹');
+}
+
+// ==================== ЗАТЕЙНИКИ ====================
+
+function generateGuangao() {
+    const catId = document.getElementById('guangaoId').value.trim();
+    const type = document.getElementById('guangaoType').value;
+    const link = document.getElementById('guangaoLink').value.trim();
+    
+    let report = `#отчет\n`;
+    report += `${catId ? `[${catId}]` : '[ID]'} отправил ${type} ${link || '[ссылка]'}`;
+    
+    displayReport(report);
+    saveToHistory({ type: 'guangao', report, date: new Date().toISOString() });
+    updateFoxMessage('Гуангао записан! 📝');
+}
+
+function generateQingdian() {
+    const type = document.getElementById('qingdianType').value;
+    const catId = document.getElementById('qingdianCatId').value.trim();
+    const targetId = document.getElementById('qingdianTargetId').value.trim();
+    const work = document.getElementById('qingdianWork').value;
+    const drawingType = document.getElementById('qingdianDrawingType').value;
+    const count = document.getElementById('qingdianCount').value.trim();
+    const people = document.getElementById('qingdianPeople').value.trim();
+    
+    let workText = work;
+    if (work === 'рисунок') {
+        if (type === 'booking') {
+            workText = `рисунок (${count || '1'})`;
+        } else {
+            workText = `рисунок (${drawingType})`;
+        }
+    } else if (work === 'написание стиха') {
+        workText = `написание стиха (${count || '1'})`;
+    } else if (work === 'сбор поздравлений') {
+        if (type === 'report' && people) {
+            workText = `сбор поздравлений (${people} людей опрошено)`;
+        } else {
+            workText = 'сбор поздравлений';
+        }
+    }
+    
+    let report = '';
+    
+    if (type === 'booking') {
+        report = `#бронь — ${catId ? `[${catId}]` : '[ID]'}\n`;
+        report += `Берусь за работу для игрока ${targetId ? `[${targetId}]` : '[ID]'} — ${workText}`;
+    } else {
+        report = `#отчет — ${catId ? `[${catId}]` : '[ID]'}\n`;
+        report += `Выполнил работу для игрока ${targetId ? `[${targetId}]` : '[ID]'} — ${workText}`;
+    }
+    
+    displayReport(report);
+    saveToHistory({ type: 'qingdian', report, date: new Date().toISOString() });
+    updateFoxMessage('Циндянь записан! 🎨');
 }
 
 // ==================== ОБЩИЕ ФУНКЦИИ ====================
@@ -1114,7 +1267,7 @@ function loadHistory() {
             <small>${new Date(item.date).toLocaleDateString('ru-RU')}</small>
             <div class="history-actions">
                 <button onclick="viewHistoryItem(${index})">Просмотр</button>
-                <button onclick="deleteHistoryItem(${index})" style="background: #5a4e3e;">Удалить</button>
+                <button onclick="deleteHistoryItem(${index})" style="background: #b8a88a;">Удалить</button>
             </div>
         </div>
     `).join('');
@@ -1135,6 +1288,7 @@ function getReportTypeName(type) {
         'butterfly': 'Охота на бабочек',
         'yuan': 'Юани',
         'monthly': 'Ежемесячное задание',
+        'fantasy': 'Фантазёры',
         'mouse-hunt': 'Охота на мышей',
         'herb-collect': 'Травник/мховник/веточник',
         'solo-collect': 'Самостоятельный сбор',
@@ -1160,7 +1314,9 @@ function getReportTypeName(type) {
         'flower-collect': 'Сбор трав',
         'resource-gather': 'Отпись ресурсов',
         'sleepers': 'Относ спящих',
-        'trash': 'Уборка мусора'
+        'trash': 'Уборка мусора',
+        'guangao': 'Гуангао',
+        'qingdian': 'Циндянь'
     };
     return names[type] || 'Отчет';
 }
@@ -1199,4 +1355,7 @@ function clearForm() {
     updateQigongFields();
     updateQigongPearFields();
     updateTaskFields();
+    updateFantasyFields();
+    updateQingdianFields();
+    updateQingdianWorkFields();
 }
