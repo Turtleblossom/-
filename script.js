@@ -1359,3 +1359,31 @@ function clearForm() {
     updateQingdianFields();
     updateQingdianWorkFields();
 }
+// ==================== ТЕМА ====================
+
+function toggleTheme() {
+    const body = document.body;
+    const btn = document.getElementById('themeToggle');
+    const isDark = body.classList.toggle('dark-theme');
+    
+    if (isDark) {
+        btn.textContent = '☀️';
+        btn.title = 'Светлая тема';
+        localStorage.setItem('catwarTheme', 'dark');
+    } else {
+        btn.textContent = '🌙';
+        btn.title = 'Тёмная тема';
+        localStorage.setItem('catwarTheme', 'light');
+    }
+}
+
+// Применить сохранённую тему при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('catwarTheme');
+    const btn = document.getElementById('themeToggle');
+    if (savedTheme === 'dark' && btn) {
+        document.body.classList.add('dark-theme');
+        btn.textContent = '☀️';
+        btn.title = 'Светлая тема';
+    }
+});
